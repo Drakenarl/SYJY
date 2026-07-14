@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | SYJY</title>
+    <meta name="description" content="Contactez SYJY pour une pièce sur mesure, une séance de stylisme ou toute question sur nos collections. Atelier basé à Cotonou, Bénin.">
+
+        <!-- Marque -->
+    <link rel="icon" href="assets/brand/syjy-favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/brand/syjy-favicon-gold-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/brand/syjy-favicon-gold-180.png">
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f6f3ee" media="(prefers-color-scheme: light)">
+
+    <!-- Thème appliqué AVANT le premier rendu : sans ce script, la page
+         flashe en sombre pendant ~100ms avant de repasser en clair. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("syjy-theme");
+          if (!t) {
+            t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/base/variables.css">
+    <link rel="stylesheet" href="assets/css/base/reset.css">
+    <link rel="stylesheet" href="assets/css/base/typography.css">
+    <link rel="stylesheet" href="assets/css/base/animations.css">
+    <link rel="stylesheet" href="assets/css/components/loader.css">
+    <link rel="stylesheet" href="assets/css/layout/header.css">
+    <link rel="stylesheet" href="assets/css/layout/footer.css">
+    <link rel="stylesheet" href="assets/css/components/buttons.css">
+    <link rel="stylesheet" href="assets/css/components/split-section.css">
+    <link rel="stylesheet" href="assets/css/pages/contact.css">
+    <link rel="stylesheet" href="assets/css/responsive/tablet.css">
+    <link rel="stylesheet" href="assets/css/responsive/mobile.css">
+</head>
+<body>
+    <div id="page-loader" class="page-loader" aria-hidden="true">
+        <svg class="page-loader__mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
+        <svg class="page-loader__mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
+        <span class="page-loader__brand">SYJY</span>
+        <div class="page-loader__counter">
+            <span id="loader-count">0</span><span class="page-loader__percent">%</span>
+        </div>
+        <div class="page-loader__bar"><span class="page-loader__bar-fill" id="loader-bar-fill"></span></div>
+    </div>
+
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <div class="nav-shell" id="site-header">
+        <div class="topbar" id="topbar">
+            <p class="topbar__text">Confection sur mesure — vestes homme &amp; femme · Cotonou</p>
+            <button class="topbar__close" id="topbar-close" aria-label="Fermer le bandeau">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <header class="header">
+            <nav class="navbar" aria-label="Navigation principale">
+                <a class="brand" href="index.html" aria-label="SYJY — retour à l'accueil">
+                    <svg class="brand__lockup" viewBox="0 0 499 212" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(40.000,40.000) scale(1.32000)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g><path d="M214.740 58.767Q219.192 58.767 221.544 59.758Q223.896 60.749 225.660 61.925Q226.668 62.513 227.298 62.807Q227.928 63.101 228.516 63.101Q229.356 63.101 229.734 62.177Q230.112 61.253 230.364 59.405H232.296Q232.212 60.900 232.086 62.950Q231.960 65.000 231.918 68.360Q231.876 71.720 231.876 77.213H229.944Q229.675 73.064 228.104 69.233Q226.534 65.403 223.585 62.950Q220.637 60.497 216.000 60.497Q211.699 60.497 208.894 63.051Q206.088 65.604 206.088 69.855Q206.088 73.500 207.936 75.995Q209.784 78.490 213.018 80.624Q216.252 82.757 220.335 85.378Q224.585 88.049 227.920 90.687Q231.255 93.324 233.203 96.533Q235.152 99.742 235.152 104.295Q235.152 109.721 232.573 113.283Q229.994 116.844 225.727 118.617Q221.460 120.389 216.336 120.389Q211.632 120.389 208.868 119.381Q206.105 118.373 204.156 117.281Q202.308 116.105 201.300 116.105Q200.460 116.105 200.082 117.029Q199.704 117.953 199.452 119.801H197.520Q197.688 117.953 197.730 115.458Q197.772 112.964 197.814 108.948Q197.856 104.933 197.856 98.801H199.788Q200.124 104.009 201.678 108.528Q203.232 113.048 206.466 115.794Q209.700 118.541 215.076 118.541Q217.915 118.541 220.343 117.441Q222.770 116.340 224.299 113.988Q225.828 111.636 225.828 107.957Q225.828 104.496 224.198 101.918Q222.569 99.339 219.671 97.096Q216.773 94.853 212.892 92.501Q208.944 90.015 205.500 87.461Q202.056 84.908 199.998 81.581Q197.940 78.255 197.940 73.568Q197.940 68.494 200.309 65.210Q202.678 61.925 206.525 60.346Q210.372 58.767 214.740 58.767ZM317.842 59.724V61.404Q316.178 61.858 314.465 63.748Q312.751 65.638 310.685 69.620L294.086 102.497H291.818L272.162 66.192Q270.533 63.168 269.374 62.328Q268.214 61.488 267.290 61.488V59.724Q269.155 59.842 271.163 59.934Q273.170 60.027 275.522 60.027Q278.597 60.027 282.117 59.960Q285.636 59.892 288.627 59.724V61.488Q286.527 61.488 284.897 61.925Q283.267 62.362 282.713 63.563Q282.159 64.764 283.318 67.032L297.211 93.677L295.884 95.122L306.233 74.492Q308.820 69.401 308.862 66.579Q308.904 63.756 306.989 62.622Q305.074 61.488 301.579 61.404V59.724Q304.166 59.808 306.678 59.892Q309.190 59.976 311.508 59.976Q313.591 59.976 315.086 59.892Q316.582 59.808 317.842 59.724ZM298.572 92.182V110.309Q298.572 113.333 299.068 114.845Q299.563 116.357 300.991 116.861Q302.419 117.365 305.208 117.533V119.213Q303.175 119.045 300.050 119.003Q296.926 118.961 293.784 118.961Q290.306 118.961 287.224 119.003Q284.141 119.045 282.276 119.213V117.533Q285.082 117.365 286.510 116.861Q287.938 116.357 288.425 114.845Q288.912 113.333 288.912 110.309V93.089L294.372 98.297ZM345.007 135.005V133.376Q348.636 133.224 351.139 131.502Q353.642 129.780 354.928 125.740Q356.213 121.700 356.213 114.795V68.645Q356.213 65.537 355.726 64.067Q355.238 62.597 353.802 62.051Q352.366 61.505 349.577 61.421V59.741Q351.442 59.825 354.482 59.909Q357.523 59.993 360.850 59.993Q364.176 59.993 367.309 59.909Q370.442 59.825 372.509 59.741V61.421Q369.720 61.505 368.284 62.051Q366.847 62.597 366.360 64.067Q365.873 65.537 365.873 68.645V99.389Q365.873 102.833 365.814 106.857Q365.755 110.880 365.461 114.660Q365.167 118.440 364.445 121.313Q362.933 127.176 358.010 131.091Q353.088 135.005 345.007 135.005ZM454.006 59.724V61.404Q452.342 61.858 450.629 63.748Q448.915 65.638 446.849 69.620L430.250 102.497H427.982L408.326 66.192Q406.697 63.168 405.538 62.328Q404.378 61.488 403.454 61.488V59.724Q405.319 59.842 407.327 59.934Q409.334 60.027 411.686 60.027Q414.761 60.027 418.281 59.960Q421.800 59.892 424.791 59.724V61.488Q422.691 61.488 421.061 61.925Q419.431 62.362 418.877 63.563Q418.323 64.764 419.482 67.032L433.375 93.677L432.048 95.122L442.397 74.492Q444.984 69.401 445.026 66.579Q445.068 63.756 443.153 62.622Q441.238 61.488 437.743 61.404V59.724Q440.330 59.808 442.842 59.892Q445.354 59.976 447.672 59.976Q449.755 59.976 451.250 59.892Q452.746 59.808 454.006 59.724ZM434.736 92.182V110.309Q434.736 113.333 435.232 114.845Q435.727 116.357 437.155 116.861Q438.583 117.365 441.372 117.533V119.213Q439.339 119.045 436.214 119.003Q433.090 118.961 429.948 118.961Q426.470 118.961 423.388 119.003Q420.305 119.045 418.440 119.213V117.533Q421.246 117.365 422.674 116.861Q424.102 116.357 424.589 114.845Q425.076 113.333 425.076 110.309V93.089L430.536 98.297Z"/><path d="M192.48,144.41 H316.52 L325.76,153.23 L335.00,144.41 H459.05 V145.42 H336.36 L325.76,155.06 L315.16,145.42 H192.48 Z"/></svg>
+                    <svg class="brand__mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
+                </a>
+
+                <ul class="nav-links" id="nav-links">
+                    <li class="nav-pill" aria-hidden="true"></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" data-theme-toggle aria-pressed="false"
+                            aria-label="Changer de thème">
+                        <i class="fa-solid fa-sun icon-sun" aria-hidden="true"></i>
+                        <i class="fa-solid fa-moon icon-moon" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="nav-icons">
+                        <button aria-label="Recherche"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        <button aria-label="Favoris"><i class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                        <button class="keep-mobile" aria-label="Panier"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i></button>
+                    </div>
+
+                    <a class="nav-cta" href="contact.html">Sur mesure</a>
+
+                    <button class="menu-toggle" id="mobile-menu-btn" aria-label="Ouvrir le menu"
+                            aria-expanded="false" aria-controls="nav-overlay">
+                        <span class="menu-toggle__box">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <div class="nav-overlay" id="nav-overlay">
+        <ul class="nav-overlay__links">
+                <li><a href="index.html"><span class="nav-overlay__num">01</span>Accueil</a></li>
+                <li><a href="collection.html"><span class="nav-overlay__num">02</span>Collection</a></li>
+                <li><a href="about.html"><span class="nav-overlay__num">03</span>À propos</a></li>
+                <li><a href="contact.html" class="active"><span class="nav-overlay__num">04</span>Contact</a></li>
+        </ul>
+        <div class="nav-overlay__foot">
+            <a href="https://wa.me/22967046036" class="whatsapp-btn">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Discuter sur WhatsApp
+            </a>
+            <p class="nav-overlay__meta">Cotonou · Bénin</p>
+        </div>
+    </div>
+
+    <main id="main">
+        <section class="about about--tall">
+            <div class="about-container">
+                <div class="about-text reveal">
+                    <span class="about-subtitle">Prendre Contact</span>
+                    <h2>Discutons de votre <em>prochain projet</em> de mode</h2>
+                    <p>Vous souhaitez commander une pièce unique sur mesure, découvrir nos collections de vestes ou planifier une séance de stylisme personnalisé ? Notre service client est à votre entière disposition.</p>
+
+                    <p class="contact-info"><i class="fa-regular fa-envelope"></i> Email : contact@syjy.com</p>
+                    <p class="contact-info"><i class="fa-solid fa-location-dot"></i> Atelier : Cotonou, Bénin</p>
+
+                    <a href="https://wa.me/22967046036" class="whatsapp-btn whatsapp-btn--large">
+                        <i class="fa-brands fa-whatsapp"></i> Rejoindre notre atelier sur WhatsApp
+                    </a>
+                </div>
+                <div class="about-image">
+                    <div class="about-glow"></div>
+                    <picture>
+                        <source srcset="assets/img/hero-home.webp" type="image/webp">
+                        <img src="assets/img/hero-home.jpg" alt="Atelier SYJY à Cotonou" loading="lazy">
+                    </picture>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <a class="footer-brand" href="index.html" aria-label="SYJY"><svg class="footer-brand__word" viewBox="0 0 840 246" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M261.396 63.648Q267.756 63.648 271.116 65.064Q274.476 66.480 276.996 68.160Q278.436 69.000 279.336 69.420Q280.236 69.840 281.076 69.840Q282.276 69.840 282.816 68.520Q283.356 67.200 283.716 64.560H286.476Q286.356 66.696 286.176 69.624Q285.996 72.552 285.936 77.352Q285.876 82.152 285.876 90.000H283.116Q282.732 84.072 280.488 78.600Q278.244 73.128 274.032 69.624Q269.820 66.120 263.196 66.120Q257.052 66.120 253.044 69.768Q249.036 73.416 249.036 79.488Q249.036 84.696 251.676 88.260Q254.316 91.824 258.936 94.872Q263.556 97.920 269.388 101.664Q275.460 105.480 280.224 109.248Q284.988 113.016 287.772 117.600Q290.556 122.184 290.556 128.688Q290.556 136.440 286.872 141.528Q283.188 146.616 277.092 149.148Q270.996 151.680 263.676 151.680Q256.956 151.680 253.008 150.240Q249.060 148.800 246.276 147.240Q243.636 145.560 242.196 145.560Q240.996 145.560 240.456 146.880Q239.916 148.200 239.556 150.840H236.796Q237.036 148.200 237.096 144.636Q237.156 141.072 237.216 135.336Q237.276 129.600 237.276 120.840H240.036Q240.516 128.280 242.736 134.736Q244.956 141.192 249.576 145.116Q254.196 149.040 261.876 149.040Q265.932 149.040 269.400 147.468Q272.868 145.896 275.052 142.536Q277.236 139.176 277.236 133.920Q277.236 128.976 274.908 125.292Q272.580 121.608 268.440 118.404Q264.300 115.200 258.756 111.840Q253.116 108.288 248.196 104.640Q243.276 100.992 240.336 96.240Q237.396 91.488 237.396 84.792Q237.396 77.544 240.780 72.852Q244.164 68.160 249.660 65.904Q255.156 63.648 261.396 63.648ZM408.684 65.016V67.416Q406.308 68.064 403.860 70.764Q401.412 73.464 398.460 79.152L374.748 126.120H371.508L343.428 74.256Q341.100 69.936 339.444 68.736Q337.788 67.536 336.468 67.536V65.016Q339.132 65.184 342.000 65.316Q344.868 65.448 348.228 65.448Q352.620 65.448 357.648 65.352Q362.676 65.256 366.948 65.016V67.536Q363.948 67.536 361.620 68.160Q359.292 68.784 358.500 70.500Q357.708 72.216 359.364 75.456L379.212 113.520L377.316 115.584L392.100 86.112Q395.796 78.840 395.856 74.808Q395.916 70.776 393.180 69.156Q390.444 67.536 385.452 67.416V65.016Q389.148 65.136 392.736 65.256Q396.324 65.376 399.636 65.376Q402.612 65.376 404.748 65.256Q406.884 65.136 408.684 65.016ZM381.156 111.384V137.280Q381.156 141.600 381.864 143.760Q382.572 145.920 384.612 146.640Q386.652 147.360 390.636 147.600V150.000Q387.732 149.760 383.268 149.700Q378.804 149.640 374.316 149.640Q369.348 149.640 364.944 149.700Q360.540 149.760 357.876 150.000V147.600Q361.884 147.360 363.924 146.640Q365.964 145.920 366.660 143.760Q367.356 141.600 367.356 137.280V112.680L375.156 120.120ZM447.492 172.560V170.232Q452.676 170.016 456.252 167.556Q459.828 165.096 461.664 159.324Q463.500 153.552 463.500 143.688V77.760Q463.500 73.320 462.804 71.220Q462.108 69.120 460.056 68.340Q458.004 67.560 454.020 67.440V65.040Q456.684 65.160 461.028 65.280Q465.372 65.400 470.124 65.400Q474.876 65.400 479.352 65.280Q483.828 65.160 486.780 65.040V67.440Q482.796 67.560 480.744 68.340Q478.692 69.120 477.996 71.220Q477.300 73.320 477.300 77.760V121.680Q477.300 126.600 477.216 132.348Q477.132 138.096 476.712 143.496Q476.292 148.896 475.260 153.000Q473.100 161.376 466.068 166.968Q459.036 172.560 447.492 172.560ZM603.204 65.016V67.416Q600.828 68.064 598.380 70.764Q595.932 73.464 592.980 79.152L569.268 126.120H566.028L537.948 74.256Q535.620 69.936 533.964 68.736Q532.308 67.536 530.988 67.536V65.016Q533.652 65.184 536.520 65.316Q539.388 65.448 542.748 65.448Q547.140 65.448 552.168 65.352Q557.196 65.256 561.468 65.016V67.536Q558.468 67.536 556.140 68.160Q553.812 68.784 553.020 70.500Q552.228 72.216 553.884 75.456L573.732 113.520L571.836 115.584L586.620 86.112Q590.316 78.840 590.376 74.808Q590.436 70.776 587.700 69.156Q584.964 67.536 579.972 67.416V65.016Q583.668 65.136 587.256 65.256Q590.844 65.376 594.156 65.376Q597.132 65.376 599.268 65.256Q601.404 65.136 603.204 65.016ZM575.676 111.384V137.280Q575.676 141.600 576.384 143.760Q577.092 145.920 579.132 146.640Q581.172 147.360 585.156 147.600V150.000Q582.252 149.760 577.788 149.700Q573.324 149.640 568.836 149.640Q563.868 149.640 559.464 149.700Q555.060 149.760 552.396 150.000V147.600Q556.404 147.360 558.444 146.640Q560.484 145.920 561.180 143.760Q561.876 141.600 561.876 137.280V112.680L569.676 120.120Z"/><path d="M229.60,186.00 H406.80 L420.00,198.60 L433.20,186.00 H610.40 V187.44 H435.14 L420.00,201.21 L404.86,187.44 H229.60 Z"/></svg></a>
+                <p>Une mode urbaine moderne mêlant élégance, créativité et identité.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <a href="index.html">Accueil</a>
+                <a href="collection.html">Collection</a>
+                <a href="about.html">À propos</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h3>Contact</h3>
+                <p>contact@syjy.com</p>
+                <a href="https://wa.me/22967046036" class="whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Discuter sur WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 SYJY. Tous droits réservés.</p>
+            <p>Crafted with passion in Cotonou</p>
+        </div>
+    </footer>
+
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

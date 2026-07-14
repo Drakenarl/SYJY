@@ -1,0 +1,166 @@
+/* ============================================================
+   MOBILE.CSS — ≤ 768px
+
+   La navigation mobile n'est PLUS ici : elle vit dans layout/header.css
+   (overlay plein écran). Ce fichier ne traite que le contenu.
+
+   Principe : la typographie est fluide via clamp() dans les fichiers
+   sources. Ici on ne corrige que ce que clamp() ne peut pas faire —
+   les changements de structure.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* ---------- Hero ---------- */
+  /* 100vh est faux sur mobile : la barre d'URL du navigateur le fausse.
+     svh = "small viewport height" = la hauteur réelle, barre comprise. */
+  .hero {
+    height: 100svh;
+    min-height: 560px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    padding-top: calc(70px + env(safe-area-inset-top));
+    align-items: flex-start;
+  }
+
+  .hero-content p {
+    width: 100%;
+  }
+
+  /* ---------- Cartes collection ---------- */
+  .card {
+    height: 440px;
+  }
+
+  .overlay {
+    padding: 28px 24px;
+  }
+
+  /* ---------- Blocs texte/image ---------- */
+  .about {
+    padding: 120px var(--section-padding-x) 80px;
+  }
+
+  .about-text {
+    flex-basis: 100%;
+    padding: 32px 24px;
+  }
+
+  .about-glow {
+    width: 280px;
+    height: 280px;
+  }
+
+  .about--tall {
+    min-height: auto;
+  }
+
+  /* ---------- Grilles ---------- */
+  .features {
+    grid-template-columns: 1fr;
+    padding: 70px var(--section-padding-x);
+    gap: 16px;
+  }
+
+  .feature-box {
+    padding: 28px 22px;
+  }
+
+  .collection {
+    padding: 120px var(--section-padding-x) 80px;
+  }
+
+  .collection-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-title {
+    margin-bottom: 44px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-info {
+    flex-wrap: wrap;
+    word-break: break-word;   /* un e-mail long ne déborde plus de l'écran */
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 60px var(--section-padding-x)
+      calc(28px + env(safe-area-inset-bottom));
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .footer-logo p {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 8px;
+    margin-top: 44px;
+  }
+
+  /* ---------- Le canvas glissant du hero ----------
+     Sur mobile le drag entre en conflit avec le scroll vertical de la page.
+     On le fige et on l'utilise comme simple décor. */
+  .drag-canvas-viewport {
+    cursor: default;
+    touch-action: pan-y;
+  }
+}
+
+/* ============================================================
+   ≤ 480px — petits téléphones
+   ============================================================ */
+@media (max-width: 480px) {
+  .card {
+    height: 380px;
+  }
+
+  .overlay {
+    padding: 24px 20px;
+  }
+
+  .about-text {
+    padding: 26px 20px;
+  }
+
+  .footer-logo p,
+  .footer-links a,
+  .footer-links p {
+    font-size: 13px;
+  }
+}
+
+/* ============================================================
+   Écrans tactiles : pas de :hover, il reste "collé" après le tap.
+   On neutralise les effets de survol qui laissent un état fantôme.
+   ============================================================ */
+@media (hover: none) {
+  .feature-box:hover,
+  .card:hover,
+  .shop-btn:hover,
+  .discover-btn:hover,
+  .whatsapp-btn:hover,
+  .nav-cta:hover {
+    transform: none;
+  }
+
+  .card:hover img {
+    transform: none;
+  }
+
+  .footer-links a:hover {
+    transform: none;
+  }
+}

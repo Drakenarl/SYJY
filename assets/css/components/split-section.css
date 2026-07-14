@@ -1,0 +1,86 @@
+/* ============================================================
+   SPLIT-SECTION.CSS — Bloc "texte à gauche / image à droite"
+   Composant partagé par les pages À propos et Contact.
+   Classes préfixées "about-" pour rester génériques (pas de
+   duplication de composant entre les deux pages).
+   ============================================================ */
+.about {
+  width: 100%;
+  /* padding-top renforcé pour compenser le header fixe */
+  padding: clamp(120px, 14vw, 170px) var(--section-padding-x) clamp(72px, 10vw, 120px);
+}
+
+.about-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.about-text {
+  flex: 1 1 560px;
+  padding: clamp(28px, 4vw, 50px);
+  border-radius: 28px;
+  background: var(--surface-split);
+  border: 1px solid var(--line);
+}
+
+.about-subtitle {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--accent);
+  letter-spacing: clamp(2px, 1vw, 4px);
+  font-size: clamp(10px, 2.6vw, 11px);
+  text-transform: uppercase;
+}
+
+.about-text h2 {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5.6vw, 52px);
+  line-height: 1.24;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.about-text h2 em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.about-text p {
+  font-size: clamp(14.5px, 1.8vw, 16px);
+  line-height: 2;
+  color: var(--text-2);
+  margin-bottom: 20px;
+}
+
+.about-image {
+  flex: 1 1 400px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.about-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--halo-strong), transparent 70%);
+  filter: blur(35px);
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 430px;
+  border-radius: 28px;
+  position: relative;
+  z-index: 3;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Variante "pleine hauteur" utilisée sur la page Contact */
+.about--tall {
+  min-height: 80vh;
+}

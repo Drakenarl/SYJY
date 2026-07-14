@@ -1,0 +1,540 @@
+/* ============================================================
+   HEADER.CSS — Navigation
+
+   Comportement (inspiré de la nav GemmaS) :
+
+   EN HAUT DE PAGE   bandeau d'annonce + barre pleine largeur, transparente
+   AU SCROLL         le bandeau se replie, la barre se détache du bord et
+                     devient une CAPSULE flottante, floutée, centrée
+   SURVOL            une pilule glisse sous le lien pointé
+   MOBILE            burger -> overlay plein écran, liens en Playfair
+
+   Tout est piloté par les tokens sémantiques : clair/sombre gratuit.
+   ============================================================ */
+
+/* Accessibilité : lien d'évitement, visible seulement au clavier */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100001;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--transition-fast);
+}
+.skip-link:focus-visible {
+  top: 16px;
+}
+
+/* ------------------------------------------------------------
+   Coque fixe : contient le bandeau + la barre
+   ------------------------------------------------------------ */
+.nav-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-header);
+  padding-top: env(safe-area-inset-top);
+  pointer-events: none;         /* laisse passer le clic dans les vides… */
+}
+.nav-shell > * {
+  pointer-events: auto;         /* …mais pas sur le bandeau ni la barre */
+}
+
+/* ------------------------------------------------------------
+   Bandeau d'annonce
+   ------------------------------------------------------------ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 38px;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background: var(--accent-2);
+  color: var(--accent-contrast);
+  overflow: hidden;
+  transition: height var(--transition-medium), opacity var(--transition-fast);
+}
+
+.topbar__text {
+  font-size: clamp(9.5px, 2.6vw, 11px);
+  letter-spacing: clamp(1px, 0.5vw, 2.2px);
+  text-transform: uppercase;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.55;
+  font-size: 11px;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+.topbar__close:hover {
+  opacity: 1;
+  /* dérivé de la couleur de contraste : lisible sur or ET sur noir */
+  background: color-mix(in srgb, var(--accent-contrast) 18%, transparent);
+}
+
+/* Replié : au scroll, ou fermé à la main */
+.nav-shell.is-scrolled .topbar,
+.topbar.is-closed {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   La barre
+   ------------------------------------------------------------ */
+.header {
+  padding: 0;
+  transition: padding var(--transition-slow);
+}
+
+/* Au scroll : la barre se décolle des bords -> capsule */
+.nav-shell.is-scrolled .header {
+  padding: 10px clamp(12px, 3vw, 28px) 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 28px);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 18px var(--section-padding-x);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  transition: max-width var(--transition-slow), padding var(--transition-slow),
+    border-radius var(--transition-slow), background var(--transition-slow),
+    border-color var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.nav-shell.is-scrolled .navbar {
+  max-width: var(--nav-max);
+  padding: 10px 12px 10px clamp(18px, 2vw, 26px);
+  border-radius: var(--radius-pill);
+  border-color: var(--nav-border);
+  background: var(--nav-bg);
+  box-shadow: var(--shadow-nav);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+}
+
+/* ------------------------------------------------------------
+   Logo
+   ------------------------------------------------------------ */
+.brand {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent-2);       /* or en sombre, noir en clair */
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+.brand:hover {
+  opacity: 0.75;
+}
+
+.brand svg {
+  display: block;
+  width: auto;
+  fill: currentColor;           /* toute la bascule de thème tient dans cette ligne */
+}
+
+.brand__lockup {
+  height: clamp(26px, 3.4vw, 32px);
+}
+.brand__mark {
+  display: none;                /* emblème seul : mobile uniquement */
+  height: 30px;
+}
+
+/* ------------------------------------------------------------
+   Liens + pilule glissante
+   ------------------------------------------------------------ */
+.nav-links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;               /* centrés, quelle que soit la largeur du logo */
+  padding: 0;
+}
+
+.nav-pill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 34px;
+  width: 0;
+  border-radius: var(--radius-pill);
+  background: var(--nav-pill);
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: left 0.42s var(--ease-premium), width 0.42s var(--ease-premium),
+    opacity 0.25s ease;
+}
+.nav-links.pill-ready .nav-pill {
+  opacity: 1;
+}
+
+.nav-links li a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 9px 16px;
+  color: var(--text-3);
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  color: var(--accent);
+}
+
+/* Le point doré : présent uniquement sur la page courante */
+.nav-links li a.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+
+/* ------------------------------------------------------------
+   Actions à droite
+   ------------------------------------------------------------ */
+.nav-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-icons button,
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  color: var(--text-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.nav-icons button i {
+  font-size: 14px;
+}
+
+.nav-icons button:hover,
+.theme-toggle:hover {
+  color: var(--accent);
+  background: var(--surface-2);
+}
+
+/* --- Interrupteur de thème : soleil / lune qui pivotent --- */
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+}
+.theme-toggle i {
+  position: absolute;
+  font-size: 14px;
+  transition: transform 0.5s var(--ease-premium), opacity 0.35s ease;
+}
+/* En sombre on propose la lumière -> soleil visible */
+.theme-toggle .icon-sun {
+  transform: rotate(0) scale(1);
+  opacity: 1;
+}
+.theme-toggle .icon-moon {
+  transform: rotate(-90deg) scale(0.4);
+  opacity: 0;
+}
+/* En clair on propose l'ombre -> lune visible */
+[data-theme="light"] .theme-toggle .icon-sun {
+  transform: rotate(90deg) scale(0.4);
+  opacity: 0;
+}
+[data-theme="light"] .theme-toggle .icon-moon {
+  transform: rotate(0) scale(1);
+  opacity: 1;
+}
+
+/* --- CTA de la barre --- */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  margin-left: 6px;
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px var(--accent-soft);
+}
+
+/* ------------------------------------------------------------
+   Burger
+   ------------------------------------------------------------ */
+.menu-toggle {
+  display: none;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 100002;
+}
+
+.menu-toggle__box {
+  position: relative;
+  width: 20px;
+  height: 12px;
+}
+
+.menu-toggle .bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.4s var(--ease-premium), opacity 0.2s ease,
+    background var(--transition-fast);
+}
+.menu-toggle .bar:nth-child(1) { top: 0; }
+.menu-toggle .bar:nth-child(2) { top: 50%; transform: translateY(-50%); width: 70%; }
+.menu-toggle .bar:nth-child(3) { bottom: 0; }
+
+.menu-toggle.is-active .bar {
+  background: var(--accent);
+}
+.menu-toggle.is-active .bar:nth-child(1) {
+  transform: translateY(5.25px) rotate(45deg);
+}
+.menu-toggle.is-active .bar:nth-child(2) {
+  opacity: 0;
+  transform: translateY(-50%) scaleX(0);
+}
+.menu-toggle.is-active .bar:nth-child(3) {
+  transform: translateY(-5.25px) rotate(-45deg);
+}
+
+/* ============================================================
+   OVERLAY MOBILE — plein écran, liens en Playfair
+   ============================================================ */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: calc(96px + env(safe-area-inset-top)) var(--section-padding-x)
+    calc(32px + env(safe-area-inset-bottom));
+  background: var(--nav-bg-solid);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.4s var(--ease-premium), transform 0.5s var(--ease-premium),
+    visibility 0s linear 0.4s;
+}
+
+.nav-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.4s var(--ease-premium), transform 0.5s var(--ease-premium),
+    visibility 0s;
+}
+
+.nav-overlay__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 40px;
+}
+
+.nav-overlay__links li {
+  overflow: hidden;
+}
+
+.nav-overlay__links a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  min-height: var(--tap);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 11vw, 52px);
+  line-height: 1.24;
+  color: var(--text);
+  text-decoration: none;
+  /* chaque lien monte depuis le bas, en décalé */
+  transform: translateY(110%);
+  transition: transform 0.7s var(--ease-premium), color var(--transition-fast);
+}
+
+.nav-overlay.is-open .nav-overlay__links a {
+  transform: translateY(0);
+}
+.nav-overlay.is-open li:nth-child(1) a { transition-delay: 0.08s; }
+.nav-overlay.is-open li:nth-child(2) a { transition-delay: 0.14s; }
+.nav-overlay.is-open li:nth-child(3) a { transition-delay: 0.2s; }
+.nav-overlay.is-open li:nth-child(4) a { transition-delay: 0.26s; }
+
+.nav-overlay__links a:hover,
+.nav-overlay__links a.active {
+  color: var(--accent);
+}
+
+.nav-overlay__num {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+.nav-overlay__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease 0.3s, transform 0.5s var(--ease-premium) 0.3s;
+}
+.nav-overlay.is-open .nav-overlay__foot {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-overlay__meta {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+/* Verrouille le défilement du corps quand le menu est ouvert */
+body.nav-open {
+  overflow: hidden;
+}
+
+/* ============================================================
+   BASCULE RESPONSIVE
+   ============================================================ */
+
+/* Tablette : on masque le CTA texte, on garde les icônes */
+@media (max-width: 1080px) {
+  .nav-cta {
+    display: none;
+  }
+}
+
+/* Sous 900px : plus de liens en barre, on passe au burger */
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-toggle {
+    display: grid;
+  }
+  .nav-icons button:not(.keep-mobile) {
+    display: none;         /* on ne garde que le panier en barre */
+  }
+  .brand__lockup {
+    display: none;
+  }
+  .brand__mark {
+    display: block;
+  }
+  .navbar {
+    padding: 12px var(--section-padding-x);
+  }
+  .nav-shell.is-scrolled .navbar {
+    padding: 8px 8px 8px 16px;
+  }
+  .nav-shell.is-scrolled .header {
+    padding: 8px 12px 0;
+  }
+}
+
+/* Le menu plein écran n'existe qu'en mobile/tablette */
+@media (min-width: 901px) {
+  .nav-overlay {
+    display: none;
+  }
+}
+
+/* Écrans très courts (paysage mobile) : le menu défile au lieu de déborder */
+@media (max-height: 560px) {
+  .nav-overlay {
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  .nav-overlay__links a {
+    font-size: clamp(26px, 7vw, 34px);
+  }
+}

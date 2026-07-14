@@ -1,0 +1,85 @@
+/* ============================================================
+   DRAG-CANVAS.CSS — Canvas d'images panoramique, déplaçable
+   à la souris/au doigt. Composant générique : réutilisable
+   partout où l'on retrouve le markup
+   .drag-canvas-viewport > .drag-canvas-track > .drag-tile
+   ============================================================ */
+.drag-canvas-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none; /* le geste est géré en JS, on désactive le scroll natif du navigateur dessus */
+}
+
+.drag-canvas-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.drag-canvas-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 190vw;
+  height: 150vh;
+  will-change: transform;
+}
+
+.drag-tile {
+  position: absolute;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.4s var(--ease-premium);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.drag-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* évite le "fantôme" de drag natif des <img> */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Survol désactivé pendant le drag pour ne pas parasiter le geste */
+.drag-canvas-viewport:not(.is-dragging) .drag-tile:hover {
+  transform: scale(1.04);
+}
+
+.drag-canvas-hint {
+  position: absolute;
+  bottom: 28px;
+  right: 7%;
+  z-index: 6;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--on-media-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.drag-canvas-hint::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--color-gold-light);
+}
+
+@media (max-width: 768px) {
+  .drag-canvas-hint {
+    display: none; /* le geste tactile n'a pas besoin d'être expliqué pareil, et la place manque */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drag-tile {
+    transition: none;
+  }
+}

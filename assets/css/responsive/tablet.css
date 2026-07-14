@@ -1,0 +1,42 @@
+/* ============================================================
+   TABLET.CSS — ≤ 991px
+   Le header gère lui-même sa bascule (voir layout/header.css).
+   Ici : uniquement la mise en page du contenu.
+   ============================================================ */
+
+@media (max-width: 991px) {
+  .hero {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 720px;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+    padding-top: 120px;
+  }
+
+  .hero-content p {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .about-container {
+    gap: 44px;
+  }
+
+  .about-text {
+    padding: 40px 34px;
+  }
+
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

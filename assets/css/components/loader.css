@@ -1,0 +1,126 @@
+/* ============================================================
+   LOADER.CSS — Écran de chargement (compteur % + rideau)
+   S'affiche en plein écran au premier chargement, se relève
+   comme un rideau une fois les assets prêts.
+   ============================================================ */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  transition: transform 0.9s var(--ease-premium);
+}
+
+/* Grille discrète + halo doré, cohérents avec le reste du site */
+.page-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.page-loader::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--halo-strong), transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Rideau qui se lève une fois le chargement terminé */
+.page-loader--done {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+/* Emblème : il respire pendant le chargement */
+.page-loader__mark {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  color: var(--accent-2);
+  fill: currentColor;
+  animation: loader-breathe 2.4s var(--ease-premium) infinite;
+}
+
+@keyframes loader-breathe {
+  0%, 100% { opacity: 0.45; transform: scale(0.96); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader__mark { animation: none; opacity: 1; }
+}
+
+.page-loader__brand {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 8px;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+
+.page-loader__counter {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(64px, 12vw, 160px);
+  line-height: 1;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  font-variant-numeric: tabular-nums;
+}
+
+.page-loader__percent {
+  font-size: 0.3em;
+  margin-top: 14px;
+  margin-left: 4px;
+  color: var(--accent);
+}
+
+.page-loader__bar {
+  position: relative;
+  z-index: 1;
+  width: min(60vw, 320px);
+  height: 1px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+
+.page-loader__bar-fill {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.15s linear;
+}
+
+/* Empêche le scroll pendant le chargement */
+body.is-loading {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader {
+    transition: opacity 0.4s ease;
+  }
+  .page-loader--done {
+    transform: none;
+    opacity: 0;
+  }
+}

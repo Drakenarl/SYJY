@@ -1,0 +1,20 @@
+/* ============================================================
+   CONTACT.CSS — Éléments propres à la page Contact
+   (remplace les styles inline du fichier d'origine)
+   ============================================================ */
+.contact-info {
+  margin-top: 30px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info + .contact-info {
+  margin-top: 12px;
+}
+
+.contact-info i {
+  color: var(--accent);
+}

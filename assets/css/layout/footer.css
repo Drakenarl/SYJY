@@ -1,0 +1,82 @@
+/* ============================================================
+   FOOTER.CSS — Pied de page (commun à toutes les pages)
+   ============================================================ */
+footer {
+  width: 100%;
+  padding: 80px var(--section-padding-x) 35px;
+  background: var(--bg-footer);
+  border-top: 1px solid var(--line);
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* Le logo du footer : wordmark vectorisé, hérite de la couleur du thème */
+.footer-brand {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--accent-2);
+  transition: opacity var(--transition-fast);
+}
+.footer-brand:hover {
+  opacity: 0.72;
+}
+.footer-brand__word {
+  display: block;
+  height: clamp(42px, 7vw, 58px);
+  width: auto;
+  fill: currentColor;
+}
+
+.footer-logo p {
+  width: 320px;
+  line-height: 30px;
+  color: var(--text-3);
+  font-size: 14px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-links h3 {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.footer-links a,
+.footer-links p {
+  text-decoration: none;
+  color: var(--text-3);
+  font-size: 14px;
+  transition: all var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.footer-bottom {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.footer-bottom p {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-4);
+}

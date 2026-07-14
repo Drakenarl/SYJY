@@ -1,0 +1,114 @@
+/* ============================================================
+   FEATURE-CARD.CSS — Cartes "Qualité / Livraison / Paiement..."
+   Effet de lueur au survol piloté par card-glow.js
+   ============================================================ */
+.features {
+  width: 100%;
+  padding: clamp(64px, 9vw, 100px) var(--section-padding-x);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  position: relative;
+}
+
+.feature-box {
+  position: relative;
+  padding: 35px 28px;
+  border-radius: 24px;
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: transform 0.5s var(--ease-premium), border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+/* Halo doré qui suit la souris (variables --mouse-x/--mouse-y définies par card-glow.js) */
+.feature-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 50%) var(--mouse-y, 0px),
+    var(--halo),
+    transparent 80%
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow);
+}
+
+.feature-box:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--accent-soft);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-line);
+  transition: all 0.4s ease;
+}
+
+.feature-icon i {
+  font-size: 18px;
+  color: var(--accent);
+  transition: transform 0.4s ease;
+}
+
+.feature-box:hover .feature-icon {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.feature-box:hover .feature-icon i {
+  color: var(--accent-contrast);
+  transform: scale(1.1);
+}
+
+.feature-content {
+  position: relative;
+  z-index: 2;
+}
+
+.feature-content span {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  opacity: 0.75;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.feature-content h4 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.feature-content p {
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--text-3);
+  font-weight: 400;
+}

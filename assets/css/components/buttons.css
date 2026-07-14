@@ -1,0 +1,144 @@
+/* ============================================================
+   BUTTONS.CSS — CTA du site
+
+   Trois règles non négociables :
+   1. min-height >= 44px (WCAG 2.5.5) — un bouton doit se toucher au pouce
+   2. sur mobile, un bouton ne s'étire PAS d'un bord à l'autre :
+      il monte à 100% mais plafonne à 380px et reste centré
+   3. aucune couleur en dur — tout passe par les tokens
+   ============================================================ */
+
+.shop-btn,
+.discover-btn,
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--tap);
+  padding: 14px 32px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium),
+    background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+/* Focus clavier visible — obligatoire, et souvent oublié */
+.shop-btn:focus-visible,
+.discover-btn:focus-visible,
+.whatsapp-btn:focus-visible,
+.nav-cta:focus-visible,
+.nav-icons button:focus-visible,
+.theme-toggle:focus-visible,
+.menu-toggle:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+}
+
+/* ---------- Primaire : le rouge d'action ---------- */
+.shop-btn {
+  background: linear-gradient(135deg, var(--color-red), #ff3558);
+  color: var(--color-white);
+}
+.shop-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(200, 16, 46, 0.28);
+}
+
+/* ---------- Secondaire : posé sur photo (hero) ---------- */
+.discover-btn {
+  background: var(--on-media-surface);
+  border-color: var(--on-media-line);
+  color: var(--on-media);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.discover-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
+  background: rgba(247, 208, 138, 0.08);
+}
+
+/* ---------- WhatsApp ---------- */
+.whatsapp-btn {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: var(--color-white);
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  font-weight: 500;
+}
+.whatsapp-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(37, 211, 102, 0.24);
+}
+
+.whatsapp-btn--large {
+  margin-top: 32px;
+  padding: 15px 30px;
+  font-size: 14px;
+}
+
+/* Le bouton s'enfonce au doigt : retour tactile immédiat */
+.shop-btn:active,
+.discover-btn:active,
+.whatsapp-btn:active,
+.nav-cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ============================================================
+   MOBILE — le vrai correctif
+   ============================================================ */
+@media (max-width: 768px) {
+  .shop-btn,
+  .discover-btn {
+    width: 100%;
+    max-width: 380px;      /* ne s'étire jamais bord à bord */
+    min-height: 50px;      /* plus confortable au pouce */
+    padding: 15px 28px;
+    font-size: 11px;
+  }
+
+  /* Le conteneur des CTA du hero : empilés, centrés, jamais collés au bord */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .whatsapp-btn {
+    width: 100%;
+    max-width: 380px;
+    min-height: 50px;
+  }
+  .whatsapp-btn--large {
+    margin-top: 26px;
+  }
+}
+
+/* Très petits écrans : on réduit le padding avant que le texte ne casse */
+@media (max-width: 380px) {
+  .shop-btn,
+  .discover-btn {
+    padding: 15px 18px;
+    letter-spacing: 1.4px;
+  }
+}

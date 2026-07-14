@@ -1,0 +1,33 @@
+/* ============================================================
+   MARQUEE.CSS — Bande de texte défilante horizontale
+   ============================================================ */
+.marquee-section {
+  width: 100%;
+  overflow: hidden;
+  padding: 16px 0;
+  background: var(--surface-2);
+  border-top: 1px solid var(--accent-line);
+  border-bottom: 1px solid var(--accent-line);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-item {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-right: 55px;
+  font-weight: 600;
+}
+
+/* Respecte la préférence système "réduire les animations" */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
