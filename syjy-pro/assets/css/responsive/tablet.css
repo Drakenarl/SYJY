@@ -1,0 +1,24 @@
+/* ============================================================
+   TABLET.CSS — Ajustements pour écrans ≤ 991px
+   ============================================================ */
+@media (max-width: 991px) {
+  header {
+    width: 92%;
+  }
+  .hero {
+    justify-content: center;
+    text-align: center;
+    padding-top: 140px;
+  }
+  .hero-buttons {
+    justify-content: center;
+  }
+  .hero-content h1 {
+    font-size: 62px;
+    line-height: 72px;
+  }
+  .about-text h2 {
+    font-size: 42px;
+    line-height: 52px;
+  }
+}

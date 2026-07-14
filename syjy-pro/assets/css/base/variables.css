@@ -1,0 +1,42 @@
+/* ============================================================
+   VARIABLES.CSS — Design tokens globaux du site SYJY
+   Toute couleur, ombre ou dégradé réutilisé doit être défini ici.
+   ============================================================ */
+:root {
+  /* Couleurs de base */
+  --color-black: #050505;
+  --color-dark: #0f0f0f;
+  --color-white: #ffffff;
+  --color-gold: #c9a86a;
+  --color-gold-light: #f7d08a;
+  --color-red: #c8102e;
+  --color-gray: #b9b9b9;
+
+  /* Couleurs composées / usage spécifique */
+  --color-navbar-bg: rgba(5, 5, 5, 0.35);
+  --color-navbar-bg-scrolled: rgba(5, 5, 5, 0.75);
+  --gradient-card-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.01)
+  );
+  --gradient-body-bg: linear-gradient(180deg, #050505 0%, #0a0a0a 45%, #0d0d0d 100%);
+  --gradient-shop-btn: linear-gradient(135deg, var(--color-red), #ff3558);
+  --gradient-whatsapp: linear-gradient(135deg, #25d366, #128c7e);
+  --gradient-scrollbar: linear-gradient(180deg, #b8924a, #f7d08a);
+
+  /* Typographie */
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+  --font-serif-alt: "Cormorant Garamond", serif;
+
+  /* Transitions communes */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.3s ease;
+  --transition-medium: 0.4s var(--ease-premium);
+  --transition-slow: 0.5s var(--ease-premium);
+
+  /* Layout */
+  --section-padding-x: 7%;
+  --z-header: 9999;
+}

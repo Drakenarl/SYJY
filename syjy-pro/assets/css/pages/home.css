@@ -1,0 +1,107 @@
+/* ============================================================
+   HOME.CSS — Styles propres à la page d'accueil (hero)
+   Le hero est désormais un canvas d'images plein écran que l'on
+   fait glisser (voir components/drag-canvas.css pour le mécanisme
+   générique). Ce fichier ne contient que : le texte en overlay,
+   le voile de lisibilité, et le placement des tuiles pour CETTE page.
+   ============================================================ */
+.hero {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Voile sombre entre le canvas d'images et le texte, pour la lisibilité */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    115deg,
+    rgba(5, 5, 5, 0.88) 0%,
+    rgba(5, 5, 5, 0.55) 38%,
+    rgba(5, 5, 5, 0.25) 65%,
+    rgba(5, 5, 5, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+  max-width: 640px;
+  padding: 0 var(--section-padding-x);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none; /* le bloc ne capte pas le drag... */
+}
+
+.hero-content > * {
+  pointer-events: auto; /* ...mais chaque élément à l'intérieur (boutons compris) reste cliquable */
+}
+
+.retro-text {
+  display: inline-block;
+  width: max-content;
+  margin-bottom: 18px;
+  color: var(--color-gold-light);
+  letter-spacing: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.hero-content h1 {
+  font-family: var(--font-display);
+  font-size: 82px;
+  line-height: 92px;
+  margin-bottom: 24px;
+}
+
+.hero-content h1 em {
+  color: var(--color-gold-light);
+  font-style: italic;
+}
+
+.hero-content p {
+  width: 90%;
+  font-size: 18px;
+  line-height: 34px;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 36px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 18px;
+}
+
+/* ------------------------------------------------------------
+   Placement des tuiles du canvas (positions en % de la piste,
+   qui fait 190vw x 150vh — voir drag-canvas.css). Deux rangées,
+   images de assets/img/ réutilisées à des tailles différentes.
+   ------------------------------------------------------------ */
+.drag-tile--01 { top: 8%;  left: 4%;  width: 15%; transform: rotate(-4deg); }
+.drag-tile--02 { top: 28%; left: 16%; width: 12%; transform: rotate(5deg); }
+.drag-tile--03 { top: 4%;  left: 26%; width: 13%; transform: rotate(-2deg); }
+.drag-tile--04 { top: 34%; left: 34%; width: 14%; transform: rotate(3deg); }
+.drag-tile--05 { top: 6%;  left: 44%; width: 15%; transform: rotate(-5deg); }
+.drag-tile--06 { top: 30%; left: 54%; width: 12%; transform: rotate(4deg); }
+.drag-tile--07 { top: 4%;  left: 62%; width: 13%; transform: rotate(-3deg); }
+.drag-tile--08 { top: 32%; left: 72%; width: 14%; transform: rotate(2deg); }
+.drag-tile--09 { top: 6%;  left: 82%; width: 15%; transform: rotate(-4deg); }
+.drag-tile--10 { top: 30%; left: 86%; width: 12%; transform: rotate(5deg); }
+
+/* Le survol (défini dans drag-canvas.css) doit garder la rotation propre à chaque tuile */
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--01:hover { transform: rotate(-4deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--02:hover { transform: rotate(5deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--03:hover { transform: rotate(-2deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--04:hover { transform: rotate(3deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--05:hover { transform: rotate(-5deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--06:hover { transform: rotate(4deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--07:hover { transform: rotate(-3deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--08:hover { transform: rotate(2deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--09:hover { transform: rotate(-4deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--10:hover { transform: rotate(5deg) scale(1.04); }

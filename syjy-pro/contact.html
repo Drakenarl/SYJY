@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | SYJY</title>
+    <meta name="description" content="Contactez SYJY pour une pièce sur mesure, une séance de stylisme ou toute question sur nos collections. Atelier basé à Cotonou, Bénin.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/css/base/variables.css">
+    <link rel="stylesheet" href="assets/css/base/reset.css">
+    <link rel="stylesheet" href="assets/css/base/typography.css">
+    <link rel="stylesheet" href="assets/css/base/animations.css">
+    <link rel="stylesheet" href="assets/css/layout/header.css">
+    <link rel="stylesheet" href="assets/css/layout/footer.css">
+    <link rel="stylesheet" href="assets/css/components/buttons.css">
+    <link rel="stylesheet" href="assets/css/components/split-section.css">
+    <link rel="stylesheet" href="assets/css/pages/contact.css">
+    <link rel="stylesheet" href="assets/css/responsive/tablet.css">
+    <link rel="stylesheet" href="assets/css/responsive/mobile.css">
+</head>
+<body>
+    <header id="site-header">
+        <nav class="navbar">
+            <div class="logo-box" onclick="window.location.href='index.html'">
+                <h1>SYJY</h1>
+            </div>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="nav-icons">
+                    <button aria-label="Recherche"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button aria-label="Favoris"><i class="fa-regular fa-heart"></i></button>
+                    <button aria-label="Panier"><i class="fa-solid fa-bag-shopping"></i></button>
+                </div>
+                <button class="menu-toggle" id="mobile-menu-btn" aria-label="Ouvrir le menu" aria-expanded="false">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about about--tall">
+            <div class="about-container">
+                <div class="about-text reveal">
+                    <span class="about-subtitle">Prendre Contact</span>
+                    <h2>Discutons de votre <em>prochain projet</em> de mode</h2>
+                    <p>Vous souhaitez commander une pièce unique sur mesure, découvrir nos collections de vestes ou planifier une séance de stylisme personnalisé ? Notre service client est à votre entière disposition.</p>
+
+                    <p class="contact-info"><i class="fa-regular fa-envelope"></i> Email : contact@syjy.com</p>
+                    <p class="contact-info"><i class="fa-solid fa-location-dot"></i> Atelier : Cotonou, Bénin</p>
+
+                    <a href="https://wa.me/22967046036" class="whatsapp-btn whatsapp-btn--large">
+                        <i class="fa-brands fa-whatsapp"></i> Rejoindre notre atelier sur WhatsApp
+                    </a>
+                </div>
+                <div class="about-image">
+                    <div class="about-glow"></div>
+                    <picture>
+                        <source srcset="assets/img/hero-home.webp" type="image/webp">
+                        <img src="assets/img/hero-home.jpg" alt="Atelier SYJY à Cotonou" loading="lazy">
+                    </picture>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <h1>SYJY</h1>
+                <p>Une mode urbaine moderne mêlant élégance, créativité et identité.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <a href="index.html">Accueil</a>
+                <a href="collection.html">Collection</a>
+                <a href="about.html">À propos</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h3>Contact</h3>
+                <p>contact@syjy.com</p>
+                <a href="https://wa.me/22967046036" class="whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Discuter sur WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 SYJY. Tous droits réservés.</p>
+            <p>Crafted with passion in Cotonou</p>
+        </div>
+    </footer>
+
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

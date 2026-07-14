@@ -1,0 +1,38 @@
+/* ============================================================
+   ANIMATIONS.CSS — Keyframes + système de reveal au scroll
+   ============================================================ */
+
+/* Système de révélation au scroll (piloté par IntersectionObserver en JS) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-premium), transform 0.8s var(--ease-premium);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-scrollbar);
+  border-radius: 20px;
+}

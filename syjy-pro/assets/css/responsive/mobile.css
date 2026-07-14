@@ -1,0 +1,93 @@
+/* ============================================================
+   MOBILE.CSS — Ajustements pour écrans ≤ 768px
+   Inclut le menu de navigation mobile (burger déplié)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Navigation mobile */
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(247, 208, 138, 0.15);
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
+    transition: right 0.5s var(--ease-premium);
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links li a {
+    font-size: 16px;
+    letter-spacing: 3px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  header.scrolled .navbar {
+    padding: 12px 5%;
+  }
+
+  /* Hero */
+  .hero-content h1 {
+    font-size: 44px;
+    line-height: 54px;
+  }
+  .hero-content p {
+    font-size: 15px;
+    line-height: 28px;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .shop-btn,
+  .discover-btn {
+    width: 100%;
+  }
+
+  /* Collection */
+  .section-title h2 {
+    font-size: 38px;
+  }
+  .card {
+    height: 480px;
+  }
+  .overlay h3 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  /* About / Contact */
+  .about-text {
+    padding: 35px 24px;
+  }
+  .about-text h2 {
+    font-size: 32px;
+    line-height: 42px;
+  }
+
+  /* Footer */
+  .footer-container {
+    flex-direction: column;
+    gap: 35px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}

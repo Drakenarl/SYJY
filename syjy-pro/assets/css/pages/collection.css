@@ -1,0 +1,9 @@
+/* ============================================================
+   COLLECTION.CSS — Conteneur de la page Collection
+   (les cartes elles-mêmes sont dans components/collection-card.css)
+   ============================================================ */
+.collection {
+  width: 100%;
+  /* padding-top renforcé pour compenser le header fixe qui survole la section */
+  padding: 160px var(--section-padding-x) 120px;
+}
