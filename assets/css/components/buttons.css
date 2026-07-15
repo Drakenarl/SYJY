@@ -73,25 +73,54 @@ a:focus-visible {
 }
 
 /* ---------- WhatsApp ---------- */
+/* Style discret : fond neutre, icône verte pour l'identification,
+   liseré vert léger. Le bouton reste reconnaissable comme WhatsApp
+   sans être visuellement dominant. */
 .whatsapp-btn {
   margin-top: 10px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  color: var(--color-white);
+  padding: 10px 20px;
+  min-height: 40px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, #25d366 32%, transparent);
+  color: var(--text);
   font-size: 12px;
   letter-spacing: 0.4px;
   text-transform: none;
   font-weight: 500;
 }
-.whatsapp-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 26px rgba(37, 211, 102, 0.24);
+
+/* L'icône est le seul élément vert saturé : c'est ELLE qui fait
+   l'identification de la marque WhatsApp, pas le fond. */
+.whatsapp-btn i {
+  color: #25d366;
+  font-size: 15px;
+  transition: transform var(--transition-fast);
 }
 
+.whatsapp-btn:hover {
+  transform: translateY(-2px);
+  background: var(--surface-2);
+  border-color: color-mix(in srgb, #25d366 55%, transparent);
+  box-shadow: 0 8px 20px color-mix(in srgb, #25d366 18%, transparent);
+}
+
+.whatsapp-btn:hover i {
+  transform: scale(1.08);
+}
+
+/* Version imposante — page contact. Même traitement discret que
+   la version standard, mais plus grande. On garde l'identité
+   WhatsApp par l'icône verte, jamais par un fond saturé. */
 .whatsapp-btn--large {
   margin-top: 32px;
-  padding: 15px 30px;
-  font-size: 14px;
+  padding: 14px 28px;
+  min-height: 48px;
+  font-size: 13px;
+  /* les propriétés background, border, color, i héritent de
+     .whatsapp-btn -> pas besoin de les redéclarer */
+}
+.whatsapp-btn--large i {
+  font-size: 16px;
 }
 
 /* Le bouton s'enfonce au doigt : retour tactile immédiat */

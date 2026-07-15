@@ -1,18 +1,31 @@
 /**
  * header-scroll.js
- * Passe la barre en mode "capsule" dès que la page défile.
- * Le calcul est repoussé dans un requestAnimationFrame : on ne
- * touche au DOM qu'une fois par frame, pas à chaque événement scroll.
+ *
+ * Passe la barre en mode "capsule" au scroll, avec HYSTÉRÉSIS :
+ * on entre à 24 px, on ne ressort qu'à 8 px. Sans ça, un scroll
+ * lent autour du seuil fait osciller la barre.
+ *
+ * La lecture de scrollY se fait dans un requestAnimationFrame :
+ * on ne touche au DOM qu'une fois par frame.
  */
 export function initHeaderScroll() {
   const shell = document.getElementById("site-header");
   if (!shell) return;
 
-  const THRESHOLD = 24;
+  const ENTER = 24;   // au-delà -> capsule
+  const EXIT  = 8;    // en-deçà -> plein
+  let isScrolled = false;
   let ticking = false;
 
   const update = () => {
-    shell.classList.toggle("is-scrolled", window.scrollY > THRESHOLD);
+    const y = window.scrollY;
+    if (!isScrolled && y > ENTER) {
+      isScrolled = true;
+      shell.classList.add("is-scrolled");
+    } else if (isScrolled && y < EXIT) {
+      isScrolled = false;
+      shell.classList.remove("is-scrolled");
+    }
     ticking = false;
   };
 
@@ -27,5 +40,5 @@ export function initHeaderScroll() {
     { passive: true }
   );
 
-  update(); // état correct si la page est rechargée en position scrollée
+  update();
 }

@@ -1,0 +1,14 @@
+# Outils IA locaux — ne partent jamais sur GitHub
+.claude/
+.agents/
+skills/
+skills-lock.json
+
+# OS / éditeur
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs & temporaires
+*.log

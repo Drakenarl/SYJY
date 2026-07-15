@@ -117,6 +117,92 @@
     cursor: default;
     touch-action: pan-y;
   }
+
+  /* ============================================================
+     PAGE CONTACT + À PROPOS — correctifs split-section mobile
+
+     Le split-section (.about) est un flex avec flex-basis: 560px
+     sur son bloc texte. Sur mobile, ce basis force le conteneur
+     à déborder du viewport. On force le basis à 100% et on
+     verrouille toute la chaîne de largeur.
+     ============================================================ */
+
+  /* La section entière : padding-top raisonnable au lieu de 160px */
+  .about {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  .about--tall {
+    min-height: auto;
+  }
+
+  /* Conteneur flex -> colonne, gap resserré */
+  .about-container {
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+  }
+
+  /* LA CORRECTION CENTRALE : basis 100%, jamais 560px sur mobile */
+  .about-text {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;                 /* autorise le shrink en flex/grid */
+    padding: 28px 22px;
+    /* toute la carte respire enfin */
+  }
+
+  /* L'image : basis 100% aussi, hauteur bornée */
+  .about-image {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+  .about-image img {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+  }
+  .about-glow {
+    width: 220px;
+    height: 220px;
+  }
+
+  /* Contenu texte : tailles et espaces adaptés */
+  .about-text h2 {
+    margin-bottom: 20px;
+  }
+  .about-text p {
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+
+  /* .contact-info : icône alignée haut, texte peut wrap sans déborder */
+  .contact-info {
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    /* dernière ligne de défense : un mot indivisible peut casser */
+    overflow-wrap: anywhere;
+  }
+  .contact-info i {
+    margin-top: 3px;
+    flex: none;
+    font-size: 15px;
+  }
+  .contact-info + .contact-info {
+    margin-top: 14px;
+  }
+
+  /* Bouton WhatsApp large : plein largeur, plafonné */
+  .about-text .whatsapp-btn--large {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 380px;
+    padding: 13px 20px;
+  }
 }
 
 /* ============================================================
@@ -162,5 +248,22 @@
 
   .footer-links a:hover {
     transform: none;
+  }
+}
+
+/* Très petits écrans (< 380 px) */
+@media (max-width: 380px) {
+  .about {
+    padding-top: 90px;
+  }
+  .about-text {
+    padding: 24px 18px;
+  }
+  .about-text h2 {
+    font-size: clamp(26px, 8vw, 32px);
+    line-height: 1.22;
+  }
+  .contact-info {
+    font-size: 13.5px;
   }
 }

@@ -60,7 +60,11 @@
   background: var(--accent-2);
   color: var(--accent-contrast);
   overflow: hidden;
-  transition: height var(--transition-medium), opacity var(--transition-fast);
+  will-change: height, opacity;
+  /* même durée pour height et opacity, sinon le repli est bancal :
+     le contenu disparaît avant/après la hauteur, jamais avec. */
+  transition: height var(--transition-medium),
+              opacity var(--transition-medium);
 }
 
 .topbar__text {
@@ -124,9 +128,21 @@
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
-  transition: max-width var(--transition-slow), padding var(--transition-slow),
-    border-radius var(--transition-slow), background var(--transition-slow),
-    border-color var(--transition-slow), box-shadow var(--transition-slow);
+  /* will-change promeut la barre en composited layer -> transitions
+     lisses sur GPU. À utiliser avec parcimonie, ici c'est justifié
+     (élément unique et animé souvent). */
+  will-change: max-width, padding, border-radius, background,
+               border-color, box-shadow, backdrop-filter;
+  /* backdrop-filter DOIT être dans la liste, sinon le flou apparaît
+     d'un coup au lieu de fondre avec le reste. */
+  transition: max-width var(--transition-slow),
+    padding var(--transition-slow),
+    border-radius var(--transition-slow),
+    background var(--transition-slow),
+    border-color var(--transition-slow),
+    box-shadow var(--transition-slow),
+    backdrop-filter var(--transition-slow),
+    -webkit-backdrop-filter var(--transition-slow);
 }
 
 .nav-shell.is-scrolled .navbar {
@@ -377,41 +393,115 @@
 }
 
 /* ============================================================
-   OVERLAY MOBILE — plein écran, liens en Playfair
+   PANNEAU LATÉRAL MOBILE — style boutique premium
+
+   Comportement :
+   - Voile assombri sur toute la page (tapable pour fermer)
+   - Panneau glissant depuis la droite, 82 % (max 420 px)
+   - Fond opaque : reste lisible dans les deux thèmes
+   - Le <main> de la page glisse légèrement à gauche (-8 %)
+     pour renforcer l'effet tiroir
    ============================================================ */
-.nav-overlay {
+
+/* Voile — bouton plein écran cliquable pour fermer */
+.nav-scrim {
   position: fixed;
   inset: 0;
-  z-index: 100000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  padding: calc(96px + env(safe-area-inset-top)) var(--section-padding-x)
-    calc(32px + env(safe-area-inset-bottom));
-  background: var(--nav-bg-solid);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
+  z-index: 99998;
+  background: rgba(5, 5, 5, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: none;
+  padding: 0;
+  cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-12px);
-  transition: opacity 0.4s var(--ease-premium), transform 0.5s var(--ease-premium),
-    visibility 0s linear 0.4s;
+  transition: opacity 0.45s var(--ease-premium),
+              visibility 0s linear 0.45s;
 }
-
-.nav-overlay.is-open {
+.nav-scrim.is-open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
-  transition: opacity 0.4s var(--ease-premium), transform 0.5s var(--ease-premium),
-    visibility 0s;
+  transition: opacity 0.45s var(--ease-premium),
+              visibility 0s;
 }
 
+/* Le panneau lui-même */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  width: 82%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  padding: calc(28px + env(safe-area-inset-top))
+           clamp(24px, 6vw, 44px)
+           calc(28px + env(safe-area-inset-bottom));
+  background: var(--nav-bg-solid);
+  border-left: 1px solid var(--nav-border);
+  box-shadow: -20px 0 60px rgba(5, 5, 5, 0.4);
+  /* On part hors-champ à droite, on revient à 0 quand ouvert */
+  transform: translateX(100%);
+  transition: transform 0.5s var(--ease-premium);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.nav-overlay.is-open {
+  transform: translateX(0);
+}
+
+/* --- En-tête du panneau : mini-logo à gauche, X à droite --- */
+.nav-overlay__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 44px;
+  flex: none;
+}
+
+.nav-overlay__brand {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent-2);
+  text-decoration: none;
+}
+.nav-overlay__brand svg {
+  height: 28px;
+  width: auto;
+  fill: currentColor;
+}
+
+.nav-overlay__close {
+  display: grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--transition-fast),
+              transform var(--transition-fast);
+}
+.nav-overlay__close:hover {
+  background: var(--surface-2);
+  transform: rotate(90deg);
+}
+.nav-overlay__close i {
+  font-size: 14px;
+}
+
+/* --- Liens : plus mesurés qu'en full-screen --- */
 .nav-overlay__links {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  margin-bottom: 40px;
+  gap: 4px;
+  margin-bottom: auto;   /* pousse le foot en bas */
 }
 
 .nav-overlay__links li {
@@ -421,26 +511,31 @@
 .nav-overlay__links a {
   display: flex;
   align-items: baseline;
-  gap: 16px;
-  padding: 10px 0;
+  gap: 18px;
+  padding: 14px 0;
   min-height: var(--tap);
   font-family: var(--font-display);
-  font-size: clamp(34px, 11vw, 52px);
-  line-height: 1.24;
+  font-size: clamp(28px, 7vw, 38px);
+  line-height: 1.2;
   color: var(--text);
   text-decoration: none;
-  /* chaque lien monte depuis le bas, en décalé */
-  transform: translateY(110%);
-  transition: transform 0.7s var(--ease-premium), color var(--transition-fast);
+  border-bottom: 1px solid var(--line);
+  /* Apparition depuis le bas, décalée */
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 0.6s var(--ease-premium),
+              opacity 0.5s ease,
+              color var(--transition-fast);
 }
 
 .nav-overlay.is-open .nav-overlay__links a {
   transform: translateY(0);
+  opacity: 1;
 }
-.nav-overlay.is-open li:nth-child(1) a { transition-delay: 0.08s; }
-.nav-overlay.is-open li:nth-child(2) a { transition-delay: 0.14s; }
-.nav-overlay.is-open li:nth-child(3) a { transition-delay: 0.2s; }
-.nav-overlay.is-open li:nth-child(4) a { transition-delay: 0.26s; }
+.nav-overlay.is-open li:nth-child(1) a { transition-delay: 0.15s; }
+.nav-overlay.is-open li:nth-child(2) a { transition-delay: 0.22s; }
+.nav-overlay.is-open li:nth-child(3) a { transition-delay: 0.29s; }
+.nav-overlay.is-open li:nth-child(4) a { transition-delay: 0.36s; }
 
 .nav-overlay__links a:hover,
 .nav-overlay__links a.active {
@@ -452,18 +547,22 @@
   font-size: 10px;
   letter-spacing: 2px;
   color: var(--accent);
-  opacity: 0.6;
+  opacity: 0.65;
+  min-width: 22px;
 }
 
+/* --- Pied du panneau : CTA + méta --- */
 .nav-overlay__foot {
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  padding-top: 28px;
+  gap: 20px;
+  padding-top: 32px;
+  margin-top: 32px;
   border-top: 1px solid var(--line);
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.5s ease 0.3s, transform 0.5s var(--ease-premium) 0.3s;
+  transition: opacity 0.5s ease 0.45s,
+              transform 0.5s var(--ease-premium) 0.45s;
 }
 .nav-overlay.is-open .nav-overlay__foot {
   opacity: 1;
@@ -477,9 +576,22 @@
   color: var(--text-4);
 }
 
-/* Verrouille le défilement du corps quand le menu est ouvert */
+/* --- Le contenu de page glisse à gauche quand le panneau s'ouvre.
+   Effet "tiroir" : renforce visuellement que la nav vient PAR-DESSUS. --- */
 body.nav-open {
   overflow: hidden;
+}
+body.nav-open main,
+body.nav-open footer {
+  transform: translateX(-4%);
+  filter: blur(1px);
+  transition: transform 0.5s var(--ease-premium),
+              filter 0.5s var(--ease-premium);
+}
+main, footer {
+  transition: transform 0.5s var(--ease-premium),
+              filter 0.5s var(--ease-premium);
+  will-change: transform;
 }
 
 /* ============================================================
@@ -521,20 +633,80 @@ body.nav-open {
   }
 }
 
-/* Le menu plein écran n'existe qu'en mobile/tablette */
+/* Le panneau n'existe qu'en mobile/tablette */
 @media (min-width: 901px) {
-  .nav-overlay {
+  .nav-overlay,
+  .nav-scrim {
     display: none;
   }
 }
 
-/* Écrans très courts (paysage mobile) : le menu défile au lieu de déborder */
-@media (max-height: 560px) {
-  .nav-overlay {
-    justify-content: flex-start;
-    overflow-y: auto;
+/* Écrans très courts : liens plus petits, plus de place pour la liste */
+@media (max-height: 620px) {
+  .nav-overlay__head {
+    margin-bottom: 24px;
   }
   .nav-overlay__links a {
-    font-size: clamp(26px, 7vw, 34px);
+    font-size: clamp(22px, 5.5vw, 28px);
+    padding: 10px 0;
   }
+}
+
+/* ============================================================
+   MODE CLAIR — navbar posée sur une photo (accueil UNIQUEMENT)
+
+   Ne s'applique QUE si le <body> porte .has-hero-media, ce qui
+   n'est vrai que sur l'accueil où le hero est une photo sombre.
+
+   Sur les autres pages (fond crème), la navbar en haut utilise
+   les tokens normaux qui basculent avec le thème — donc texte
+   foncé lisible sur le crème dès le premier pixel.
+   ============================================================ */
+[data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) {
+  /* Logo : blanc sur photo */
+  & .brand {
+    color: var(--on-media);
+  }
+
+  /* Liens de navigation */
+  & .nav-links li a {
+    color: var(--on-media-2);
+  }
+  & .nav-links li a:hover,
+  & .nav-links li a.active {
+    color: var(--on-media);
+  }
+  & .nav-links li a.active::after {
+    background: var(--on-media);
+  }
+  & .nav-pill {
+    background: var(--on-media-surface);
+  }
+
+  /* Icônes + toggle thème */
+  & .nav-icons button,
+  & .theme-toggle {
+    color: var(--on-media-2);
+  }
+  & .nav-icons button:hover,
+  & .theme-toggle:hover {
+    color: var(--on-media);
+    background: var(--on-media-surface);
+  }
+
+  /* Barres du burger */
+  & .menu-toggle .bar {
+    background: var(--on-media);
+  }
+}
+
+/* Le CTA "Sur mesure" en mode clair sur photo : garde un fond
+   clair mais avec texte noir. Sinon or clair sur photo claire
+   = disparition. Scope : accueil uniquement. */
+[data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) .nav-cta {
+  background: var(--on-media);
+  color: #14110c;
+}
+[data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) .nav-cta:hover {
+  background: #fff;
 }

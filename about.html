@@ -44,16 +44,6 @@
     <link rel="stylesheet" href="assets/css/responsive/mobile.css">
 </head>
 <body>
-    <div id="page-loader" class="page-loader" aria-hidden="true">
-        <svg class="page-loader__mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
-        <svg class="page-loader__mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
-        <span class="page-loader__brand">SYJY</span>
-        <div class="page-loader__counter">
-            <span id="loader-count">0</span><span class="page-loader__percent">%</span>
-        </div>
-        <div class="page-loader__bar"><span class="page-loader__bar-fill" id="loader-bar-fill"></span></div>
-    </div>
-
     <a class="skip-link" href="#main">Aller au contenu</a>
 
     <div class="nav-shell" id="site-header">
@@ -107,20 +97,32 @@
         </header>
     </div>
 
-    <div class="nav-overlay" id="nav-overlay">
+    <button class="nav-scrim" id="nav-scrim" aria-label="Fermer le menu" tabindex="-1"></button>
+
+    <aside class="nav-overlay" id="nav-overlay" aria-label="Menu de navigation">
+        <div class="nav-overlay__head">
+            <a class="nav-overlay__brand" href="index.html" aria-label="SYJY">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g transform="translate(97.485,71.680) scale(3.68640)"><path d="M14.0,0 L25.0,0 L37.0,44.0 L37.0,100.0 L28.0,100.0 L0,72.0 L0,14.0 Z"/><path d="M72.0,0 L61.0,0 L49.0,44.0 L49.0,100.0 L58.0,100.0 L86.0,72.0 L86.0,14.0 Z"/></g></svg>
+            </a>
+            <button class="nav-overlay__close" id="nav-overlay-close" aria-label="Fermer le menu">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+
         <ul class="nav-overlay__links">
                 <li><a href="index.html"><span class="nav-overlay__num">01</span>Accueil</a></li>
                 <li><a href="collection.html"><span class="nav-overlay__num">02</span>Collection</a></li>
                 <li><a href="about.html" class="active"><span class="nav-overlay__num">03</span>À propos</a></li>
                 <li><a href="contact.html"><span class="nav-overlay__num">04</span>Contact</a></li>
         </ul>
+
         <div class="nav-overlay__foot">
             <a href="https://wa.me/22967046036" class="whatsapp-btn">
                 <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Discuter sur WhatsApp
             </a>
             <p class="nav-overlay__meta">Cotonou · Bénin</p>
         </div>
-    </div>
+    </aside>
 
     <main id="main">
         <section class="about">
