@@ -1,33 +1,135 @@
 /* ============================================================
-   MARQUEE.CSS — Bande de texte défilante horizontale
+   MARQUEE.CSS — Typographie vivante
+   Deux lignes de mots défilent en sens opposé. Chaque mot porte
+   sa propre variation visuelle (taille, style, décalage vertical).
+   Au survol : la ligne se fige, le mot se dilate et vire à l'encre.
    ============================================================ */
-.marquee-section {
+
+/* ---------- Structure ---------- */
+.marquee-living {
+  position: relative;
   width: 100%;
   overflow: hidden;
-  padding: 16px 0;
-  background: var(--surface-2);
+  isolation: isolate;
+  background: var(--bg);
+  padding: 32px 0;
   border-top: 1px solid var(--accent-line);
   border-bottom: 1px solid var(--accent-line);
 }
 
-.marquee-track {
+.marquee-row {
   display: flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  gap: 60px;
+  white-space: nowrap;
+  will-change: transform;
 }
 
-.marquee-item {
+.marquee-row.row-b {
+  margin-top: 18px;
+}
+
+/* ---------- Défilement ---------- */
+.marquee-row.row-a {
+  animation: drift 42s linear infinite;
+}
+
+.marquee-row.row-b {
+  animation: drift 58s linear infinite reverse;
+}
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- Variations par mot ---------- */
+.marquee-row .word {
+  display: inline-block;
+  font-family: var(--font-display);
+  letter-spacing: 0.24em;
   color: var(--accent);
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-right: 55px;
-  font-weight: 600;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.9, 0.2, 1),
+    color 0.55s ease,
+    letter-spacing 0.55s ease,
+    opacity 0.55s ease;
 }
 
-/* Respecte la préférence système "réduire les animations" */
+.marquee-row .word.s-1 {
+  font-size: 15px;
+  font-style: italic;
+  transform: translateY(-4px);
+}
+
+.marquee-row .word.s-2 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+}
+
+.marquee-row .word.s-3 {
+  font-size: 13px;
+  transform: translateY(6px);
+  opacity: 0.6;
+}
+
+.marquee-row .word.s-4 {
+  font-size: 20px;
+  transform: translateY(-2px);
+}
+
+.marquee-row .word.s-5 {
+  font-size: 32px;
+  font-weight: 400;
+  transform: translateY(3px);
+}
+
+.marquee-row .word.s-6 {
+  font-size: 14px;
+  text-transform: lowercase;
+  letter-spacing: 0.15em;
+}
+
+/* ---------- Hover : pause + emphase ----------
+   Trois classes de contexte pour battre la spécificité
+   des variations (.marquee-row .word.s-N). */
+.marquee-row:hover {
+  animation-play-state: paused;
+}
+
+.marquee-living .marquee-row .word:hover {
+  transform: translateY(0) scale(1.35);
+  color: var(--text);
+  letter-spacing: 0.4em;
+  opacity: 1;
+}
+
+/* ---------- Fade latéral ---------- */
+.marquee-living::before,
+.marquee-living::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.marquee-living::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.marquee-living::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+/* ---------- Accessibilité ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .marquee-row {
     animation: none;
   }
 }

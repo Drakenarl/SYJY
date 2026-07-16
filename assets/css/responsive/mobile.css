@@ -203,6 +203,15 @@
     max-width: 380px;
     padding: 13px 20px;
   }
+
+  /* ---------- Marquee vivante — polices −30 %, gap réduit ---------- */
+  .marquee-row { gap: 40px; }
+  .marquee-row .word.s-1 { font-size: 11px; }
+  .marquee-row .word.s-2 { font-size: 18px; }
+  .marquee-row .word.s-3 { font-size: 9px; }
+  .marquee-row .word.s-4 { font-size: 14px; }
+  .marquee-row .word.s-5 { font-size: 22px; }
+  .marquee-row .word.s-6 { font-size: 10px; }
 }
 
 /* ============================================================

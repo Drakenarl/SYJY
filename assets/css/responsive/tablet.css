@@ -39,4 +39,13 @@
   .features {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* ---------- Marquee vivante — palier intermédiaire ---------- */
+  .marquee-row { gap: 50px; }
+  .marquee-row .word.s-1 { font-size: 13px; }
+  .marquee-row .word.s-2 { font-size: 22px; }
+  .marquee-row .word.s-3 { font-size: 11px; }
+  .marquee-row .word.s-4 { font-size: 17px; }
+  .marquee-row .word.s-5 { font-size: 27px; }
+  .marquee-row .word.s-6 { font-size: 12px; }
 }
