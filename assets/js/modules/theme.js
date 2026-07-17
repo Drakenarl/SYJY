@@ -9,7 +9,7 @@ const KEY = "syjy-theme";
 const root = document.documentElement;
 
 export function getTheme() {
-  return root.getAttribute("data-theme") || "dark";
+  return root.getAttribute("data-theme") || "light";
 }
 
 export function setTheme(theme, { animate = true } = {}) {
@@ -42,13 +42,6 @@ export function initTheme() {
     });
   });
 
-  // Si l'utilisateur n'a jamais choisi, on suit le système en direct.
-  const mq = window.matchMedia("(prefers-color-scheme: light)");
-  mq.addEventListener("change", (e) => {
-    let stored = null;
-    try {
-      stored = localStorage.getItem(KEY);
-    } catch (_) {}
-    if (!stored) setTheme(e.matches ? "light" : "dark");
-  });
+  // Défaut = clair, on ne suit PAS la préférence système. Seul le choix
+  // explicite de l'utilisateur (stocké en localStorage) prime et persiste.
 }

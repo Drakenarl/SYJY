@@ -13,18 +13,19 @@
     <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f6f3ee" media="(prefers-color-scheme: light)">
 
-    <!-- Thème appliqué AVANT le premier rendu : sans ce script, la page
-         flashe en sombre pendant ~100ms avant de repasser en clair. -->
+    <!-- Thème appliqué AVANT le premier rendu (anti-flash).
+         Défaut = CLAIR, on ignore la préférence système. Le choix
+         explicite de l'utilisateur (localStorage) prime et persiste. -->
     <script>
       (function () {
         try {
           var t = localStorage.getItem("syjy-theme");
           if (!t) {
-            t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            t = "light";
           }
           document.documentElement.setAttribute("data-theme", t);
         } catch (e) {
-          document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.setAttribute("data-theme", "light");
         }
       })();
     </script>
