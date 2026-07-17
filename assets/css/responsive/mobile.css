@@ -24,10 +24,6 @@
     align-items: flex-start;
   }
 
-  .hero-content p {
-    width: 100%;
-  }
-
   /* ---------- Cartes collection ---------- */
   .card {
     height: 440px;

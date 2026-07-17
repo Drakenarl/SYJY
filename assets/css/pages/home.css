@@ -38,34 +38,16 @@
   pointer-events: auto; /* ...mais chaque élément à l'intérieur (boutons compris) reste cliquable */
 }
 
-.retro-text {
-  display: inline-block;
-  width: max-content;
-  margin-bottom: 18px;
-  color: var(--primary);
-  letter-spacing: clamp(2px, 1vw, 4px);
-  font-size: clamp(10px, 2.6vw, 11px);
-  text-transform: uppercase;
-}
-
 .hero-content h1 {
   font-family: var(--font-display);
   font-size: clamp(40px, 8.5vw, 82px);
   line-height: 1.12;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 
 .hero-content h1 em {
   color: var(--primary);
   font-style: italic;
-}
-
-.hero-content p {
-  width: 90%;
-  font-size: clamp(15px, 2.2vw, 18px);
-  line-height: 1.85;
-  color: var(--on-media-2);
-  margin-bottom: 36px;
 }
 
 .hero-buttons {
