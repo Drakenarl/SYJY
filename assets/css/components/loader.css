@@ -67,7 +67,8 @@
 .page-loader__brand {
   position: relative;
   z-index: 1;
-  font-family: var(--font-display);
+  font-family: var(--font-body); /* 13px : trop petit pour Bodoni Moda -> Manrope */
+  font-weight: 600;
   font-size: 13px;
   letter-spacing: 8px;
   color: var(--text-3);

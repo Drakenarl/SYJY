@@ -39,8 +39,8 @@
   --color-gray: #b9b9b9;
 
   /* ---------- Typographie ---------- */
-  --font-display: "Fraunces", "Times New Roman", serif;
-  --font-body: "Space Grotesk", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", serif;
+  --font-body: "Manrope", -apple-system, "Segoe UI", system-ui, sans-serif;
 
   /* ---------- Transitions ---------- */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);

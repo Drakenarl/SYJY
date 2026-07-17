@@ -2,11 +2,13 @@
    TYPOGRAPHY.CSS — Polices, fond global, texture de fond
 
    Les polices sont chargées via <link> dans le <head> des HTML
-   (Fraunces + Space Grotesk), pas par @import qui bloque en cascade.
+   (Bodoni Moda + Manrope), pas par @import qui bloque en cascade.
    ============================================================ */
 
 body {
   font-family: var(--font-body);
+  font-weight: 400;
+  font-feature-settings: "cv11" 1; /* Manrope : a géométrique alternatif */
   background: var(--bg-gradient);
   color: var(--text);
   overflow-x: hidden;
@@ -14,16 +16,27 @@ body {
 }
 
 /* ---------- Headings globaux ----------
-   Fraunces variable : opsz ajuste la finesse selon la taille,
-   SOFT adoucit les terminaisons pour un rendu haute couture. */
+   Bodoni Moda : optical sizing automatique + weights display */
 h1, h2, .h1, .h2 {
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 96, "SOFT" 50;
+  font-weight: 700;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em; /* Bodoni large a besoin d'un tracking légèrement négatif */
 }
 
 h3, h4, .h3, .h4 {
   font-family: var(--font-display);
-  font-variation-settings: "opsz" 24, "SOFT" 30;
+  font-weight: 500;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+/* L'italique de Bodoni Moda est un signature — l'accent
+   italique dans les h1 doit être calibré */
+h1 em, h1 i, .h1 em, .h1 i {
+  font-style: italic;
+  font-weight: 500;
+  font-optical-sizing: auto;
 }
 
 /* Grille de points en filigrane, fixe en arrière-plan */
