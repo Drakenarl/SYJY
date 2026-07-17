@@ -114,6 +114,25 @@
     touch-action: pan-y;
   }
 
+  /* ---------- Tuiles du collage, version mobile ----------
+     La piste étant ramenée à la taille du cadre (voir drag-canvas.css),
+     ces % correspondent directement à ce qui est à l'écran.
+     On ne garde que 4 tuiles : au-delà c'est de la bouillie sur 390px.
+     La reine domine, les 3 autres encadrent le bloc texte centré. */
+  .drag-tile--05,
+  .drag-tile--06,
+  .drag-tile--07,
+  .drag-tile--08,
+  .drag-tile--09,
+  .drag-tile--10 {
+    display: none;
+  }
+
+  .drag-tile--01 { top: 6%;  left: 6%;  width: 52%; transform: rotate(-4deg); }
+  .drag-tile--03 { top: 3%;  left: 58%; width: 34%; transform: rotate(6deg); }
+  .drag-tile--02 { top: 62%; left: 4%;  width: 38%; transform: rotate(5deg); }
+  .drag-tile--04 { top: 66%; left: 52%; width: 32%; transform: rotate(-6deg); }
+
   /* ============================================================
      PAGE CONTACT + À PROPOS — correctifs split-section mobile
 

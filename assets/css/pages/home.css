@@ -24,9 +24,11 @@
 .hero-content {
   position: relative;
   z-index: 5;
-  max-width: 640px;
+  max-width: 560px;
   color: var(--on-media);
-  padding: 0 var(--section-padding-x);
+  /* padding-bottom : un bloc centré mathématiquement paraît toujours
+     trop bas. On le remonte vers le centre optique. */
+  padding: 0 var(--section-padding-x) 12vh;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -58,28 +60,49 @@
 
 /* ------------------------------------------------------------
    Placement des tuiles du canvas (positions en % de la piste,
-   qui fait 190vw x 150vh — voir drag-canvas.css). Deux rangées,
-   images de assets/img/ réutilisées à des tailles différentes.
+   qui fait 190vw x 150vh — voir drag-canvas.css).
+
+   La 01 est l'IMAGE REINE : plus large que les autres et seule en
+   format paysage (4/3), ce qui la distingue bien plus nettement
+   qu'un simple écart de taille. Elle est calée à droite du bloc
+   texte, dans la vue initiale du drag (piste x 23.7%->76.3%).
+
+   Rotations : amplitude ±13°, distribution volontairement NON
+   alternée (04/05 et 07/10 penchent du même côté). C'est ce qui
+   fait la différence entre une grille secouée et un vrai collage.
    ------------------------------------------------------------ */
-.drag-tile--01 { top: 8%;  left: 4%;  width: 15%; transform: rotate(-4deg); }
-.drag-tile--02 { top: 28%; left: 16%; width: 12%; transform: rotate(5deg); }
-.drag-tile--03 { top: 4%;  left: 26%; width: 13%; transform: rotate(-2deg); }
-.drag-tile--04 { top: 34%; left: 34%; width: 14%; transform: rotate(3deg); }
-.drag-tile--05 { top: 6%;  left: 44%; width: 15%; transform: rotate(-5deg); }
-.drag-tile--06 { top: 30%; left: 54%; width: 12%; transform: rotate(4deg); }
-.drag-tile--07 { top: 4%;  left: 62%; width: 13%; transform: rotate(-3deg); }
-.drag-tile--08 { top: 32%; left: 72%; width: 14%; transform: rotate(2deg); }
-.drag-tile--09 { top: 6%;  left: 82%; width: 15%; transform: rotate(-4deg); }
-.drag-tile--10 { top: 30%; left: 86%; width: 12%; transform: rotate(5deg); }
+.drag-tile--01 { top: 12%; left: 44%; width: 22%; transform: rotate(-6deg);  z-index: 10; }
+.drag-tile--02 { top: 20%; left: 4%;  width: 17%; transform: rotate(9deg);   z-index: 3; }
+.drag-tile--03 { top: 5%;  left: 21%; width: 16%; transform: rotate(-11deg); z-index: 4; }
+.drag-tile--04 { top: 38%; left: 29%; width: 18%; transform: rotate(7deg);   z-index: 6; }
+.drag-tile--05 { top: 7%;  left: 67%; width: 17%; transform: rotate(12deg);  z-index: 5; }
+.drag-tile--06 { top: 41%; left: 62%; width: 16%; transform: rotate(-8deg);  z-index: 7; }
+.drag-tile--07 { top: 13%; left: 79%; width: 18%; transform: rotate(5deg);   z-index: 4; }
+.drag-tile--08 { top: 43%; left: 87%; width: 16%; transform: rotate(-13deg); z-index: 2; }
+.drag-tile--09 { top: 47%; left: 12%; width: 17%; transform: rotate(-5deg);  z-index: 2; }
+.drag-tile--10 { top: 45%; left: 52%; width: 15%; transform: rotate(10deg);  z-index: 8; }
+
+/* La reine en paysage. En 4/5 elle aurait fait 93vh de haut et n'aurait
+   jamais été visible en entier — ce qui aurait ruiné son rôle d'ancrage. */
+.drag-tile--01 {
+  aspect-ratio: 4 / 3;
+}
+
+/* La source est un portrait 4/5 ; un cadre 4/3 n'en garde que 60% de la
+   hauteur. À 25% on cadre la bande 10%->70% : main levée, visage entier
+   et les DEUX logos SYJY, en coupant le bas de pantalon qui ne dit rien. */
+.drag-tile--01 img {
+  object-position: center 25%;
+}
 
 /* Le survol (défini dans drag-canvas.css) doit garder la rotation propre à chaque tuile */
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--01:hover { transform: rotate(-4deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--02:hover { transform: rotate(5deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--03:hover { transform: rotate(-2deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--04:hover { transform: rotate(3deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--05:hover { transform: rotate(-5deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--06:hover { transform: rotate(4deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--07:hover { transform: rotate(-3deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--08:hover { transform: rotate(2deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--09:hover { transform: rotate(-4deg) scale(1.04); }
-.drag-canvas-viewport:not(.is-dragging) .drag-tile--10:hover { transform: rotate(5deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--01:hover { transform: rotate(-6deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--02:hover { transform: rotate(9deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--03:hover { transform: rotate(-11deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--04:hover { transform: rotate(7deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--05:hover { transform: rotate(12deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--06:hover { transform: rotate(-8deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--07:hover { transform: rotate(5deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--08:hover { transform: rotate(-13deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--09:hover { transform: rotate(-5deg) scale(1.04); }
+.drag-canvas-viewport:not(.is-dragging) .drag-tile--10:hover { transform: rotate(10deg) scale(1.04); }

@@ -76,6 +76,16 @@
   .drag-canvas-hint {
     display: none; /* le geste tactile n'a pas besoin d'être expliqué pareil, et la place manque */
   }
+
+  /* Le drag est désactivé sur tactile (voir drag-canvas.js) : la piste
+     n'est jamais déplacée et on ne voyait donc que son coin haut-gauche.
+     Une piste surdimensionnée n'a plus aucun intérêt — on la ramène à la
+     taille du cadre pour que les % de placement correspondent enfin à ce
+     qui est réellement à l'écran. */
+  .drag-canvas-track {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
