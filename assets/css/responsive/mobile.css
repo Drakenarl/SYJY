@@ -275,14 +275,14 @@
 
 /* ============================================================
    PERF MOBILE — coupure des backdrop-filter
-   Le flou de la capsule (blur 22px) plombait le GPU. Sur écran
-   tactile ou petit viewport, on rend les fonds opaques (var(--bg))
-   plutôt que semi-transparents floutés. Rendu quasi identique,
-   coût GPU divisé par un ordre de grandeur.
+   Sur écran tactile ou petit viewport, le flou coûte une passe GPU
+   par frame pour un gain visuel faible sur ces surfaces. On l'annule
+   là où il est décoratif.
+
+   La navbar est volontairement EXCLUE : sa capsule floutée est le
+   comportement identitaire du composant, on l'assume sur mobile aussi.
    ============================================================ */
 @media (max-width: 900px), (hover: none) {
-  .navbar,
-  .nav-shell.is-scrolled .navbar,
   .nav-scrim,
   .whatsapp-btn,
   .feature-card {
@@ -290,30 +290,8 @@
     -webkit-backdrop-filter: none;
   }
 
-  /* Compense la perte du flou : la capsule doit rester opaque
-     pour ne pas laisser voir le contenu qui défile derrière. */
-  .nav-shell.is-scrolled .navbar {
-    background: var(--bg);
-  }
-
   /* Voile un peu plus dense pour compenser l'absence de flou. */
   .nav-scrim {
     background: rgba(5, 5, 5, 0.65);
-  }
-}
-
-/* ============================================================
-   PERF MOBILE — capsule désactivée sous 768 px
-   La capsule anime max-width/padding/border-radius = reflow à chaque
-   frame. Sur mobile la barre reste pleine largeur, aucune transition.
-   Filet de sécurité au cas où .is-scrolled serait posée malgré
-   l'early return du JS.
-   ============================================================ */
-@media (max-width: 768px) {
-  .navbar,
-  .nav-shell.is-scrolled .navbar {
-    transition: none;
-    max-width: 100%;
-    border-radius: 0;
   }
 }

@@ -5,18 +5,16 @@
  * on entre à 24 px, on ne ressort qu'à 8 px. Sans ça, un scroll
  * lent autour du seuil fait osciller la barre.
  *
+ * Mêmes seuils sur toutes les tailles d'écran : la capsule se forme
+ * partout. Seul le CONTENU de la barre change selon le breakpoint
+ * (liens en desktop, burger en mobile) — ça, c'est du ressort du CSS.
+ *
  * La lecture de scrollY se fait dans un requestAnimationFrame :
  * on ne touche au DOM qu'une fois par frame.
  */
 export function initHeaderScroll() {
   const shell = document.getElementById("site-header");
   if (!shell) return;
-
-  // Sur mobile, on ne branche RIEN. La capsule est trop coûteuse
-  // (max-width/padding/border-radius = reflow chaque frame). La barre
-  // reste pleine largeur en permanence, la classe .is-scrolled n'est
-  // jamais posée, aucun listener scroll n'est enregistré.
-  if (window.matchMedia("(max-width: 768px)").matches) return;
 
   const ENTER = 24;   // au-delà -> capsule
   const EXIT  = 8;    // en-deçà -> plein
