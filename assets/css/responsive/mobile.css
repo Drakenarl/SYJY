@@ -305,3 +305,19 @@
     background: rgba(5, 5, 5, 0.65);
   }
 }
+
+/* ============================================================
+   PERF MOBILE — capsule désactivée sous 768 px
+   La capsule anime max-width/padding/border-radius = reflow à chaque
+   frame. Sur mobile la barre reste pleine largeur, aucune transition.
+   Filet de sécurité au cas où .is-scrolled serait posée malgré
+   l'early return du JS.
+   ============================================================ */
+@media (max-width: 768px) {
+  .navbar,
+  .nav-shell.is-scrolled .navbar {
+    transition: none;
+    max-width: 100%;
+    border-radius: 0;
+  }
+}

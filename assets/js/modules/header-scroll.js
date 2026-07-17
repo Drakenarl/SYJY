@@ -12,11 +12,14 @@ export function initHeaderScroll() {
   const shell = document.getElementById("site-header");
   if (!shell) return;
 
-  // Sur mobile, on remonte les seuils : le scroll au doigt est saccadé,
-  // des seuils bas font clignoter la capsule.
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const ENTER = isMobile ? 60 : 24;   // au-delà -> capsule
-  const EXIT  = isMobile ? 20 : 8;    // en-deçà -> plein
+  // Sur mobile, on ne branche RIEN. La capsule est trop coûteuse
+  // (max-width/padding/border-radius = reflow chaque frame). La barre
+  // reste pleine largeur en permanence, la classe .is-scrolled n'est
+  // jamais posée, aucun listener scroll n'est enregistré.
+  if (window.matchMedia("(max-width: 768px)").matches) return;
+
+  const ENTER = 24;   // au-delà -> capsule
+  const EXIT  = 8;    // en-deçà -> plein
   let isScrolled = false;
   let ticking = false;
 

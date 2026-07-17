@@ -5,7 +5,9 @@
    1. min-height >= 44px (WCAG 2.5.5) — un bouton doit se toucher au pouce
    2. sur mobile, un bouton ne s'étire PAS d'un bord à l'autre :
       il monte à 100% mais plafonne à 380px et reste centré
-   3. aucune couleur en dur — tout passe par les tokens
+   3. aucune couleur en dur — tout passe par les tokens sémantiques
+
+   Charte : UNE SEULE couleur non-neutre à l'écran = --primary (or antique).
    ============================================================ */
 
 .shop-btn,
@@ -33,7 +35,6 @@
     color var(--transition-fast);
 }
 
-/* Focus clavier visible — obligatoire, et souvent oublié */
 .shop-btn:focus-visible,
 .discover-btn:focus-visible,
 .whatsapp-btn:focus-visible,
@@ -47,17 +48,19 @@ a:focus-visible {
   border-radius: var(--radius-pill);
 }
 
-/* ---------- Primaire : le rouge d'action ---------- */
+/* ---------- Primaire : or antique plein ---------- */
 .shop-btn {
-  background: linear-gradient(135deg, var(--color-red), #ff3558);
-  color: var(--color-white);
+  background: var(--primary);
+  color: var(--accent-contrast);
 }
 .shop-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(200, 16, 46, 0.28);
+  box-shadow: 0 12px 30px var(--primary-soft);
 }
 
-/* ---------- Secondaire : posé sur photo (hero) ---------- */
+/* ---------- Secondaire : glass posé sur photo (hero desktop) ----------
+   Sur mobile, cette classe est reprise en outline --primary
+   (voir bloc @media plus bas). */
 .discover-btn {
   background: var(--on-media-surface);
   border-color: var(--on-media-line);
@@ -67,63 +70,51 @@ a:focus-visible {
 }
 .discover-btn:hover {
   transform: translateY(-3px);
-  border-color: var(--color-gold-light);
-  color: var(--color-gold-light);
-  background: rgba(247, 208, 138, 0.08);
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
 }
 
-/* ---------- WhatsApp ---------- */
-/* Style discret : fond neutre, icône verte pour l'identification,
-   liseré vert léger. Le bouton reste reconnaissable comme WhatsApp
-   sans être visuellement dominant. */
+/* ---------- WhatsApp : même identité chromatique que les autres CTA.
+   L'or unique porte la marque. L'icône reste reconnaissable par sa forme. */
 .whatsapp-btn {
   margin-top: 10px;
   padding: 10px 20px;
   min-height: 40px;
-  background: var(--surface);
-  border: 1px solid color-mix(in srgb, #25d366 32%, transparent);
-  color: var(--text);
+  background: var(--primary);
+  color: var(--accent-contrast);
   font-size: 12px;
   letter-spacing: 0.4px;
   text-transform: none;
   font-weight: 500;
 }
 
-/* L'icône est le seul élément vert saturé : c'est ELLE qui fait
-   l'identification de la marque WhatsApp, pas le fond. */
 .whatsapp-btn i {
-  color: #25d366;
+  color: var(--accent-contrast);
   font-size: 15px;
   transition: transform var(--transition-fast);
 }
 
 .whatsapp-btn:hover {
   transform: translateY(-2px);
-  background: var(--surface-2);
-  border-color: color-mix(in srgb, #25d366 55%, transparent);
-  box-shadow: 0 8px 20px color-mix(in srgb, #25d366 18%, transparent);
+  box-shadow: 0 8px 20px var(--primary-soft);
 }
 
 .whatsapp-btn:hover i {
   transform: scale(1.08);
 }
 
-/* Version imposante — page contact. Même traitement discret que
-   la version standard, mais plus grande. On garde l'identité
-   WhatsApp par l'icône verte, jamais par un fond saturé. */
+/* Version imposante — page contact. Hérite du .whatsapp-btn. */
 .whatsapp-btn--large {
   margin-top: 32px;
   padding: 14px 28px;
   min-height: 48px;
   font-size: 13px;
-  /* les propriétés background, border, color, i héritent de
-     .whatsapp-btn -> pas besoin de les redéclarer */
 }
 .whatsapp-btn--large i {
   font-size: 16px;
 }
 
-/* Le bouton s'enfonce au doigt : retour tactile immédiat */
 .shop-btn:active,
 .discover-btn:active,
 .whatsapp-btn:active,
@@ -132,19 +123,33 @@ a:focus-visible {
 }
 
 /* ============================================================
-   MOBILE — le vrai correctif
+   MOBILE — allègement : boutons plus discrets, secondaire en outline
    ============================================================ */
 @media (max-width: 768px) {
   .shop-btn,
   .discover-btn {
     width: 100%;
-    max-width: 380px;      /* ne s'étire jamais bord à bord */
-    min-height: 50px;      /* plus confortable au pouce */
-    padding: 15px 28px;
-    font-size: 11px;
+    max-width: 380px;
+    min-height: 50px;
+    padding: 12px 24px;
+    font-size: 13px;
+    letter-spacing: 0.14em;
   }
 
-  /* Le conteneur des CTA du hero : empilés, centrés, jamais collés au bord */
+  /* Secondaire mobile : outline fin --primary, sortie du glass. */
+  .discover-btn {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .discover-btn:hover {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
   .hero-buttons {
     flex-direction: column;
     align-items: stretch;
@@ -157,17 +162,17 @@ a:focus-visible {
     width: 100%;
     max-width: 380px;
     min-height: 50px;
+    padding: 12px 24px;
   }
   .whatsapp-btn--large {
     margin-top: 26px;
   }
 }
 
-/* Très petits écrans : on réduit le padding avant que le texte ne casse */
 @media (max-width: 380px) {
   .shop-btn,
   .discover-btn {
-    padding: 15px 18px;
+    padding: 12px 18px;
     letter-spacing: 1.4px;
   }
 }

@@ -1,7 +1,9 @@
 /* ============================================================
-   TYPOGRAPHY.CSS — Police, fond global du body, texture de fond
+   TYPOGRAPHY.CSS — Polices, fond global, texture de fond
+
+   Les polices sont chargées via <link> dans le <head> des HTML
+   (Fraunces + Space Grotesk), pas par @import qui bloque en cascade.
    ============================================================ */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap");
 
 body {
   font-family: var(--font-body);
@@ -9,6 +11,19 @@ body {
   color: var(--text);
   overflow-x: hidden;
   position: relative;
+}
+
+/* ---------- Headings globaux ----------
+   Fraunces variable : opsz ajuste la finesse selon la taille,
+   SOFT adoucit les terminaisons pour un rendu haute couture. */
+h1, h2, .h1, .h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+}
+
+h3, h4, .h3, .h4 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 24, "SOFT" 30;
 }
 
 /* Grille de points en filigrane, fixe en arrière-plan */

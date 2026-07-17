@@ -69,7 +69,7 @@
   content: "";
   width: 26px;
   height: 1px;
-  background: var(--color-gold-light);
+  background: var(--primary);
 }
 
 @media (max-width: 768px) {

@@ -75,7 +75,7 @@
 }
 
 .overlay span {
-  color: var(--color-gold-light);
+  color: var(--on-media-2);
   font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;

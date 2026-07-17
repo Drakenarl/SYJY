@@ -1,31 +1,46 @@
 /* ============================================================
    VARIABLES.CSS — Design tokens globaux du site SYJY
 
-   Deux couches, et l'ordre compte :
+   Trois couches, dans cet ordre :
 
-   1. PALETTE    — les couleurs brutes de la marque. Ne changent JAMAIS.
-   2. SÉMANTIQUE — le rôle de chaque couleur (--bg, --text, --line…).
-                   C'est cette couche seule qui bascule avec le thème.
+   1. PALETTE HISTORIQUE — anciennes couleurs de marque en dur.
+      Conservée pour compat, ne rien casser dans les composants
+      qui la référencent encore (collection-card, drag-canvas,
+      buttons, home). À faire migrer vers les rôles sémantiques.
 
-   RÈGLE : aucun autre fichier CSS ne doit utiliser une couleur en dur.
-   Uniquement des tokens sémantiques. Sinon le mode clair casse.
+   2. RÔLES SÉMANTIQUES — les 8 rôles principaux, thème-aware.
+      C'est cette couche seule qui bascule avec le thème :
+         --ground / --ground-2  : fonds
+         --ink / --ink-soft     : texte
+         --primary / --primary-soft : accent unique
+         --signal               : ULTRA rare, 1 usage par page max
+         --rule                 : bordures fines
+
+   3. TOKENS DÉRIVÉS — historiques (--bg, --text, --accent…),
+      aliasés sur les 8 rôles quand direct, ou dérivés en rgba
+      pour les nuances (--text-2/3/4, --surface*, --nav-*, …).
+
+   RÈGLES D'USAGE
+   - --primary est la SEULE couleur non-neutre standard de l'UI.
+   - --signal est réservé à UN élément saillant par page.
+   - Le vert et le rouge des photos de collection sont du contenu,
+     pas de l'UI — ne jamais les ramener en variables.
+   - Aucun composant CSS ne doit utiliser une couleur en dur.
+     Uniquement des tokens, sinon le mode clair casse.
    ============================================================ */
 
 :root {
-  /* ---------- 1. PALETTE DE MARQUE (immuable) ---------- */
+  /* ---------- 1. PALETTE HISTORIQUE (compat) ---------- */
   --color-black: #050505;
   --color-dark: #0f0f0f;
   --color-white: #ffffff;
   --color-gold: #c9a86a;
-  --color-gold-light: #f7d08a;
-  --color-gold-deep: #8a6a2e;   /* or lisible sur fond clair */
-  --color-red: #c8102e;
+  --color-gold-deep: #8a6a2e;
   --color-gray: #b9b9b9;
 
   /* ---------- Typographie ---------- */
-  --font-display: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
-  --font-serif-alt: "Cormorant Garamond", serif;
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "Space Grotesk", -apple-system, "Segoe UI", system-ui, sans-serif;
 
   /* ---------- Transitions ---------- */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,10 +50,9 @@
   --transition-theme: 0.4s var(--ease-premium);
 
   /* ---------- Layout ---------- */
-  /* padding fluide : 20px sur mobile -> 7% sur desktop. Plus de débordement. */
   --section-padding-x: clamp(20px, 7vw, 110px);
   --z-header: 9999;
-  --tap: 44px;                  /* cible tactile minimale (WCAG 2.5.5) */
+  --tap: 44px;
   --radius: 24px;
   --radius-pill: 999px;
   --nav-max: 1240px;
@@ -51,80 +65,106 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #050505;
-  --bg-gradient: linear-gradient(180deg, #050505 0%, #0a0a0a 45%, #0d0d0d 100%);
-  --bg-footer: linear-gradient(180deg, #050505, #0d0d0d);
+  /* ----- Rôles principaux ----- */
+  --ground:       #0a0806;
+  --ground-2:     #14110c;
+  --ink:          #efe6cb;
+  --ink-soft:     #b8ad8f;
+  --primary:      #c9a24a;
+  --primary-soft: rgba(201, 162, 74, 0.18);
+  --signal:       #4a7a5f;
+  --rule:         rgba(239, 230, 203, 0.15);
 
-  --text: #ffffff;
-  --text-2: rgba(255, 255, 255, 0.75);
-  --text-3: rgba(255, 255, 255, 0.55);
-  --text-4: rgba(255, 255, 255, 0.4);
+  /* ----- Alias pour compat ----- */
+  --bg:           var(--ground);
+  --text:         var(--ink);
+  --accent:       var(--primary);
+  --accent-soft:  var(--primary-soft);
+  --accent-line:  var(--rule);
 
-  --accent: #f7d08a;
-  --accent-2: #c9a86a;                  /* couleur du logo */
-  --accent-contrast: #050505;           /* texte SUR l'accent */
-  --accent-soft: rgba(247, 208, 138, 0.08);
-  --accent-line: rgba(247, 208, 138, 0.2);
+  /* ----- Dérivés ----- */
+  --bg-gradient: linear-gradient(180deg, #0a0806 0%, #100d09 45%, #14110c 100%);
+  --bg-footer: linear-gradient(180deg, #0a0806, #14110c);
 
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-2: rgba(255, 255, 255, 0.06);
-  --surface-strong: rgba(255, 255, 255, 0.09);
-  --surface-card: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
-  --surface-split: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  --text-2: rgba(239, 230, 203, 0.75);
+  --text-3: rgba(239, 230, 203, 0.55);
+  --text-4: rgba(239, 230, 203, 0.4);
 
-  --line: rgba(255, 255, 255, 0.06);
-  --line-2: rgba(255, 255, 255, 0.12);
+  --accent-2: var(--primary);
+  --accent-contrast: var(--ground);
+
+  --surface: rgba(239, 230, 203, 0.03);
+  --surface-2: rgba(239, 230, 203, 0.06);
+  --surface-strong: rgba(239, 230, 203, 0.09);
+  --surface-card: linear-gradient(180deg, rgba(239, 230, 203, 0.035), rgba(239, 230, 203, 0.01));
+  --surface-split: linear-gradient(145deg, rgba(239, 230, 203, 0.03), rgba(239, 230, 203, 0.01));
+
+  --line: rgba(239, 230, 203, 0.06);
+  --line-2: rgba(239, 230, 203, 0.12);
 
   --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   --shadow-soft: 0 25px 60px rgba(0, 0, 0, 0.45);
   --shadow-nav: 0 16px 40px rgba(0, 0, 0, 0.45);
 
-  --nav-bg: rgba(10, 10, 10, 0.6);
-  --nav-bg-solid: rgba(8, 8, 8, 0.94);
-  --nav-border: rgba(255, 255, 255, 0.08);
-  --nav-pill: rgba(255, 255, 255, 0.07);
+  --nav-bg: rgba(10, 8, 6, 0.6);
+  --nav-bg-solid: rgba(20, 17, 12, 0.94);
+  --nav-border: rgba(239, 230, 203, 0.08);
+  --nav-pill: rgba(239, 230, 203, 0.07);
 
-  --grid-line: rgba(255, 255, 255, 0.015);
-  --halo: rgba(247, 208, 138, 0.08);
-  --halo-strong: rgba(247, 208, 138, 0.12);
+  --grid-line: rgba(239, 230, 203, 0.015);
+  --halo: rgba(201, 162, 74, 0.08);
+  --halo-strong: rgba(201, 162, 74, 0.14);
 
   --scrim: linear-gradient(115deg,
-      rgba(5, 5, 5, 0.9) 0%, rgba(5, 5, 5, 0.6) 38%,
-      rgba(5, 5, 5, 0.3) 65%, rgba(5, 5, 5, 0.6) 100%);
+      rgba(10, 8, 6, 0.9) 0%, rgba(10, 8, 6, 0.6) 38%,
+      rgba(10, 8, 6, 0.3) 65%, rgba(10, 8, 6, 0.6) 100%);
   --scrim-card: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, transparent 60%);
 
-  --scrollbar-track: #0a0a0a;
-  --scrollbar-thumb: linear-gradient(180deg, #b8924a, #f7d08a);
+  --scrollbar-track: #100d09;
+  --scrollbar-thumb: linear-gradient(180deg, #8a6a2e, #c9a24a);
 }
 
 /* ============================================================
    MODE CLAIR
-   Pas un simple inverse. Fond crème — le blanc pur écrase l'or.
-   Or foncé pour rester lisible. Ombres chaudes, jamais noires.
+   Fond ivoire chaud — le blanc pur écrase l'or antique.
+   Encre chaude pour rester dans la palette. Ombres ivoire, jamais noires.
    ============================================================ */
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg: #f6f3ee;
-  --bg-gradient: linear-gradient(180deg, #faf8f5 0%, #f4f1ea 45%, #efebe3 100%);
-  --bg-footer: linear-gradient(180deg, #f1ede5, #e7e2d8);
+  /* ----- Rôles principaux ----- */
+  --ground:       #f0ead6;
+  --ground-2:     #e8dfc4;
+  --ink:          #14110c;
+  --ink-soft:     #4a4232;
+  --primary:      #9a7b2a;
+  --primary-soft: rgba(154, 123, 42, 0.15);
+  --signal:       #2d4a3a;
+  --rule:         rgba(20, 17, 12, 0.12);
 
-  --text: #14110c;
+  /* ----- Alias pour compat ----- */
+  --bg:           var(--ground);
+  --text:         var(--ink);
+  --accent:       var(--primary);
+  --accent-soft:  var(--primary-soft);
+  --accent-line:  var(--rule);
+
+  /* ----- Dérivés ----- */
+  --bg-gradient: linear-gradient(180deg, #f5efdc 0%, #f0ead6 45%, #e8dfc4 100%);
+  --bg-footer: linear-gradient(180deg, #e8dfc4, #ddd3b6);
+
   --text-2: rgba(20, 17, 12, 0.76);
   --text-3: rgba(20, 17, 12, 0.56);
   --text-4: rgba(20, 17, 12, 0.42);
 
-  --accent: #8a6a2e;
-  --accent-2: #14110c;                  /* le logo passe en noir sur fond clair */
+  --accent-2: var(--ink);
   --accent-contrast: #ffffff;
-  --accent-soft: rgba(138, 106, 46, 0.07);
-  --accent-line: rgba(138, 106, 46, 0.22);
 
   --surface: rgba(20, 17, 12, 0.03);
   --surface-2: rgba(20, 17, 12, 0.055);
   --surface-strong: rgba(20, 17, 12, 0.09);
-  --surface-card: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
-  --surface-split: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.45));
+  --surface-card: linear-gradient(180deg, rgba(255, 251, 235, 0.9), rgba(255, 251, 235, 0.5));
+  --surface-split: linear-gradient(145deg, rgba(255, 251, 235, 0.88), rgba(255, 251, 235, 0.45));
 
   --line: rgba(20, 17, 12, 0.1);
   --line-2: rgba(20, 17, 12, 0.16);
@@ -133,26 +173,26 @@
   --shadow-soft: 0 25px 60px rgba(20, 17, 12, 0.14);
   --shadow-nav: 0 14px 36px rgba(20, 17, 12, 0.12);
 
-  --nav-bg: rgba(255, 253, 249, 0.7);
-  --nav-bg-solid: rgba(252, 250, 246, 0.95);
+  --nav-bg: rgba(240, 234, 214, 0.7);
+  --nav-bg-solid: rgba(240, 234, 214, 0.95);
   --nav-border: rgba(20, 17, 12, 0.1);
   --nav-pill: rgba(20, 17, 12, 0.06);
 
   --grid-line: rgba(20, 17, 12, 0.03);
-  --halo: rgba(201, 168, 106, 0.18);
-  --halo-strong: rgba(201, 168, 106, 0.24);
+  --halo: rgba(154, 123, 42, 0.18);
+  --halo-strong: rgba(154, 123, 42, 0.24);
 
   --scrim: linear-gradient(115deg,
       rgba(12, 10, 7, 0.82) 0%, rgba(12, 10, 7, 0.5) 38%,
       rgba(12, 10, 7, 0.22) 65%, rgba(12, 10, 7, 0.5) 100%);
   --scrim-card: linear-gradient(to top, rgba(12, 10, 7, 0.82) 0%, transparent 60%);
 
-  --scrollbar-track: #ece7dd;
-  --scrollbar-thumb: linear-gradient(180deg, #c9a86a, #8a6a2e);
+  --scrollbar-track: #ddd3b6;
+  --scrollbar-thumb: linear-gradient(180deg, #c9a24a, #9a7b2a);
 }
 
 /* Une photo reste une photo : le texte posé dessus reste blanc
-   dans les DEUX thèmes. C'est le seul endroit où l'on ne bascule pas. */
+   dans les DEUX thèmes. Seul endroit où l'on ne bascule pas. */
 :root,
 [data-theme="dark"],
 [data-theme="light"] {
@@ -162,8 +202,6 @@
   --on-media-line: rgba(255, 255, 255, 0.16);
 }
 
-/* Transition de bascule : uniquement sur les surfaces et le texte.
-   Jamais sur transform/opacity, sinon toutes les animations traînent. */
 .theme-switching,
 .theme-switching *,
 .theme-switching *::before,
