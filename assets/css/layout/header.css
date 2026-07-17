@@ -47,32 +47,6 @@
   pointer-events: auto;         /* …mais pas sur le bandeau ni la barre */
 }
 
-/* Voile de confort sous la nav : dégradé statique qui garantit la
-   lisibilité des liens posés sur photo, sans backdrop-filter (le flou
-   coûtait une passe GPU par frame ; ça, c'est un paint une fois).
-
-   z-index -1 et pas 0 : .topbar et .header sont en position static,
-   donc peints en couche "blocs non-positionnés". Un pseudo positionné
-   en z-index 0 passerait DEVANT eux et masquerait la nav. En -1 il est
-   garanti dessous. La coque étant à z-index 9999, le voile reste très
-   au-dessus du hero malgré son -1 local. */
-.nav-shell::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 140px;
-  z-index: -1;
-  background: linear-gradient(
-    to bottom,
-    var(--ground) 0%,
-    color-mix(in srgb, var(--ground) 60%, transparent) 55%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
 /* ------------------------------------------------------------
    Bandeau d'annonce
    ------------------------------------------------------------ */
@@ -676,16 +650,6 @@ main, footer {
     font-size: clamp(22px, 5.5vw, 28px);
     padding: 10px 0;
   }
-}
-
-/* Lisibilité d'appoint pour les liens réellement posés sur photo :
-   accueil, avant scroll. Une fois la capsule formée (ou sur les autres
-   pages), la barre est sur fond plein — l'ombre n'apporterait rien et
-   ne ferait qu'épaissir le texte. Scopé aux liens seuls : le logo est
-   un SVG (text-shadow sans effet sur un fill) et le CTA a son propre
-   fond opaque. */
-body.has-hero-media .nav-shell:not(.is-scrolled) .nav-links li a {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 /* ============================================================
