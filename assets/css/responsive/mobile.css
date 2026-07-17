@@ -351,6 +351,24 @@
       box-shadow var(--transition-slow);
   }
 
+  /* 3bis. "FLOU AU REPOS" — pendant le scroll ACTIF (classe .is-scrolling
+        posée par header-scroll.js, mobile only), on COUPE le backdrop-filter
+        (repaint par frame = poste le plus lourd) et on compense par un fond
+        opaque theme-aware (token existant --nav-bg-solid). À l'arrêt, la
+        classe est retirée -> retour au fond translucide + flou via la
+        transition douce de .navbar ci-dessus.
+        La transition courte (0.12s) fait arriver le fond opaque quasi
+        instantanément à l'entrée du scroll -> masque la coupure du flou
+        (anti-flash). Le RETOUR au repos reste doux (transition de .navbar).
+        Spécificité (0,3,1) > règles ci-dessus (0,2,1) -> gagne proprement.
+        C'est ici le curseur "flash" à ajuster à l'œil si besoin. */
+  .nav-shell.is-scrolled.is-scrolling .navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--nav-bg-solid);
+    transition: background 0.12s linear;
+  }
+
   /* 4. Halo de fond : la navbar le re-floute à chaque frame de scroll
         (flou sur flou). On allège son propre kernel 90px → 60px ; la
         lueur reste quasi identique. Taille inchangée (impact visuel). */
