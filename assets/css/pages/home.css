@@ -71,16 +71,16 @@
    alternée (04/05 et 07/10 penchent du même côté). C'est ce qui
    fait la différence entre une grille secouée et un vrai collage.
    ------------------------------------------------------------ */
-.drag-tile--01 { top: 12%; left: 44%; width: 22%; transform: rotate(-6deg);  z-index: 10; }
-.drag-tile--02 { top: 20%; left: 4%;  width: 17%; transform: rotate(9deg);   z-index: 3; }
-.drag-tile--03 { top: 5%;  left: 21%; width: 16%; transform: rotate(-11deg); z-index: 4; }
-.drag-tile--04 { top: 38%; left: 29%; width: 18%; transform: rotate(7deg);   z-index: 6; }
-.drag-tile--05 { top: 7%;  left: 67%; width: 17%; transform: rotate(12deg);  z-index: 5; }
-.drag-tile--06 { top: 41%; left: 62%; width: 16%; transform: rotate(-8deg);  z-index: 7; }
-.drag-tile--07 { top: 13%; left: 79%; width: 18%; transform: rotate(5deg);   z-index: 4; }
-.drag-tile--08 { top: 43%; left: 87%; width: 16%; transform: rotate(-13deg); z-index: 2; }
-.drag-tile--09 { top: 47%; left: 12%; width: 17%; transform: rotate(-5deg);  z-index: 2; }
-.drag-tile--10 { top: 45%; left: 52%; width: 15%; transform: rotate(10deg);  z-index: 8; }
+.drag-tile--01 { top: 12%; left: 44%; width: 18%; transform: rotate(-6deg);  z-index: 10; }
+.drag-tile--02 { top: 20%; left: 4%;  width: 14%; transform: rotate(9deg);   z-index: 3; }
+.drag-tile--03 { top: 5%;  left: 21%; width: 14%; transform: rotate(-11deg); z-index: 4; }
+.drag-tile--04 { top: 38%; left: 29%; width: 15%; transform: rotate(7deg);   z-index: 6; }
+.drag-tile--05 { top: 7%;  left: 67%; width: 14%; transform: rotate(12deg);  z-index: 5; }
+.drag-tile--06 { top: 41%; left: 62%; width: 13%; transform: rotate(-8deg);  z-index: 7; }
+.drag-tile--07 { top: 13%; left: 79%; width: 15%; transform: rotate(5deg);   z-index: 4; }
+.drag-tile--08 { top: 43%; left: 87%; width: 13%; transform: rotate(-13deg); z-index: 2; }
+.drag-tile--09 { top: 47%; left: 12%; width: 14%; transform: rotate(-5deg);  z-index: 2; }
+.drag-tile--10 { top: 45%; left: 52%; width: 13%; transform: rotate(10deg);  z-index: 8; }
 
 /* La reine en paysage. En 4/5 elle aurait fait 93vh de haut et n'aurait
    jamais été visible en entier — ce qui aurait ruiné son rôle d'ancrage. */
