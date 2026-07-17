@@ -70,8 +70,9 @@
   --ground-2:     #14110c;
   --ink:          #efe6cb;
   --ink-soft:     #b8ad8f;
-  --primary:      #c9a24a;
-  --primary-soft: rgba(201, 162, 74, 0.18);
+  --primary:      #b0863a;
+  --primary-deep: #8a6a2e; /* or plus profond — hairline de scellage des CTA */
+  --primary-soft: rgba(176, 134, 58, 0.18);
   --signal:       #4a7a5f;
   --rule:         rgba(239, 230, 203, 0.15);
 
@@ -112,8 +113,8 @@
   --nav-pill: rgba(239, 230, 203, 0.07);
 
   --grid-line: rgba(239, 230, 203, 0.015);
-  --halo: rgba(201, 162, 74, 0.08);
-  --halo-strong: rgba(201, 162, 74, 0.14);
+  --halo: rgba(176, 134, 58, 0.08);
+  --halo-strong: rgba(176, 134, 58, 0.14);
 
   --scrim: linear-gradient(115deg,
       rgba(10, 8, 6, 0.9) 0%, rgba(10, 8, 6, 0.6) 38%,
@@ -121,7 +122,7 @@
   --scrim-card: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, transparent 60%);
 
   --scrollbar-track: #100d09;
-  --scrollbar-thumb: linear-gradient(180deg, #8a6a2e, #c9a24a);
+  --scrollbar-thumb: linear-gradient(180deg, #8a6a2e, #b0863a);
 }
 
 /* ============================================================
@@ -138,6 +139,7 @@
   --ink:          #14110c;
   --ink-soft:     #4a4232;
   --primary:      #9a7b2a;
+  --primary-deep: #6f5620; /* or plus profond — hairline de scellage des CTA */
   --primary-soft: rgba(154, 123, 42, 0.15);
   --signal:       #2d4a3a;
   --rule:         rgba(20, 17, 12, 0.12);
@@ -188,7 +190,7 @@
   --scrim-card: linear-gradient(to top, rgba(12, 10, 7, 0.82) 0%, transparent 60%);
 
   --scrollbar-track: #ddd3b6;
-  --scrollbar-thumb: linear-gradient(180deg, #c9a24a, #9a7b2a);
+  --scrollbar-thumb: linear-gradient(180deg, #b0863a, #9a7b2a);
 }
 
 /* Une photo reste une photo : le texte posé dessus reste blanc

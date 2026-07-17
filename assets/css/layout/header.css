@@ -325,6 +325,8 @@
   min-height: 38px;
   margin-left: 6px;
   padding: 0 20px;
+  /* Hairline plus profonde : scelle l'aplat et supprime l'effet de dégradé de bord */
+  border: 1px solid var(--primary-deep);
   border-radius: var(--radius-pill);
   background: var(--accent);
   color: var(--accent-contrast);
@@ -706,6 +708,8 @@ main, footer {
 [data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) .nav-cta {
   background: var(--on-media);
   color: #14110c;
+  /* Bouton blanc sur photo : la hairline or deviendrait un liseré parasite. On la neutralise. */
+  border-color: transparent;
 }
 [data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) .nav-cta:hover {
   background: #fff;

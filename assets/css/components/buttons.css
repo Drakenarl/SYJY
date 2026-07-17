@@ -52,6 +52,8 @@ a:focus-visible {
 .shop-btn {
   background: var(--primary);
   color: var(--accent-contrast);
+  /* Hairline plus profonde : scelle l'aplat et supprime l'effet de dégradé de bord */
+  border-color: var(--primary-deep);
 }
 .shop-btn:hover {
   transform: translateY(-3px);
@@ -83,6 +85,8 @@ a:focus-visible {
   min-height: 40px;
   background: var(--primary);
   color: var(--accent-contrast);
+  /* Hairline plus profonde : scelle l'aplat et supprime l'effet de dégradé de bord */
+  border-color: var(--primary-deep);
   font-size: 12px;
   letter-spacing: 0.4px;
   text-transform: none;
