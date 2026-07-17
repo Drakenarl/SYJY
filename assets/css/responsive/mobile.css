@@ -314,3 +314,81 @@
     background: rgba(5, 5, 5, 0.65);
   }
 }
+
+/* ============================================================
+   PERF TÉLÉPHONE UNIQUEMENT (≤ 600px)
+
+   N'affecte NI l'iPad (≥ 768px) NI le desktop : tout est enfermé
+   dans ce média-query, et on ne fait que SURCHARGER les règles de
+   header.css / typography.css (chargés avant → cascade gagnante à
+   spécificité égale). Le visuel et les animations mobiles sont
+   conservés — on ne baisse que le coût de rendu pour les mobiles
+   bas de gamme.
+   ============================================================ */
+@media (max-width: 600px) {
+
+  /* 1. Navbar : capsule floutée CONSERVÉE, mais flou allégé
+        (22px → 12px, ~45% de calcul en moins) et saturate retiré
+        (2ᵉ passe couleur supprimée). Toujours nettement givré. */
+  .nav-shell.is-scrolled .navbar {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* 2. Navbar : on n'ANIME plus le flou (rafale GPU de 0,5s à chaque
+        franchissement du seuil de scroll) — même liste de transition
+        sans backdrop-filter. Le reste continue de fondre : la capsule
+        apparaît comme avant, seul le flou se pose net.
+     3. will-change → auto : on libère le layer composé permanent
+        (7 propriétés promues en mémoire tout le temps). */
+  .navbar {
+    will-change: auto;
+    transition: max-width var(--transition-slow),
+      padding var(--transition-slow),
+      border-radius var(--transition-slow),
+      background var(--transition-slow),
+      border-color var(--transition-slow),
+      box-shadow var(--transition-slow);
+  }
+
+  /* 4. Halo de fond : la navbar le re-floute à chaque frame de scroll
+        (flou sur flou). On allège son propre kernel 90px → 60px ; la
+        lueur reste quasi identique. Taille inchangée (impact visuel). */
+  body::after {
+    filter: blur(60px);
+  }
+
+  /* 5-7. Sections hors écran : on saute leur rendu tant qu'elles ne
+        sont pas proches du viewport. Gros gain sur longue page, et met
+        la marquee (translateX infini) en pause de rendering quand elle
+        sort du champ — elle se resynchronise au retour.
+        contain-intrinsic-size = hauteur estimée (généreuse) pour ne pas
+        faire sauter le scroll ; le mot-clé `auto` mémorise la vraie
+        hauteur après le 1er rendu, donc ces valeurs ne comptent qu'au
+        tout premier affichage. */
+  .collection {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1400px;
+  }
+  .about {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+  .marquee-living {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 180px;
+  }
+  footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+
+  /* 8. main/footer : header.css promeut un layer transform PERMANENT
+        juste pour l'ouverture du tiroir (translateX -4%, geste rare).
+        On repasse en auto : le layer sera créé à la demande à
+        l'ouverture, gain constant le reste du temps. */
+  main,
+  footer {
+    will-change: auto;
+  }
+}
