@@ -404,9 +404,24 @@
   /* 8. main/footer : header.css promeut un layer transform PERMANENT
         juste pour l'ouverture du tiroir (translateX -4%, geste rare).
         On repasse en auto : le layer sera créé à la demande à
-        l'ouverture, gain constant le reste du temps. */
+        l'ouverture, gain constant le reste du temps.
+        + On n'ANIME plus le filter: blur(1px) du tiroir (header.css) :
+        animer un blur sur tout le <main>/<footer> = re-rasterisation
+        par frame pendant 0,5s = l'à-coup ressenti à l'ouverture de la
+        sidebar. Le blur reste (posé net, imperceptible à 1px), seul le
+        translateX glisse encore -> ouverture enfin fluide. */
   main,
   footer {
     will-change: auto;
+    transition: transform 0.5s var(--ease-premium);
+  }
+
+  /* 9. Ouverture sidebar : la navbar est ENTIÈREMENT cachée sous le voile
+        (z-index 99998 > 9999), donc son backdrop-filter tourne pour rien
+        pendant l'animation d'ouverture. On le coupe tant que le menu est
+        ouvert -> une passe de flou full-width en moins, 100% invisible. */
+  body.nav-open .navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
