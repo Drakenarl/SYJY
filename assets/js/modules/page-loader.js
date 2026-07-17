@@ -27,8 +27,12 @@ export function initPageLoader() {
   const barFill = document.getElementById("loader-bar-fill");
   document.body.classList.add("is-loading");
 
-  const MIN_DURATION = 1800;   // animation minimum, connexion rapide
+  // Sur mobile, on écourte tout : l'utilisateur veut le contenu vite,
+  // l'effet de marque compte moins que le TTI (Time To Interactive).
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const MIN_DURATION = 1800;   // animation minimum, connexion rapide (desktop)
   const HARD_TIMEOUT = 6000;   // rideau forcé au-delà — plus JAMAIS de blocage
+  const MOBILE_HARD_TIMEOUT = 800; // sur mobile, on lève le rideau vite
 
   // --- Suivi des assets : chaque image résout à coup sûr en 4 s max
   const images = Array.from(document.images);
@@ -99,7 +103,9 @@ export function initPageLoader() {
   }
 
   // Rideau forcé : peu importe la connexion, on ne bloque JAMAIS l'utilisateur.
-  setTimeout(() => finish(100), HARD_TIMEOUT);
+  // Mobile : 800 ms plafond dur pour libérer le TTI.
+  const hardCap = isMobile ? MOBILE_HARD_TIMEOUT : HARD_TIMEOUT;
+  setTimeout(() => finish(100), hardCap);
 
   requestAnimationFrame(tick);
 }

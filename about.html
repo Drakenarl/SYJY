@@ -29,6 +29,8 @@
       })();
     </script>
 
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link rel="stylesheet" href="assets/css/base/variables.css">
@@ -139,7 +141,18 @@
                 <div class="about-image">
                     <div class="about-glow"></div>
                     <picture>
-                        <source srcset="assets/img/about-portrait.webp" type="image/webp">
+                        <source
+                            type="image/webp"
+                            srcset="assets/img/about-portrait-480.webp 480w,
+                                    assets/img/about-portrait-960.webp 960w,
+                                    assets/img/about-portrait.webp 1600w"
+                            sizes="(max-width: 768px) 100vw, 50vw">
+                        <source
+                            type="image/jpeg"
+                            srcset="assets/img/about-portrait-480.jpg 480w,
+                                    assets/img/about-portrait-960.jpg 960w,
+                                    assets/img/about-portrait.jpg 1600w"
+                            sizes="(max-width: 768px) 100vw, 50vw">
                         <img src="assets/img/about-portrait.jpg" alt="Portrait mettant en avant une création SYJY" loading="lazy">
                     </picture>
                 </div>
