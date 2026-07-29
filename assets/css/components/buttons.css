@@ -100,8 +100,11 @@ a:focus-visible {
   font-weight: 500;
 }
 
+/* inherit, pas --accent-contrast : l'icône suit le libellé quoi qu'il
+   arrive. Si une règle extérieure recolore le bouton un jour, elle les
+   emmène tous les deux — plus jamais deux couleurs dans un même bouton. */
 .whatsapp-btn i {
-  color: var(--accent-contrast);
+  color: inherit;
   font-size: 15px;
   transition: transform var(--transition-fast);
 }

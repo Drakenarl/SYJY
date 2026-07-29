@@ -54,7 +54,15 @@ footer {
   text-transform: uppercase;
 }
 
-.footer-links a,
+/* :not(.whatsapp-btn) — cette règle générique est plus spécifique (0,1,1)
+   que .whatsapp-btn (0,1,0) : elle écrasait donc la couleur ET la taille du
+   bouton WhatsApp posé dans cette colonne. Résultat visible : le libellé
+   prenait --text-3 pendant que l'icône gardait --accent-contrast, d'où deux
+   couleurs dans un même bouton. Le :hover subissait la même chose — le
+   bouton glissait de côté au lieu de se soulever.
+   Un composant complet n'a rien à faire dans le champ d'un sélecteur
+   d'élément : on l'exclut explicitement. */
+.footer-links a:not(.whatsapp-btn),
 .footer-links p {
   text-decoration: none;
   color: var(--text-3);
@@ -62,7 +70,7 @@ footer {
   transition: all var(--transition-fast);
 }
 
-.footer-links a:hover {
+.footer-links a:not(.whatsapp-btn):hover {
   color: var(--text);
   transform: translateX(4px);
 }
