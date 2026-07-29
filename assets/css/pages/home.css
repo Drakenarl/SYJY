@@ -63,6 +63,65 @@
   font-style: normal;
 }
 
+/* ------------------------------------------------------------
+   TITRE À LETTRES TOMBANTES
+   ui-kit : animations/titre-lettres-tombantes (cascade CSS pure,
+   délai indexé par lettre). Porté de React vers du HTML statique :
+   les 22 <span class="l"> sont écrits directement dans index.html
+   avec leur index en custom property --i. Aucun JS d'orchestration,
+   donc la cascade ne dépend que du CSS.
+
+   Trois écarts par rapport au kit, et pourquoi :
+
+   1. Les mots sont emballés dans .mot { display:inline-block }.
+      Le kit anime UN mot en white-space:nowrap ; ici le titre en fait
+      quatre et passe à la ligne. Sans cette boîte par mot, le retour
+      à la ligne pourrait tomber ENTRE DEUX LETTRES — chaque lettre
+      étant un inline-block, c'est un point de coupure valide.
+
+   2. Chute de 0.5em au lieu de 100%. Sur un titre de trois lignes en
+      mobile, une chute d'une hauteur de ligne entière fait passer les
+      lettres par-dessus la ligne du dessus pendant l'animation. Le kit
+      s'en protège avec overflow:hidden, inapplicable ici : il
+      couperait les jambages du y de « Luxury ».
+
+   3. 0.05s par lettre au lieu de 0.1s. Le kit vise un mot de 7 signes ;
+      à 0.1s, la 22ᵉ lettre démarrerait à 2.2s — le visiteur aurait
+      décroché. À 0.05s la cascade est bouclée en 1.85s.
+
+   Déclenchement : classe .hero-ready posée sur le <body> par
+   page-loader.js au moment où le rideau se lève. Sans elle les lettres
+   sont simplement VISIBLES et immobiles — si le JS ne tourne pas, on
+   perd l'animation, jamais le titre.
+   ------------------------------------------------------------ */
+.hero-title .mot {
+  display: inline-block;
+}
+.hero-title .l {
+  display: inline-block;
+}
+
+body.hero-ready .hero-title .l {
+  /* backwards : dès la classe posée, la lettre prend l'état 0% pendant
+     son délai d'attente. Sans ça, les lettres non encore parties
+     resteraient affichées en place puis sauteraient. */
+  animation: hero-lettre-chute 0.8s var(--ease-premium) backwards;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+@keyframes hero-lettre-chute {
+  0%   { transform: translateY(-0.5em); opacity: 0; }
+  50%  { opacity: 0.5; }
+  100% { transform: translateY(0);      opacity: 1; }
+}
+
+/* Accessibilité : pas de chute pour qui refuse le mouvement. */
+@media (prefers-reduced-motion: reduce) {
+  body.hero-ready .hero-title .l {
+    animation: none;
+  }
+}
+
 .hero-buttons {
   display: flex;
   flex-wrap: wrap;

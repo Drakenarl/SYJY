@@ -36,6 +36,10 @@ export function initPageLoader() {
   function raiseCurtain() {
     loader.classList.add("page-loader--done");
     document.body.classList.remove("is-loading");
+    // Départ de la cascade du titre du hero (home.css). Posée ICI et pas
+    // au chargement : sinon l'animation se jouerait entière derrière le
+    // rideau et le visiteur ne verrait qu'un titre déjà en place.
+    document.body.classList.add("hero-ready");
     const cleanup = () => loader.remove();
     loader.addEventListener("transitionend", cleanup, { once: true });
     setTimeout(cleanup, 1200);
