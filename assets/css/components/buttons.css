@@ -137,25 +137,33 @@ a:focus-visible {
    MOBILE — allègement : boutons plus discrets, secondaire en outline
    ============================================================ */
 @media (max-width: 768px) {
+  /* Les CTA du hero étaient deux barres pleine largeur empilées : ils
+     pesaient plus lourd à l'écran que la photo, alors que c'est la photo
+     qui doit accrocher. On les remet côte à côte, à leur largeur de
+     contenu, en corps réduit.
+     min-height NON touché : la règle des 44px (WCAG 2.5.5) en tête de ce
+     fichier n'est pas négociable, un CTA doit rester atteignable au pouce.
+     Le bouton paraît plus petit par sa largeur et son corps, pas en
+     devenant impossible à viser. */
   .shop-btn,
   .discover-btn {
-    width: 100%;
-    max-width: 380px;
-    min-height: 50px;
-    padding: 12px 24px;
-    font-size: 13px;
-    letter-spacing: 0.14em;
+    width: auto;
+    max-width: none;
+    min-height: var(--tap);
+    padding: 10px 20px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
   }
 
   /* Le secondaire garde son verre sur mobile : demandé explicitement,
-     et deux boutons rouges empilés faisaient beaucoup de rouge. */
+     et deux boutons rouges côte à côte feraient beaucoup de rouge. */
 
   .hero-buttons {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    width: 100%;
-    max-width: 380px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    max-width: none;
   }
 
   .whatsapp-btn {
@@ -172,7 +180,11 @@ a:focus-visible {
 @media (max-width: 380px) {
   .shop-btn,
   .discover-btn {
-    padding: 12px 18px;
-    letter-spacing: 1.4px;
+    padding: 10px 14px;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+  }
+  .hero-buttons {
+    gap: 8px;
   }
 }

@@ -23,8 +23,9 @@
 
    RÈGLES D'USAGE
    - --primary est la SEULE couleur non-neutre de l'UI.
-   - --frame est le rouge EXACT du logo. Il ne bascule pas avec le
-     thème : c'est un objet de marque, pas une couleur d'interface.
+   - --frame est le rouge de marque (l'encre du logo, très légèrement
+     désaturée — voir --color-red). Il ne bascule pas avec le thème :
+     c'est un objet de marque, pas une couleur d'interface.
      Réservé au dispositif de cadre et à ce qui se pose SUR une photo
      (même logique que --on-media). Un usage par vue.
    - Le rouge plafonne à ~5:1 : filets, aplats, CTA, jamais du
@@ -39,7 +40,11 @@
   /* ---------- 1. PALETTE DE BASE (couleurs du logo) ---------- */
   --color-white: #ffffff;
   --color-black: #050505;
-  --color-red: #e2231a;      /* le rouge du cadre */
+  /* Le rouge du cadre, LÉGÈREMENT désaturé par rapport à l'encre brute du
+     logo (#e2231a, S88%). À pleine saturation il vibrait sur les grands
+     aplats et écrasait les photos. On descend à S77% : même teinte, même
+     lecture de marque, moins d'agression. */
+  --color-red: #d93b31;
   --color-charcoal: #2e2e2e; /* l'encre des lettres, jamais du noir pur */
 
   /* ---------- Typographie ----------
@@ -85,9 +90,9 @@
   --ground-2:     #151515;
   --ink:          #f2f0ee;
   --ink-soft:     #a8a5a2;
-  --primary:      #f03a2e; /* rouge remonté : 4.95:1 sur --ground, AA */
-  --primary-deep: #c31c14; /* hairline de scellage des CTA */
-  --primary-soft: rgba(240, 58, 46, 0.16);
+  --primary:      #ef5548; /* rouge adouci et remonté : 5.61:1 sur --ground, AA */
+  --primary-deep: #c4372c; /* hairline de scellage des CTA */
+  --primary-soft: rgba(239, 85, 72, 0.16);
   --rule:         rgba(242, 240, 238, 0.14);
 
   /* ----- Alias pour compat ----- */
@@ -131,7 +136,7 @@
      tire vers le gaming, la marque n'y gagne rien.
      --halo-strong : lueur locale (loader, cartes) — là le rouge signe. */
   --halo: rgba(242, 240, 238, 0.05);
-  --halo-strong: rgba(240, 58, 46, 0.13);
+  --halo-strong: rgba(239, 85, 72, 0.13);
 
   --scrim: linear-gradient(115deg,
       rgba(8, 8, 8, 0.9) 0%, rgba(8, 8, 8, 0.6) 38%,
@@ -156,9 +161,9 @@
   --ground-2:     #f0efed;
   --ink:          #2e2e2e;
   --ink-soft:     #6b6764;
-  --primary:      #d01e16; /* rouge approfondi : 5.4:1 sur --ground, AA */
-  --primary-deep: #a3160f; /* hairline de scellage des CTA */
-  --primary-soft: rgba(208, 30, 22, 0.14);
+  --primary:      #c33329; /* rouge adouci et approfondi : 5.26:1 sur --ground, AA */
+  --primary-deep: #9c2d24; /* hairline de scellage des CTA */
+  --primary-soft: rgba(195, 51, 41, 0.14);
   --rule:         rgba(46, 46, 46, 0.14);
 
   /* ----- Alias pour compat ----- */
@@ -199,7 +204,7 @@
 
   --grid-line: rgba(46, 46, 46, 0.035);
   --halo: rgba(46, 46, 46, 0.05);
-  --halo-strong: rgba(208, 30, 22, 0.14);
+  --halo-strong: rgba(195, 51, 41, 0.14);
 
   --scrim: linear-gradient(115deg,
       rgba(10, 10, 10, 0.82) 0%, rgba(10, 10, 10, 0.5) 38%,
@@ -219,8 +224,8 @@
   /* Le rouge du logo. C'est un objet de marque : il est le même
      partout, sur fond noir comme sur fond blanc. Le cadre rouge est
      ce qui rend les deux thèmes reconnaissables comme une seule marque. */
-  --frame: #e2231a;
-  --on-frame: #ffffff; /* 4.7:1 sur --frame */
+  --frame: var(--color-red);
+  --on-frame: #ffffff; /* 4.55:1 sur --frame */
 
   /* Une photo reste une photo : le texte posé dessus reste blanc
      dans les DEUX thèmes. */

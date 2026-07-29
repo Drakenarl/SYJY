@@ -606,7 +606,15 @@ main, footer {
    Sur les autres pages (fond crème), la navbar en haut utilise
    les tokens normaux qui basculent avec le thème — donc texte
    foncé lisible sur le crème dès le premier pixel.
+
+   DESKTOP / TABLETTE UNIQUEMENT (≥ 601px). Sur téléphone, la barre
+   porte son propre fond flouté en permanence (voir mobile.css) :
+   elle n'a plus besoin de savoir ce qu'il y a derrière elle, et
+   c'est justement cette adaptation au fond — qui se déclenchait et
+   se défaisait au seuil de scroll — qu'on a supprimée là-bas.
    ============================================================ */
+@media (min-width: 601px) {
+
 [data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) {
   /* Logo : blanc sur photo */
   & .brand {
@@ -657,4 +665,6 @@ main, footer {
 [data-theme="light"] body.has-hero-media .nav-shell:not(.is-scrolled) .nav-cta:hover {
   background: var(--color-white);
 }
+
+} /* fin @media (min-width: 601px) — adaptation au fond, desktop only */
 

@@ -128,10 +128,13 @@
     display: none;
   }
 
-  .drag-tile--01 { top: 6%;  left: 6%;  width: 52%; transform: rotate(-4deg); }
-  .drag-tile--03 { top: 3%;  left: 58%; width: 34%; transform: rotate(6deg); }
-  .drag-tile--02 { top: 62%; left: 4%;  width: 38%; transform: rotate(5deg); }
-  .drag-tile--04 { top: 66%; left: 52%; width: 32%; transform: rotate(-6deg); }
+  /* Tuiles nettement agrandies : c'est la photo qui doit accrocher l'œil,
+     pas les CTA. Les largeurs sont contenues pour que left + width reste
+     sous 100% — au-delà, la tuile déborderait du viewport. */
+  .drag-tile--01 { top: 4%;  left: 3%;  width: 68%; transform: rotate(-4deg); }
+  .drag-tile--03 { top: 2%;  left: 52%; width: 45%; transform: rotate(6deg); }
+  .drag-tile--02 { top: 58%; left: 2%;  width: 50%; transform: rotate(5deg); }
+  .drag-tile--04 { top: 63%; left: 50%; width: 44%; transform: rotate(-6deg); }
 
   /* ============================================================
      PAGE CONTACT + À PROPOS — correctifs split-section mobile
@@ -327,46 +330,47 @@
    ============================================================ */
 @media (max-width: 600px) {
 
-  /* 1. Navbar : capsule floutée CONSERVÉE, mais flou allégé
-        (22px → 12px, ~45% de calcul en moins) et saturate retiré
-        (2ᵉ passe couleur supprimée). Toujours nettement givré. */
+  /* 1. NAVBAR : UN SEUL EFFET, CONSTANT.
+        =====================================================================
+        Historique : la barre avait trois comportements empilés — une capsule
+        qui se formait au seuil de scroll, un backdrop-filter qui s'animait,
+        et une bascule opaque/translucide pendant le scroll actif (classe
+        .is-scrolling). Chaque franchissement de seuil déclenchait donc un
+        recalcul de style, une transition et un changement de layer, sur le
+        seul élément position:fixed de la page. C'est ça qui plombait le
+        téléphone, plus que le flou lui-même.
+
+        Maintenant : la barre est floutée EN PERMANENCE, avec les mêmes
+        couleurs et la même forme du premier pixel au bas de page. Rien ne
+        se déclenche au scroll. Un blur de 8px, exactement celui du bouton
+        liquid glass — un seul effet de verre pour tout le site.
+
+        Conséquence voulue : plus besoin d'adapter la barre au fond qu'elle
+        survole (le bloc .has-hero-media de header.css est neutralisé sur
+        téléphone, voir la fin de ce fichier) — elle porte son propre fond,
+        donc elle est lisible sur photo comme sur uni, dans les deux thèmes.
+        ===================================================================== */
+  .navbar,
   .nav-shell.is-scrolled .navbar {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  /* 2. Navbar : on n'ANIME plus le flou (rafale GPU de 0,5s à chaque
-        franchissement du seuil de scroll) — même liste de transition
-        sans backdrop-filter. Le reste continue de fondre : la capsule
-        apparaît comme avant, seul le flou se pose net.
-     3. will-change → auto : on libère le layer composé permanent
-        (7 propriétés promues en mémoire tout le temps). */
-  .navbar {
+    max-width: var(--nav-max);
+    padding: 10px 12px 10px clamp(14px, 3vw, 22px);
+    border-radius: var(--radius-pill);
+    border-color: var(--nav-border);
+    background: var(--nav-bg);
+    box-shadow: var(--shadow-nav);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    /* Aucune transition, aucun will-change : il n'y a plus rien à animer,
+       donc plus de layer composé permanent à entretenir. */
+    transition: none;
     will-change: auto;
-    transition: max-width var(--transition-slow),
-      padding var(--transition-slow),
-      border-radius var(--transition-slow),
-      background var(--transition-slow),
-      border-color var(--transition-slow),
-      box-shadow var(--transition-slow);
   }
 
-  /* 3bis. "FLOU AU REPOS" — pendant le scroll ACTIF (classe .is-scrolling
-        posée par header-scroll.js, mobile only), on COUPE le backdrop-filter
-        (repaint par frame = poste le plus lourd) et on compense par un fond
-        opaque theme-aware (token existant --nav-bg-solid). À l'arrêt, la
-        classe est retirée -> retour au fond translucide + flou via la
-        transition douce de .navbar ci-dessus.
-        La transition courte (0.12s) fait arriver le fond opaque quasi
-        instantanément à l'entrée du scroll -> masque la coupure du flou
-        (anti-flash). Le RETOUR au repos reste doux (transition de .navbar).
-        Spécificité (0,3,1) > règles ci-dessus (0,2,1) -> gagne proprement.
-        C'est ici le curseur "flash" à ajuster à l'œil si besoin. */
-  .nav-shell.is-scrolled.is-scrolling .navbar {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: var(--nav-bg-solid);
-    transition: background 0.12s linear;
+  /* La coque garde son retrait des bords en permanence, elle aussi. */
+  .header,
+  .nav-shell.is-scrolled .header {
+    padding: 10px clamp(12px, 3vw, 20px) 0;
+    transition: none;
   }
 
   /* 4. Halo de fond : la navbar le re-floute à chaque frame de scroll

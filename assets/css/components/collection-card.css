@@ -93,7 +93,9 @@
 .overlay p {
   width: max-content;
   padding: 10px 22px;
-  border-radius: 40px;
+  /* Même rectangle que les vrais CTA : ce faux bouton lisait comme une
+     pilule au milieu d'une page qui n'en a plus. */
+  border-radius: var(--radius-cta);
   background: var(--on-media-surface);
   color: var(--on-media);
   font-size: 10px;
