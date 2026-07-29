@@ -4,14 +4,25 @@
  * Écran de chargement 0→100 %, uniquement sur l'accueil.
  * Sur les autres pages : rien.
  *
- * DEUX RÉGIMES, et c'est le cœur du fichier :
- *  - PREMIÈRE VISITE de la session : le compteur complet (1.8 s mini).
- *  - RETOUR / RECHARGEMENT de l'accueil : régime BREF. On ne retire PAS le
- *    rideau immédiatement. Le retirer aussitôt produisait un flash noir de
- *    quelques dizaines de ms — le rideau était déjà peint quand le JS
- *    arrivait, et il disparaissait d'un coup. On le tient volontairement
- *    BRIEF_HOLD, sans compteur, puis on le lève avec la même transition
- *    que d'habitude : l'œil lit un fondu, plus un clignotement.
+ * TROIS CAS, et c'est le cœur du fichier :
+ *
+ *  1. PREMIÈRE ARRIVÉE SUR LE SITE dans la session : compteur complet
+ *     (1.8 s mini). « Sur le site », pas « sur l'accueil » : entrer par
+ *     collection.html puis venir à l'accueil n'est pas une première visite.
+ *     D'où le marqueur syjy-session, posé par TOUTES les pages.
+ *
+ *  2. RECHARGEMENT de l'accueil : régime BREF, un peu plus court. On ne
+ *     retire PAS le rideau immédiatement — le retirer aussitôt produisait
+ *     un flash noir de quelques dizaines de ms, le rideau étant déjà peint
+ *     quand le JS arrivait. On le tient BRIEF_HOLD, sans compteur, puis on
+ *     le lève avec la transition habituelle : l'œil lit un fondu.
+ *
+ *  3. NAVIGATION INTERNE vers l'accueil (depuis collection, contact…) :
+ *     AUCUN rideau. Rejouer un écran de chargement à chaque retour sur
+ *     l'accueil est une friction pure, l'utilisateur est déjà sur le site.
+ *
+ * Distinguer 2 de 3 demande l'API Navigation Timing : sessionStorage seul
+ * ne sait pas si la page a été rechargée ou atteinte par un lien.
  *
  * Robustesse réseau : le loader NE PEUT PAS bloquer.
  *  - HARD_TIMEOUT : au bout de 6 s réelles, on lève le rideau quoi qu'il arrive.
@@ -21,6 +32,20 @@
  *    (chaque image résout, en succès ou en erreur, ou est ignorée après 4 s).
  */
 export function initPageLoader() {
+  /* Marqueur de session, posé par TOUTES les pages et LU AVANT d'être
+     écrit. C'est lui qui répond à « est-ce la première page du site que ce
+     visiteur ouvre dans cette session ? ». Il doit donc être traité avant
+     le return anticipé des pages sans loader, sinon une entrée par
+     collection.html ne compterait pas comme une arrivée sur le site. */
+  let premiereArrivee = true;
+  try {
+    premiereArrivee = sessionStorage.getItem("syjy-session") !== "true";
+    sessionStorage.setItem("syjy-session", "true");
+  } catch (e) {
+    /* navigation privée / stockage refusé : on retombe sur « première
+       arrivée », le pire cas étant de rejouer le rideau. */
+  }
+
   const loader = document.getElementById("page-loader");
   if (!loader) return; // pas de loader dans le DOM = rien à faire
 
@@ -45,15 +70,40 @@ export function initPageLoader() {
     setTimeout(cleanup, 1200);
   }
 
-  // --- Régime BREF : rechargement / retour sur l'accueil dans la même session
-  const alreadySeen = sessionStorage.getItem("syjy-loader-seen") === "true";
-  if (alreadySeen) {
+  /* Rechargement ou lien ? sessionStorage ne fait pas la différence, la
+     Navigation Timing la donne. `reload` couvre F5, le bouton recharger et
+     location.reload(). Sur un navigateur sans l'API on retombe sur l'ancien
+     champ déprécié, et à défaut sur « pas un rechargement » — le cas le
+     plus discret. */
+  let rechargement = false;
+  const navEntry = performance.getEntriesByType
+    ? performance.getEntriesByType("navigation")[0]
+    : null;
+  if (navEntry) {
+    rechargement = navEntry.type === "reload";
+  } else if (performance.navigation) {
+    rechargement = performance.navigation.type === 1; // TYPE_RELOAD
+  }
+
+  /* --- Cas 3 : navigation interne vers l'accueil. Aucun rideau.
+     hero-ready est posée tout de suite, sinon la cascade du titre —
+     qui n'attend que cette classe — ne partirait jamais. */
+  if (!premiereArrivee && !rechargement) {
+    loader.remove();
+    document.body.classList.add("hero-ready");
+    return;
+  }
+
+  /* --- Cas 2 : rechargement de l'accueil. Régime bref. */
+  if (rechargement) {
     const BRIEF_HOLD = 620; // assez pour être lu comme une transition, pas comme un flash
     loader.classList.add("page-loader--brief");
     document.body.classList.add("is-loading");
     setTimeout(raiseCurtain, BRIEF_HOLD);
     return;
   }
+
+  /* --- Cas 1 : première arrivée sur le site. Compteur complet. */
 
   const countEl = document.getElementById("loader-count");
   const barFill = document.getElementById("loader-bar-fill");
@@ -131,7 +181,10 @@ export function initPageLoader() {
     if (countEl) countEl.textContent = percent;
     if (barFill) barFill.style.width = `${percent}%`;
 
-    sessionStorage.setItem("syjy-loader-seen", "true");
+    /* Plus rien à mémoriser ici : c'est syjy-session, posé en tête de
+       module par toutes les pages, qui porte désormais l'état de session.
+       L'ancienne clé syjy-loader-seen ne servait qu'à ce fichier et
+       confondait rechargement et navigation interne. */
     raiseCurtain();
   }
 

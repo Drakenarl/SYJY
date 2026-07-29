@@ -85,9 +85,11 @@
       s'en protège avec overflow:hidden, inapplicable ici : il
       couperait les jambages du y de « Luxury ».
 
-   3. 0.05s par lettre au lieu de 0.1s. Le kit vise un mot de 7 signes ;
-      à 0.1s, la 22ᵉ lettre démarrerait à 2.2s — le visiteur aurait
-      décroché. À 0.05s la cascade est bouclée en 1.85s.
+   3. 0.075s par lettre au lieu de 0.1s. Le kit vise un mot de 7 signes ;
+      à 0.1s, la 22ᵉ lettre démarrerait à 2.2s. À 0.075s, avec une chute
+      portée à 0.95s, la cascade est bouclée en 2.5s — assez lente pour
+      qu'on lise le balayage lettre à lettre, assez courte pour que le
+      visiteur ne décroche pas avant la fin.
 
    Déclenchement : classe .hero-ready posée sur le <body> par
    page-loader.js au moment où le rideau se lève. Sans elle les lettres
@@ -105,8 +107,8 @@ body.hero-ready .hero-title .l {
   /* backwards : dès la classe posée, la lettre prend l'état 0% pendant
      son délai d'attente. Sans ça, les lettres non encore parties
      resteraient affichées en place puis sauteraient. */
-  animation: hero-lettre-chute 0.8s var(--ease-premium) backwards;
-  animation-delay: calc(var(--i) * 0.05s);
+  animation: hero-lettre-chute 0.95s var(--ease-premium) backwards;
+  animation-delay: calc(var(--i) * 0.075s);
 }
 
 @keyframes hero-lettre-chute {
