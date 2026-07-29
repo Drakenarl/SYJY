@@ -373,11 +373,29 @@
     transition: none;
   }
 
-  /* 4. Halo de fond : la navbar le re-floute à chaque frame de scroll
-        (flou sur flou). On allège son propre kernel 90px → 60px ; la
-        lueur reste quasi identique. Taille inchangée (impact visuel). */
+  /* 4. Halo de fond : c'était un cercle de 650px en position:fixed portant
+        un filter: blur(60px). Un flou sur un élément FIXE se re-rastérise
+        à chaque frame de scroll — pour un fond qui ne bouge jamais, c'est
+        du calcul intégralement perdu, et c'est le poste le plus cher du
+        hero après les images.
+
+        On supprime le filtre et on rend la douceur AU DÉGRADÉ lui-même :
+        quatre paliers approchent la décroissance gaussienne que le flou
+        produisait. Un radial-gradient est peint une fois, point final.
+
+        La boîte passe à 900px parce qu'un blur(60px) débordait la sienne
+        d'environ 120px de chaque côté : sans cette compensation le halo
+        aurait visiblement rétréci. Même lueur à l'œil, zéro rastérisation. */
   body::after {
-    filter: blur(60px);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle,
+        var(--halo) 0%,
+        color-mix(in srgb, var(--halo) 62%, transparent) 30%,
+        color-mix(in srgb, var(--halo) 26%, transparent) 55%,
+        color-mix(in srgb, var(--halo) 7%, transparent) 75%,
+        transparent 90%);
+    filter: none;
   }
 
   /* 5-7. Sections hors écran : on saute leur rendu tant qu'elles ne
@@ -427,5 +445,41 @@
   body.nav-open .navbar {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+
+  /* 10. Bouton verre : on coupe le FILTRE SVG (feTurbulence +
+        feGaussianBlur + feDisplacementMap). Ces primitives sont souvent
+        rastérisées côté CPU sur les GPU mobiles, et la déformation
+        liquide n'est de toute façon pas lisible sur 107x44px — elle a été
+        calibrée pour de grandes surfaces.
+
+        Ce qui FAIT le verre reste en place : le backdrop-filter, la
+        teinte et le reflet interne. On remonte très légèrement ces deux
+        derniers pour rendre le peu de relief que la distorsion apportait
+        sur les bords. À l'œil le bouton est le même. */
+  .glass__distort {
+    filter: none;
+  }
+  .glass__tint {
+    background: rgba(255, 255, 255, 0.17);
+  }
+  .glass__edge {
+    box-shadow:
+      inset 1px 1px 1px rgba(255, 255, 255, 0.8),
+      inset -1px -1px 1px rgba(255, 255, 255, 0.22),
+      inset 0 -8px 16px rgba(0, 0, 0, 0.07);
+  }
+
+  /* 11. Le hero rejoint le régime des points 5-7. C'est la section la plus
+        lourde de la page (4 images, le canvas, le bouton verre) et la
+        seule qui en était exclue : une fois dépassée au scroll, son rendu
+        continuait d'être calculé.
+        `auto` dans contain-intrinsic-size : la hauteur réelle est mémorisée
+        après le premier rendu, donc aucun saut de scroll au retour vers le
+        haut — et comme le hero est visible au chargement, il est peint
+        normalement dès le départ. Rien n'est perdu à l'affichage. */
+  .hero {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 100svh;
   }
 }
