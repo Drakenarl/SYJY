@@ -24,7 +24,7 @@
     box-shadow 0.5s ease;
 }
 
-/* Halo doré qui suit la souris (variables --mouse-x/--mouse-y définies par card-glow.js) */
+/* Halo qui suit la souris (variables --mouse-x/--mouse-y définies par card-glow.js) */
 .feature-box::before {
   content: "";
   position: absolute;
@@ -99,11 +99,11 @@
 
 .feature-content h4 {
   font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 15px;      /* Syncopate : chasse large, taille réduite */
+  font-weight: 400;     /* le 500 n'existe pas dans Syncopate */
   margin-bottom: 12px;
   color: var(--text);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
 }
 
 .feature-content p {

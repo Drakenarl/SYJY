@@ -1,6 +1,6 @@
 /**
  * card-glow.js
- * Fait suivre un halo doré la position de la souris sur les
+ * Fait suivre un halo la position de la souris sur les
  * cartes .feature-box (page d'accueil), via variables CSS.
  */
 export function initCardGlow() {

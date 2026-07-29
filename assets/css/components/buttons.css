@@ -7,7 +7,7 @@
       il monte à 100% mais plafonne à 380px et reste centré
    3. aucune couleur en dur — tout passe par les tokens sémantiques
 
-   Charte : UNE SEULE couleur non-neutre à l'écran = --primary (or antique).
+   Charte : UNE SEULE couleur non-neutre à l'écran = --primary (le rouge du logo).
    ============================================================ */
 
 .shop-btn,
@@ -20,7 +20,7 @@
   min-height: var(--tap);
   padding: 14px 32px;
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-cta);
   font-family: var(--font-body);
   font-size: 10.5px;
   letter-spacing: 2px;
@@ -45,10 +45,10 @@
 a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-cta);
 }
 
-/* ---------- Primaire : or antique plein ---------- */
+/* ---------- Primaire : rouge de marque plein ---------- */
 .shop-btn {
   background: var(--primary);
   color: var(--accent-contrast);
@@ -60,25 +60,32 @@ a:focus-visible {
   box-shadow: 0 12px 30px var(--primary-soft);
 }
 
-/* ---------- Secondaire : glass posé sur photo (hero desktop) ----------
-   Sur mobile, cette classe est reprise en outline --primary
-   (voir bloc @media plus bas). */
+/* ---------- Secondaire : liquid glass posé sur photo ----------
+   Le verre lui-même vit dans glass-button.css (couches .glass__*),
+   porté du ui-kit. Ici on ne règle que ce qui appartient au CTA :
+   fond transparent (sinon il masquerait le verre), hairline et label.
+   Même rendu sur toutes les tailles d'écran — plus de version outline
+   mobile. */
 .discover-btn {
-  background: var(--on-media-surface);
+  background: transparent;
   border-color: var(--on-media-line);
   color: var(--on-media);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 .discover-btn:hover {
   transform: translateY(-3px);
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--primary-soft);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+/* Au survol le verre s'épaissit : c'est le retour le plus juste pour
+   une matière — on ne change pas sa couleur, on change sa densité. */
+.discover-btn:hover .glass__tint {
+  background: rgba(255, 255, 255, 0.24);
+}
+.discover-btn .glass__tint {
+  transition: background var(--transition-fast);
 }
 
 /* ---------- WhatsApp : même identité chromatique que les autres CTA.
-   L'or unique porte la marque. L'icône reste reconnaissable par sa forme. */
+   Le rouge unique porte la marque. L'icône reste reconnaissable par sa forme. */
 .whatsapp-btn {
   margin-top: 10px;
   padding: 10px 20px;
@@ -140,19 +147,8 @@ a:focus-visible {
     letter-spacing: 0.14em;
   }
 
-  /* Secondaire mobile : outline fin --primary, sortie du glass. */
-  .discover-btn {
-    background: transparent;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  .discover-btn:hover {
-    background: var(--primary-soft);
-    border-color: var(--primary);
-    color: var(--primary);
-  }
+  /* Le secondaire garde son verre sur mobile : demandé explicitement,
+     et deux boutons rouges empilés faisaient beaucoup de rouge. */
 
   .hero-buttons {
     flex-direction: column;

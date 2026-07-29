@@ -44,11 +44,14 @@
 }
 
 /* ---------- Variations par mot ---------- */
+/* Le bandeau était doré mot à mot. En rouge, la même règle donnait un
+   mur écarlate en défilement permanent — le rouge n'aurait plus rien
+   signalé. On inverse : encre atténuée au repos, rouge au survol. */
 .marquee-row .word {
   display: inline-block;
   font-family: var(--font-display);
-  letter-spacing: 0.24em;
-  color: var(--accent);
+  letter-spacing: 0.14em; /* Syncopate est déjà large : tracking réduit */
+  color: var(--text-3);
   transition:
     transform 0.55s cubic-bezier(0.2, 0.9, 0.2, 1),
     color 0.55s ease,
@@ -58,14 +61,14 @@
 
 .marquee-row .word.s-1 {
   font-size: 15px;
-  font-style: italic;
+  opacity: 0.75; /* Syncopate n'a pas d'italique : la nuance passe par l'opacité */
   transform: translateY(-4px);
 }
 
 .marquee-row .word.s-2 {
   font-size: 26px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
+  font-weight: 700; /* Syncopate : 400 ou 700, pas de 600 */
+  letter-spacing: 0.2em;
 }
 
 .marquee-row .word.s-3 {
@@ -100,8 +103,8 @@
 
 .marquee-living .marquee-row .word:hover {
   transform: translateY(0) scale(1.35);
-  color: var(--text);
-  letter-spacing: 0.4em;
+  color: var(--primary);
+  letter-spacing: 0.28em;
   opacity: 1;
 }
 

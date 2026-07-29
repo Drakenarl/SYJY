@@ -49,7 +49,7 @@ n'a pas ce besoin) — c'est un fond panoramique purement immersif, les vrais CT
 ## Ajout : écran de chargement (loader)
 
 Inspiré du preloader vu sur [oshanehoward.com](https://www.oshanehoward.com/) (compteur % + rideau qui
-se lève), reconstruit en vanilla JS/CSS avec la palette SYJY (noir, doré) :
+se lève), reconstruit en vanilla JS/CSS avec la palette SYJY (anthracite, rouge de marque) :
 
 - `assets/css/components/loader.css` — l'écran plein écran, le compteur, la barre de progression
 - `assets/js/modules/page-loader.js` — logique de progression
@@ -57,9 +57,12 @@ se lève), reconstruit en vanilla JS/CSS avec la palette SYJY (noir, doré) :
 **Comment ça marche :**
 - Le compteur avance à la fois avec le temps *et* avec le chargement réel des images de la page
   (jamais de "100%" affiché avant que les images soient vraiment prêtes).
-- L'animation complète (~1.8s) ne joue qu'**une fois par session de navigation**
-  (`sessionStorage`) : en changeant de page, le visiteur revoit une version courte (~0.4s)
-  plutôt que de subir l'animation à chaque clic de navigation.
+- **Deux régimes.** L'animation complète (compteur 0→100, ~1.8s minimum) ne joue qu'**une
+  fois par session** (`sessionStorage`). Au rechargement ou au retour sur l'accueil, régime
+  **bref** : pas de compteur, le rideau est tenu 620 ms puis levé. Il était auparavant retiré
+  d'un coup, ce qui produisait un flash noir — le rideau était déjà peint quand le JS arrivait.
+- Le décompte d'assets ignore les images `loading="lazy"` : le navigateur a justement décidé
+  de ne pas les charger, les attendre allongeait le premier chargement d'une seconde entière.
 - Respecte `prefers-reduced-motion`.
 
 ## Ce qui a été corrigé par rapport à la version reçue
@@ -124,9 +127,18 @@ La couleur vient d'une seule ligne : `.brand { color: var(--accent-2); }`
 `rgba(255,255,255,.6)` quelque part, le mode clair casse à cet endroit précis.
 Utilise `var(--text-3)`.
 
-**Le mode clair n'est pas un inverse.** Fond crème `#f6f3ee` (le blanc pur écrase
-l'or), or foncé `#8a6a2e` pour rester lisible (l'or clair sur blanc est illisible),
-ombres chaudes et non noires.
+**Le mode clair n'est pas un inverse.** Le logo pose un fond blanc : le mode clair
+est donc un blanc cassé `#fafafa`, encre anthracite `#2e2e2e` (celle des lettres du
+logo, jamais du noir pur), et un rouge approfondi `#d01e16` — le rouge de marque
+brut ne passe pas AA sur blanc en petit texte, il est approfondi côté clair et
+remonté à `#f03a2e` côté sombre.
+
+**Le rouge ne fait pas du texte.** Il plafonne à ~5:1 : filets, cadres, aplats de
+CTA, un mot d'emphase dans un titre. Jamais un paragraphe.
+
+**`--frame` est hors thème.** C'est le rouge exact du logo (`#e2231a`), identique
+en clair et en sombre : c'est un objet de marque, pas une couleur d'interface.
+Réservé au dispositif de cadre et à ce qui se pose sur une photo.
 
 **Exception assumée :** le texte posé sur une photo (hero, cartes collection) reste
 blanc dans les deux thèmes — tokens `--on-media*`. Une photo reste sombre : y mettre
@@ -140,13 +152,12 @@ Persistance : `localStorage`. Sans choix explicite, le thème suit le système.
 
 ## 3. Nouvelle navigation
 
-- **Bandeau d'annonce** en haut, fermable (mémorisé pour la session).
 - **En haut de page** : barre transparente, pleine largeur.
-- **Au scroll** : le bandeau se replie, la barre se détache des bords et devient une
-  **capsule flottante** floutée et centrée.
+- **Au scroll** : la barre se détache des bords et devient une **capsule flottante**
+  floutée et centrée.
 - **Pilule glissante** : un indicateur suit le lien survolé et revient se caler sous
   la page courante (`nav-pill.js`).
-- **Mobile** : overlay plein écran, liens en Playfair, apparition décalée. Avec
+- **Mobile** : overlay plein écran, liens en Syncopate, apparition décalée. Avec
   verrouillage du scroll sans saut de page, fermeture à Échap, et piégeage du focus
   clavier.
 

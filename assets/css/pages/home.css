@@ -24,7 +24,11 @@
 .hero-content {
   position: relative;
   z-index: 5;
-  max-width: 560px;
+  /* Le 560px d'origine était la largeur de la BOÎTE, gouttières incluses :
+     il ne restait que ~358px de texte utile et le titre partait en quatre
+     lignes. On ajoute explicitement les gouttières pour que 680px soit
+     bien la mesure du texte. */
+  max-width: calc(680px + 2 * var(--section-padding-x));
   color: var(--on-media);
   /* padding-bottom : un bloc centré mathématiquement paraît toujours
      trop bas. On le remonte vers le centre optique. */
@@ -40,16 +44,23 @@
   pointer-events: auto; /* ...mais chaque élément à l'intérieur (boutons compris) reste cliquable */
 }
 
+/* Taille calée pour tenir en DEUX lignes ("Timeless" / "Fashion & Luxury")
+   dans les 680px de mesure : Syncopate consomme ~1.35x la largeur du Bodoni
+   qu'elle remplace. Interlignage remonté à 1.2 pour la même raison. */
 .hero-content h1 {
   font-family: var(--font-display);
-  font-size: clamp(40px, 8.5vw, 82px);
-  line-height: 1.12;
+  font-size: clamp(26px, 4.4vw, 48px);
+  line-height: 1.2;
   margin-bottom: 40px;
 }
 
+/* Pas d'italique dans Syncopate — l'emphase est portée par le rouge.
+   Sur photo on prend --frame et non --primary : comme --on-media, une
+   couleur posée sur une image ne doit pas basculer avec le thème,
+   sinon le mot vire au rouge sombre sur un cliché déjà clair. */
 .hero-content h1 em {
-  color: var(--primary);
-  font-style: italic;
+  color: var(--frame);
+  font-style: normal;
 }
 
 .hero-buttons {

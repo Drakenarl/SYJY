@@ -1,0 +1,92 @@
+/* ============================================================
+   GLASS-BUTTON.CSS — Bouton « liquid glass »
+
+   Tiré du ui-kit (`Boutons/bouton-liquid-glass.tsx`), porté de React
+   vers du HTML/CSS vanilla. Le kit empile quatre couches, on garde
+   exactement ce découpage :
+
+     .glass__distort   le verre : flou du fond + distorsion SVG
+     .glass__tint      la teinte : un voile clair très léger
+     .glass__edge      le reflet : une hairline interne en haut-gauche
+     .glass__label     le contenu, seul élément au-dessus du verre
+
+   Écarts assumés par rapport au kit, et pourquoi :
+   - blur 8px au lieu de 4px : demandé, et le bouton est posé sur des
+     photos très chargées (le canvas draggable du hero) — sous 8px le
+     texte blanc n'accroche pas.
+   - displacement scale 70 -> 26 : le 70 du kit est calibré pour une
+     grande surface. Sur un bouton de 160x50, il liquéfiait les bords
+     jusqu'à les faire baver hors du rayon.
+   - teinte à 0.14 au lieu de 0.25 : le kit est prévu pour du texte
+     noir sur fond clair, ici le label est blanc sur photo.
+
+   Le filtre SVG `#glass-distortion` vit dans le HTML de la page (un
+   filtre SVG ne peut pas être déclaré en CSS). Sans lui, le bouton
+   reste un verre dépoli parfaitement correct : la dégradation est
+   silencieuse et voulue.
+   ============================================================ */
+
+/* Le porteur du filtre : présent dans le DOM, invisible et sans encombrement.
+   display:none le désactiverait — un filtre dans un arbre non rendu ne
+   s'applique pas. */
+.glass-filter-def {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.glass {
+  position: relative;
+  overflow: hidden;
+  /* Le verre doit rester dans son propre contexte d'empilement, sinon
+     les couches en z-index négatif passent derrière la section. */
+  isolation: isolate;
+}
+
+.glass__distort,
+.glass__tint,
+.glass__edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* 1. Le verre — c'est la seule couche qui coûte quelque chose */
+.glass__distort {
+  z-index: 1;
+  backdrop-filter: blur(8px) saturate(125%) brightness(1.08);
+  -webkit-backdrop-filter: blur(8px) saturate(125%) brightness(1.08);
+  filter: url(#glass-distortion);
+}
+
+/* 2. La teinte */
+.glass__tint {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* 3. Le reflet : lumière rasante en haut-gauche, ombre douce en bas-droite.
+   C'est ce qui donne l'épaisseur — sans lui le bouton reste un flou plat. */
+.glass__edge {
+  z-index: 3;
+  box-shadow:
+    inset 1px 1px 1px rgba(255, 255, 255, 0.7),
+    inset -1px -1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* 4. Le label, au-dessus de tout */
+.glass__label {
+  position: relative;
+  z-index: 4;
+}
+
+/* Navigateur sans backdrop-filter (Firefox ancien) : on retombe sur un
+   voile un peu plus dense, qui garde le contraste du label. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass__tint {
+    background: rgba(255, 255, 255, 0.22);
+  }
+}

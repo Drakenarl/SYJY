@@ -35,17 +35,22 @@
   text-transform: uppercase;
 }
 
+/* Ce h2 vit dans une colonne de ~560px et Syncopate y consomme environ
+   1.35x la largeur du Bodoni qu'elle remplace. Les titres de cette section
+   ont été raccourcis (52 et 41 signes -> 37 et 25) pour tenir en DEUX
+   lignes : c'est ce qui permet de remonter la taille ici. Au-delà de ~40
+   signes, il faut redescendre — ou raccourcir le titre. */
 .about-text h2 {
   font-family: var(--font-display);
-  font-size: clamp(30px, 5.6vw, 52px);
-  line-height: 1.24;
+  font-size: clamp(20px, 3vw, 30px);
+  line-height: 1.36;
   color: var(--text);
   margin-bottom: 32px;
 }
 
 .about-text h2 em {
   color: var(--accent);
-  font-style: italic;
+  font-style: normal; /* Syncopate n'a pas d'italique : l'emphase est le rouge */
 }
 
 .about-text p {

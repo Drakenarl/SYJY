@@ -2,7 +2,17 @@
    TYPOGRAPHY.CSS — Polices, fond global, texture de fond
 
    Les polices sont chargées via <link> dans le <head> des HTML
-   (Bodoni Moda + Manrope), pas par @import qui bloque en cascade.
+   (Syncopate + Manrope), pas par @import qui bloque en cascade.
+
+   SYNCOPATE — trois contraintes à connaître avant d'y toucher :
+   1. Deux graisses seulement : 400 et 700. Pas de 500, pas de 300.
+      Demander une graisse absente déclenche une synthèse baveuse.
+   2. AUCUN italique. L'emphase des titres passe par la COULEUR
+      (le rouge de marque), plus par l'italique du Bodoni.
+   3. Chasse très large (~1.35x un didone). Toutes les tailles de
+      titre ont été redescendues en conséquence dans les composants.
+      Elle ne tient qu'en titres courts et en labels — jamais de
+      paragraphe, jamais un titre de plus de deux lignes.
    ============================================================ */
 
 body {
@@ -16,27 +26,29 @@ body {
 }
 
 /* ---------- Headings globaux ----------
-   Bodoni Moda : optical sizing automatique + weights display */
+   Syncopate est déjà large de dessin : le tracking positif reste
+   modéré, sinon les mots se désagrègent. Interlignage remonté
+   (1.2+ dans les composants) parce qu'elle passe plus souvent
+   à la ligne qu'un didone. */
 h1, h2, .h1, .h2 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-optical-sizing: auto;
-  letter-spacing: -0.015em; /* Bodoni large a besoin d'un tracking légèrement négatif */
+  letter-spacing: 0.045em;
 }
 
 h3, h4, .h3, .h4 {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-optical-sizing: auto;
-  letter-spacing: -0.01em;
+  font-weight: 400; /* le 500 n'existe pas dans Syncopate */
+  letter-spacing: 0.07em; /* plus petit = plus espacé */
 }
 
-/* L'italique de Bodoni Moda est un signature — l'accent
-   italique dans les h1 doit être calibré */
-h1 em, h1 i, .h1 em, .h1 i {
-  font-style: italic;
-  font-weight: 500;
-  font-optical-sizing: auto;
+/* Syncopate n'a pas d'italique : l'emphase des titres se fait au
+   rouge de marque. C'est le seul mot non-neutre du titre — d'où
+   l'importance de n'en baliser qu'un par titre. */
+h1 em, h1 i, .h1 em, .h1 i,
+h2 em, h2 i, .h2 em, .h2 i {
+  font-style: normal;
+  color: var(--primary);
 }
 
 /* Grille de points en filigrane, fixe en arrière-plan */
@@ -51,7 +63,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Halo doré diffus en haut à droite */
+/* Halo d'ambiance diffus en haut à droite (neutre : voir --halo) */
 body::after {
   content: "";
   position: fixed;

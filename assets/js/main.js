@@ -4,7 +4,6 @@
  * dont il a besoin sont absents : ce fichier reste identique partout.
  */
 import { initTheme } from "./modules/theme.js";
-import { initTopbar } from "./modules/topbar.js";
 import { initPageLoader } from "./modules/page-loader.js";
 import { initHeaderScroll } from "./modules/header-scroll.js";
 import { initNavPill } from "./modules/nav-pill.js";
@@ -15,7 +14,6 @@ import { initDragCanvas } from "./modules/drag-canvas.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();          // en premier : le reste hérite des bonnes couleurs
-  initTopbar();
   initPageLoader();
   initHeaderScroll();
   initNavPill();
