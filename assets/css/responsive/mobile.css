@@ -352,14 +352,21 @@
         ===================================================================== */
   .navbar,
   .nav-shell.is-scrolled .navbar {
+    /* ---- ÉPAISSEUR DU VERRE DE LA NAV MOBILE : le seul curseur à régler.
+       Les deux déclarations plus bas le lisent, il n'y a donc qu'un nombre
+       à toucher. Monter = plus laiteux, descendre = plus transparent et
+       moins cher à calculer. La variante -webkit- reste nécessaire : Safari
+       n'a la propriété sans préfixe que depuis iOS 18. ---- */
+    --nav-blur: 0px;
+
     max-width: var(--nav-max);
     padding: 10px 12px 10px clamp(14px, 3vw, 22px);
     border-radius: var(--radius-pill);
     border-color: var(--nav-border);
     background: var(--nav-bg);
     box-shadow: var(--shadow-nav);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(var(--nav-blur));
+    -webkit-backdrop-filter: blur(var(--nav-blur));
     /* Aucune transition, aucun will-change : il n'y a plus rien à animer,
        donc plus de layer composé permanent à entretenir. */
     transition: none;
