@@ -1,0 +1,41 @@
+/* ============================================================
+   THEME-REVEAL.CSS — Bascule de thème en disque qui s'étend
+
+   Le nouveau thème arrive par un disque qui naît sous le bouton et
+   grandit jusqu'à recouvrir l'écran, plutôt qu'en fondu global.
+
+   Mécanique : l'API View Transitions photographie la page avant et
+   après le changement de `data-theme`, et expose les deux images en
+   pseudo-éléments. On ne touche donc à AUCUN élément de la page —
+   c'est le compositeur qui travaille, sur deux textures. D'où le coût
+   quasi nul même sur téléphone : un clip-path animé sur un calque déjà
+   composé, sans recalcul de style ni repeint du document.
+
+   Le rayon et le centre du disque sont calculés en JS (theme.js) :
+   ils dépendent de la position du bouton cliqué et de la taille du
+   viewport, deux choses que le CSS seul ne connaît pas.
+
+   Navigateur sans View Transitions : theme.js retombe sur l'ancien
+   fondu de couleurs. Rien ici n'a besoin de fallback.
+   ============================================================ */
+
+/* L'API applique par défaut un fondu croisé sur les deux images. Il faut
+   le couper : superposé à notre disque, il délave la transition — on voit
+   le nouveau thème « transparaître » partout au lieu d'être révélé
+   proprement par le bord du cercle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* L'ancien thème reste intact en dessous pendant toute l'animation, et
+   c'est le NOUVEAU, posé au-dessus, qu'on découpe en disque. L'inverse
+   (creuser un trou dans l'ancien) laisserait apparaître le fond du
+   navigateur dans l'intervalle. */
+::view-transition-old(root) {
+  z-index: 0;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}
