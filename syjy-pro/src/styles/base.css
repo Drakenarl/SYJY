@@ -1,0 +1,337 @@
+/* SYJY · la base : jetons, polices, remise à zéro, défilement, transitions.
+
+   La palette vient du sac SYJY lui-même : un papier ivoire, une encre presque
+   noire, et le rouge du cadre qui entoure le nom. Rien d'autre ne colore la
+   page, ce sont les photos qui portent la couleur. */
+
+@font-face {
+  font-family: 'Bodoni Moda';
+  src: url('/polices/bodoni-moda/BodoniModa-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bodoni Moda';
+  src: url('/polices/bodoni-moda/BodoniModa-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('/polices/inter-tight/InterTight-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('/polices/inter-tight/InterTight-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Le fond de toutes les pages claires, le papier du sac. */
+  --ivoire: #f2ede6;
+  /* Les surfaces posées sur le fond : cartes, champs, bandes. */
+  --surface: #e8e1d7;
+  /* Le texte et les fonds sombres. */
+  --encre: #15110e;
+  /* Le fond des sections de nuit, un cran sous l'encre pour que l'encre s'y lise encore. */
+  --nuit: #0f0c0a;
+  /* Le texte secondaire : légendes, intitulés, mentions. */
+  --gris: #6e655c;
+  /* L'accent, le cadre rouge du logo. Il marque l'action et le détail, jamais une surface entière. */
+  --rouge: #a3161d;
+  /* Les séparations fines. */
+  --filet: rgba(21, 17, 14, 0.14);
+  --filet-clair: rgba(242, 237, 230, 0.18);
+
+  --affiche: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --texte: 'Inter Tight', ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* La courbe de la maison, et quatre durées. */
+  --courbe: cubic-bezier(0.22, 1, 0.36, 1);
+  --rideau: cubic-bezier(0.87, 0, 0.13, 1);
+  --vite: 180ms;
+  --moyen: 420ms;
+  --lent: 900ms;
+  --tres-lent: 1500ms;
+
+  /* L'échelle d'espacement, au pas de huit. */
+  --e1: 8px;
+  --e2: 16px;
+  --e3: 24px;
+  --e4: 32px;
+  --e6: 48px;
+  --e8: 64px;
+  --e12: 96px;
+  --e16: 128px;
+
+  --marge: clamp(16px, 4vw, 56px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* La barre de défilement : six pixels, pas de piste, un pouce rouge. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--rouge) transparent;
+}
+html::-webkit-scrollbar {
+  width: 6px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--rouge);
+  border-radius: 0;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--encre);
+}
+
+/* Lenis prend la main sur le défilement : le navigateur ne lisse plus rien lui-même. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--ivoire);
+  color: var(--encre);
+  font-family: var(--texte);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--rouge);
+  color: var(--ivoire);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ul,
+ol {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rouge);
+  outline-offset: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.affiche {
+  font-family: var(--affiche);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+/* L'accent dans un titre : le mot qui compte prend le rouge du cadre. */
+.affiche em {
+  font-style: normal;
+  color: var(--rouge);
+}
+
+.cadre {
+  width: 100%;
+  padding-inline: var(--marge);
+}
+
+/* GOD2:rideau · la transition entre les pages, reprise de la pièce en
+   transition de document à document : la page sortante recule d'un tiers et
+   s'estompe sans disparaître, la neuve monte par le bas comme un rideau.
+   Même courbe et même durée que la pièce. Un navigateur qui ne la connaît pas
+   change de page normalement. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: rideau-part var(--tres-lent) var(--rideau) both;
+}
+::view-transition-new(root) {
+  animation: rideau-monte var(--tres-lent) var(--rideau) both;
+}
+::view-transition-group(root) {
+  background: var(--nuit);
+}
+@keyframes rideau-part {
+  to {
+    transform: translateY(-35%);
+    opacity: 0.4;
+  }
+}
+@keyframes rideau-monte {
+  from {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+  to {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+  }
+}
+
+/* Les boutons de la maison. Le plein est l'action, le filet est la suite. */
+.bouton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 24px;
+  overflow: hidden;
+  font-family: var(--texte);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  border: 1px solid currentColor;
+  isolation: isolate;
+  transition: color var(--moyen) var(--courbe), border-color var(--moyen) var(--courbe);
+}
+/* Le survol remplit le bouton depuis le bas, à la manière d'un ourlet. */
+.bouton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--rouge);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform var(--moyen) var(--courbe);
+}
+.bouton:hover::before,
+.bouton:focus-visible::before {
+  transform: scaleY(1);
+}
+.bouton:hover,
+.bouton:focus-visible {
+  color: var(--ivoire);
+  border-color: var(--rouge);
+}
+.bouton:active {
+  transform: translateY(1px);
+}
+.bouton--plein {
+  background: var(--ivoire);
+  color: var(--encre);
+  border-color: var(--ivoire);
+}
+.bouton--encre {
+  background: var(--encre);
+  color: var(--ivoire);
+  border-color: var(--encre);
+}
+.bouton svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  transition: transform var(--moyen) var(--courbe);
+}
+.bouton:hover svg {
+  transform: translate(3px, -3px);
+}
+
+/* Un lien de texte souligné qui se trace au survol. */
+.lien-trace {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size var(--moyen) var(--courbe);
+}
+.lien-trace:hover,
+.lien-trace:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* GOD2:Reveal · apparition au défilement, reprise du site démo. */
+.revele {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+.revele.est-vu {
+  opacity: 1;
+  transform: none;
+}
+
+/* GOD2:SplitText · titre découpé, arrivée décalée. */
+.decoupe-mot {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.decoupe-mot > span {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 900ms var(--courbe);
+}
+.est-vu .decoupe-mot > span {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  .revele,
+  .decoupe-mot > span {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

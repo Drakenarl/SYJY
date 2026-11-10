@@ -1,0 +1,53 @@
+/* SYJY · l'appel de fin de page. */
+
+.appel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--e8);
+  padding: var(--e16) var(--marge);
+  background: var(--surface);
+}
+.appel-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: 78svh;
+  overflow: hidden;
+}
+/* Le plan dépasse de son cadre pour que la parallaxe ne découvre jamais le fond. */
+.appel-plan {
+  position: absolute;
+  inset: -12% 0;
+}
+.appel-plan img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.appel-texte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e4);
+  max-width: 560px;
+}
+.appel-titre {
+  font-size: clamp(44px, 5.6vw, 92px);
+}
+.appel-phrase {
+  max-width: 34em;
+  margin-bottom: var(--e4);
+  font-size: 18px;
+  color: var(--gris);
+}
+
+@media (max-width: 720px) {
+  .appel {
+    grid-template-columns: 1fr;
+    gap: var(--e6);
+    padding-block: var(--e12);
+  }
+  .appel-photo {
+    aspect-ratio: 4 / 5;
+  }
+}

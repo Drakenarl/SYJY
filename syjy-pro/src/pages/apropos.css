@@ -1,0 +1,147 @@
+/* SYJY · la maison. */
+
+.maison-ouverture {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: end;
+  gap: clamp(32px, 6vw, 96px);
+  min-height: 100svh;
+  padding-top: 140px;
+  padding-bottom: var(--e8);
+}
+.maison-titre {
+  font-size: clamp(56px, 8vw, 140px);
+  line-height: 0.92;
+}
+.maison-chapo {
+  margin-top: var(--e4);
+  font-size: 18px;
+  color: var(--gris);
+}
+.maison-portrait {
+  position: relative;
+  height: min(76svh, 720px);
+  overflow: hidden;
+}
+.maison-plan {
+  position: absolute;
+  inset: -10% 0;
+}
+.maison-plan img,
+.maison-pleine-plan img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.maison-recit {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: var(--e8);
+  padding-block: var(--e16);
+  border-top: 1px solid var(--filet);
+  margin-top: var(--e8);
+}
+.maison-recit-titre h2 {
+  position: sticky;
+  top: 120px;
+  max-width: 7em;
+  font-size: clamp(40px, 4.4vw, 72px);
+}
+.maison-recit-texte {
+  font-family: var(--affiche);
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.32;
+}
+
+.maison-pleine {
+  position: relative;
+  height: 110svh;
+  overflow: hidden;
+}
+.maison-pleine-plan {
+  position: absolute;
+  inset: -15% 0;
+}
+.maison-pleine-plan img {
+  object-position: 50% 40%;
+}
+.maison-pleine-legende {
+  position: absolute;
+  bottom: var(--e4);
+  left: 0;
+  font-size: 14px;
+  color: var(--ivoire);
+}
+
+.maison-savoirs {
+  padding-block: var(--e16);
+}
+.maison-savoirs-titre {
+  max-width: 9em;
+  margin-bottom: var(--e8);
+  font-size: clamp(44px, 5.2vw, 88px);
+}
+.maison-savoirs-liste {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--encre);
+}
+.savoir {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+  padding: var(--e3) var(--e3) var(--e4) 0;
+}
+.savoir + .savoir {
+  padding-left: var(--e3);
+  border-left: 1px solid var(--filet);
+}
+.savoir-rang {
+  font-size: 13px;
+  color: var(--rouge);
+}
+.savoir-titre {
+  font-size: clamp(30px, 3vw, 44px);
+}
+.savoir-texte {
+  max-width: 24em;
+  font-size: 16px;
+  color: var(--gris);
+}
+
+@media (max-width: 860px) {
+  .maison-ouverture {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-top: 120px;
+  }
+  .maison-portrait {
+    height: 64svh;
+  }
+  .maison-recit {
+    grid-template-columns: 1fr;
+    gap: var(--e4);
+    padding-block: var(--e12);
+  }
+  .maison-recit-titre h2 {
+    position: static;
+  }
+  .maison-pleine {
+    height: 80svh;
+  }
+  .maison-savoirs {
+    padding-block: var(--e12);
+  }
+  .maison-savoirs-liste {
+    grid-template-columns: 1fr;
+  }
+  .savoir,
+  .savoir + .savoir {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .savoir + .savoir {
+    border-top: 1px solid var(--filet);
+  }
+}

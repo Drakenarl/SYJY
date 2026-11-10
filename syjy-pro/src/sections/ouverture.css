@@ -1,0 +1,245 @@
+/* SYJY · l'ouverture, la pièce `ouidah` à la typographie et aux photos de la maison. */
+
+.ouv {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--ivoire);
+  color: var(--ivoire);
+}
+
+/* Pendant l'ouverture, la page tient et l'en-tête attend au-dessus du cadre. */
+html.ouverture {
+  overflow: hidden;
+}
+html.ouverture .entete {
+  transform: translateY(-120%);
+}
+.entete {
+  transition: transform var(--lent) var(--courbe), color var(--moyen) var(--courbe),
+    background-color var(--moyen) var(--courbe), padding var(--moyen) var(--courbe);
+}
+
+.ouv-chargement {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--encre);
+}
+
+.ouv-mot {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: clamp(120px, 15vw, 260px);
+  line-height: 0.86;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* Les deux moitiés débordent en caché : les lettres montent depuis le bas
+   sans jamais dépasser. Elles ont la même largeur, sinon la boîte entre les
+   deux n'est pas au centre et la photo, une fois en plein écran, laisse une
+   bande de fond d'un côté. */
+.ouv-debut,
+.ouv-fin {
+  display: flex;
+  width: 1.3em;
+  overflow: hidden;
+}
+.ouv-debut {
+  justify-content: flex-end;
+}
+.ouv-lettre {
+  display: block;
+  transform: translateY(100%);
+  will-change: transform;
+}
+.ouv-lettre-claire,
+.ouv-monte {
+  transform: translateY(110%);
+}
+
+.ouv-boite {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  will-change: width;
+}
+.ouv-boite-interne {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1em;
+  height: 92%;
+}
+.ouv-image {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  will-change: width, height;
+}
+.ouv-image-cadre {
+  position: absolute;
+  width: 100%;
+  min-width: 1em;
+  height: 100%;
+}
+/* Un fond sombre en bas de la photo, pour lire le titre et les boutons posés dessus. */
+.ouv-image-cadre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(to top, rgba(15, 12, 10, 0.72) 0%, rgba(15, 12, 10, 0.18) 42%, rgba(15, 12, 10, 0) 70%),
+    linear-gradient(to bottom, rgba(15, 12, 10, 0.35), rgba(15, 12, 10, 0) 22%);
+  pointer-events: none;
+}
+.ouv-calque,
+.ouv-fond-econome {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+.ouv-calque--fond {
+  object-position: 50% 32%;
+}
+.ouv-calque--1 {
+  z-index: 3;
+}
+.ouv-calque--2 {
+  z-index: 2;
+}
+.ouv-calque--3 {
+  z-index: 1;
+}
+.ouv-fond-econome {
+  display: none;
+  object-position: 50% 32%;
+}
+
+.ouv-contenu {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: var(--e4) var(--marge);
+  pointer-events: none;
+}
+.ouv-bas {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--e6);
+}
+.ouv-titre {
+  display: flex;
+  overflow: hidden;
+  font-size: clamp(96px, 19vw, 320px);
+  line-height: 0.8;
+  letter-spacing: 0;
+  padding-top: 0.06em;
+  margin-bottom: -0.06em;
+}
+.ouv-lettre-claire {
+  display: block;
+  will-change: transform;
+}
+.ouv-cote {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--e3);
+  padding-bottom: var(--e2);
+  pointer-events: auto;
+}
+.ouv-rogne {
+  display: block;
+  overflow: hidden;
+}
+.ouv-accroche {
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.4;
+  text-align: right;
+}
+.ouv-actions {
+  display: flex;
+  gap: var(--e2);
+}
+.ouv-monte {
+  will-change: transform;
+}
+.ouv-bouton-trait {
+  color: var(--ivoire);
+}
+
+@media (max-width: 720px) {
+  .ouv-mot {
+    font-size: 30vw;
+  }
+  .ouv-bas {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e3);
+  }
+  .ouv-titre {
+    font-size: 36vw;
+  }
+  .ouv-cote {
+    align-items: flex-start;
+  }
+  .ouv-accroche {
+    text-align: left;
+  }
+  .ouv-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .ouv-actions .bouton {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* En « moins d'animation », l'ouverture est directement dans son état final. */
+.ouv.est-econome .ouv-chargement {
+  display: none;
+}
+.ouv.est-econome .ouv-fond-econome {
+  display: block;
+}
+.ouv.est-econome .ouv-lettre-claire,
+.ouv.est-econome .ouv-monte {
+  transform: none;
+}
+.ouv.est-econome::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to top, rgba(15, 12, 10, 0.72), rgba(15, 12, 10, 0) 60%);
+}
+.ouv.est-econome .ouv-contenu {
+  z-index: 1;
+}

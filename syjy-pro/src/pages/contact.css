@@ -1,0 +1,126 @@
+/* SYJY · le contact. */
+
+.contact-ouverture {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--e6);
+  min-height: 100svh;
+  padding-top: 140px;
+  padding-bottom: var(--e12);
+}
+.contact-titre {
+  max-width: 10em;
+  font-size: clamp(56px, 8.4vw, 148px);
+  line-height: 0.92;
+}
+.contact-suite {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--e6);
+  padding-top: var(--e4);
+  border-top: 1px solid var(--filet);
+}
+.contact-phrase {
+  max-width: 34em;
+  font-size: 18px;
+  color: var(--gris);
+}
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+}
+
+/* Les coordonnées : une longue piste sombre, chaque ligne s'ouvre au milieu. */
+.coord {
+  position: relative;
+  padding-block: 50svh;
+  background: var(--nuit);
+  color: var(--ivoire);
+}
+/* La lettre épinglée au milieu de l'écran, sur toute la piste. */
+.coord-signe {
+  position: sticky;
+  top: calc(50svh - 70px);
+  z-index: 0;
+  height: 140px;
+  margin-bottom: -140px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.coord-lettre {
+  font-size: 140px;
+  line-height: 1;
+  color: var(--rouge);
+  animation: coord-pose var(--moyen) var(--courbe) both;
+}
+@keyframes coord-pose {
+  from {
+    transform: translateY(18%);
+    opacity: 0;
+  }
+}
+.coord-liste {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18svh;
+  margin: 0;
+}
+.coord-ligne {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  padding-inline: var(--marge);
+}
+.coord-intitule,
+.coord-valeur {
+  flex: 1;
+  margin: 0;
+  font-family: var(--affiche);
+  font-size: clamp(22px, 2.6vw, 40px);
+  line-height: 1.1;
+  will-change: transform;
+}
+.coord-intitule {
+  text-align: right;
+}
+.coord-valeur {
+  color: rgba(242, 237, 230, 0.6);
+}
+.coord-valeur a {
+  color: var(--ivoire);
+}
+.coord-valeur a:hover {
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .contact-suite {
+    grid-template-columns: 1fr;
+  }
+  .contact-actions .bouton {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .coord-ligne {
+    gap: 72px;
+  }
+  .coord-intitule,
+  .coord-valeur {
+    font-size: 18px;
+    overflow-wrap: anywhere;
+  }
+  .coord-lettre {
+    font-size: 96px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coord-lettre {
+    animation: none;
+  }
+}

@@ -1,0 +1,125 @@
+/* SYJY · la file des pièces. */
+
+.file {
+  padding-block: var(--e16) var(--e12);
+  background: var(--nuit);
+  color: var(--ivoire);
+  overflow: hidden;
+}
+.file-entete {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--e4);
+  margin-bottom: var(--e8);
+}
+.file-titre {
+  max-width: 9em;
+  font-size: clamp(48px, 6.4vw, 108px);
+}
+.file-aide {
+  max-width: 22em;
+  font-size: 15px;
+  color: rgba(242, 237, 230, 0.6);
+}
+
+.file-piste {
+  position: relative;
+  height: 600px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.file-piste.est-tiree {
+  cursor: grabbing;
+}
+.file-piste:focus-visible {
+  outline-offset: -4px;
+}
+.file-rang {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  will-change: transform;
+}
+.file-piece {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  height: 540px;
+  margin: 0 20px;
+}
+.file-vue {
+  flex: 1;
+  overflow: hidden;
+  background: #221c18;
+}
+.file-vue img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.6);
+  will-change: transform;
+  pointer-events: none;
+}
+/* Le nom sous la pièce, qui ne se montre qu'à l'arrêt. */
+.file-legende {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--e2);
+  padding-top: 14px;
+  font-size: 15px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--moyen) var(--courbe), transform var(--moyen) var(--courbe);
+}
+.file-ligne {
+  color: rgba(242, 237, 230, 0.55);
+  white-space: nowrap;
+}
+@media (any-hover: hover) {
+  .file-piece:hover .file-legende,
+  .file-piece:focus-visible .file-legende {
+    opacity: calc(1 - var(--file-bouge, 0));
+    transform: none;
+  }
+}
+/* Sans survol possible, le nom reste écrit. */
+@media (any-hover: none) {
+  .file-legende {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .file-piste {
+    height: 350px;
+  }
+  .file-piece {
+    width: 200px;
+    height: 290px;
+    margin: 0 18px;
+  }
+  .file-legende {
+    font-size: 13px;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+@media (max-width: 720px) {
+  .file {
+    padding-block: var(--e12) var(--e4);
+  }
+  .file-piste {
+    height: 340px;
+  }
+  .file-entete {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: var(--e6);
+  }
+}

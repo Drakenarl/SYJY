@@ -1,0 +1,19 @@
+/* GOD2:lignes · le masque et la ligne. La courbe est le power4.out de la pièce. */
+.lignes-masque {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.lignes-ligne {
+  display: block;
+  transform: translateY(100%);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.lignes.est-parti .lignes-ligne {
+  transform: translateY(0%);
+}
+.lignes > * + * {
+  margin-top: 1em;
+}

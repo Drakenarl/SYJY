@@ -1,0 +1,177 @@
+/* SYJY · le catalogue. Une grille éditoriale : les pièces alternent de taille
+   et de hauteur, comme les pages d'un lookbook. */
+
+.catalogue {
+  padding-block: var(--e16);
+}
+.catalogue-entete {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: end;
+  gap: var(--e6);
+  margin-bottom: var(--e12);
+}
+.catalogue-titre {
+  max-width: 11em;
+  font-size: clamp(44px, 5.6vw, 92px);
+}
+.catalogue-intro {
+  max-width: 26em;
+  font-size: 18px;
+  color: var(--gris);
+}
+
+.catalogue-grille {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--e4);
+  row-gap: var(--e12);
+}
+.fiche--1 {
+  grid-column: 1 / span 7;
+}
+.fiche--2 {
+  grid-column: 9 / span 4;
+  margin-top: var(--e16);
+}
+.fiche--3 {
+  grid-column: 2 / span 5;
+}
+.fiche--4 {
+  grid-column: 7 / span 6;
+  margin-top: var(--e8);
+}
+.fiche--5 {
+  grid-column: 3 / span 8;
+}
+
+.fiche-lien {
+  display: block;
+}
+.fiche-vue {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+}
+.fiche--5 .fiche-vue {
+  aspect-ratio: 16 / 10;
+}
+.fiche-vue img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--tres-lent) var(--courbe);
+}
+/* Le survol : la photo s'approche, et l'action monte du bas de la photo. */
+.fiche-commander {
+  position: absolute;
+  left: var(--e2);
+  bottom: var(--e2);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  background: var(--ivoire);
+  color: var(--encre);
+  font-size: 14px;
+  font-weight: 600;
+  transform: translateY(calc(100% + var(--e2)));
+  transition: transform var(--moyen) var(--courbe), background-color var(--vite) linear, color var(--vite) linear;
+}
+.fiche-commander svg {
+  width: 14px;
+  height: 14px;
+}
+.fiche-lien:hover .fiche-vue img,
+.fiche-lien:focus-visible .fiche-vue img {
+  transform: scale(1.05);
+}
+.fiche-lien:hover .fiche-commander,
+.fiche-lien:focus-visible .fiche-commander {
+  transform: none;
+}
+.fiche-lien:hover .fiche-commander {
+  background: var(--rouge);
+  color: var(--ivoire);
+}
+.fiche-lien:active .fiche-commander {
+  transform: translateY(1px);
+}
+@media (any-hover: none) {
+  .fiche-commander {
+    transform: none;
+  }
+}
+
+.fiche-texte {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: baseline;
+  gap: var(--e2);
+  padding-top: var(--e2);
+}
+.fiche-rang {
+  font-size: 13px;
+  color: var(--rouge);
+}
+.fiche-nom {
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.1;
+}
+.fiche-ligne {
+  font-size: 13px;
+  color: var(--gris);
+  white-space: nowrap;
+}
+.fiche-detail {
+  max-width: 30em;
+  padding-left: 56px;
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--gris);
+}
+
+@media (max-width: 960px) {
+  .catalogue-entete {
+    grid-template-columns: 1fr;
+  }
+  .catalogue-grille {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--e8);
+  }
+  .fiche--1,
+  .fiche--5 {
+    grid-column: 1 / -1;
+  }
+  .fiche--2,
+  .fiche--3,
+  .fiche--4 {
+    grid-column: auto;
+    margin-top: 0;
+  }
+  .fiche--4 {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 720px) {
+  .catalogue {
+    padding-block: var(--e12);
+  }
+  .catalogue-grille {
+    grid-template-columns: 1fr;
+  }
+  .fiche--5 .fiche-vue {
+    aspect-ratio: 4 / 5;
+  }
+  .fiche-texte {
+    grid-template-columns: 32px 1fr;
+  }
+  .fiche-ligne {
+    grid-column: 2;
+  }
+  .fiche-detail {
+    padding-left: 48px;
+  }
+}
